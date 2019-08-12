@@ -30,8 +30,7 @@ public class Book extends Auditable<String> {
     @Column(name = "book_category")
     private String category;
 
-    @Lob
-    @Column(name = "book_description")
+    @Column(name = "book_description", length = 512)
     private String description;
 
     @Column(name = "book_total_duration")

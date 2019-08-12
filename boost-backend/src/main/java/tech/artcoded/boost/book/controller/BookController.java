@@ -11,6 +11,9 @@ import tech.artcoded.boost.book.entity.Chapter;
 import tech.artcoded.boost.book.service.BookService;
 import tech.artcoded.boost.book.service.ChapterService;
 
+import javax.persistence.EntityNotFoundException;
+import javax.persistence.Lob;
+
 @RestController
 @CrossOrigin(value = "*", allowedHeaders = "*", exposedHeaders = "x-auth-token")
 @RequestMapping("/book")
@@ -35,6 +38,10 @@ public class BookController {
     @GetMapping
     public Page<Book> books(Pageable pageable) {
         return bookService.findAll(pageable);
+    }
+    @GetMapping("/{bookId}")
+    public Book getOne(@PathVariable("bookId")Long bookId){
+        return bookService.findById(bookId).orElseThrow(EntityNotFoundException::new);
     }
 
 }

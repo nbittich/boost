@@ -13,7 +13,7 @@ import {Slugify} from "../common/slugify";
 })
 export class BooksComponent implements OnInit {
   public books: any;
-  static ENDPOINT='/book'
+  static ENDPOINT='/book';
 
   constructor(private http: HttpClient, private router: Router, private authenticationService: AuthenticationService) {
 
@@ -29,7 +29,7 @@ export class BooksComponent implements OnInit {
   }
 
   navigate(book, editMode) {
-    this.router.navigateByUrl( '/' + Slugify.slugify(book.title) + '/' + book.id + '/' + editMode);
+    this.router.navigateByUrl( '/books/' + Slugify.slugify(book.title) + '/' + book.id + '/' + editMode);
   }
 
   delete(book) {

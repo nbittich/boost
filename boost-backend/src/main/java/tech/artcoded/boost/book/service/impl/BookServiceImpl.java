@@ -7,8 +7,11 @@ import org.springframework.stereotype.Service;
 import tech.artcoded.boost.book.repository.BookRepository;
 import tech.artcoded.boost.book.service.BookService;
 
+import javax.transaction.Transactional;
+
 @Service
 @Slf4j
+@Transactional
 public class BookServiceImpl implements BookService {
     @Getter
     private final BookRepository repository;

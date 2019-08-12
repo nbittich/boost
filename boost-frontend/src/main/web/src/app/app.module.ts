@@ -14,6 +14,7 @@ import {ErrorInterceptor} from './login/errorinterceptor';
 import {NgxPaginationModule} from "ngx-pagination";
 import {NgxJsonViewerModule} from "ngx-json-viewer";
 import { BooksComponent } from './books/books.component';
+import { BooksDetailComponent } from './books-detail/books-detail.component';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import { BooksComponent } from './books/books.component';
     ErrorComponent,
     HomeComponent,
     BooksComponent,
+    BooksDetailComponent,
   ],
   imports: [
     BrowserModule,
