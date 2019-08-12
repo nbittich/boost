@@ -14,21 +14,26 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder(toBuilder = true)
+@Table(name = "upload")
 public class Upload extends Auditable<String> {
 
     @Version
     private Long version;
 
     @Id
+    @Column(name = "upload_id")
     private String id;
 
+    @Column(name = "upload_path_location")
     private String pathLocation;
-
+    @Column(name = "upload_content_type")
     private String contentType;
+    @Column(name = "upload_file_name")
     private String fileName;
 
     @Transient
     private byte[] file;
-
-
+    @OneToOne
+    @JoinColumn(referencedColumnName = "chapter_id")
+    private Chapter chapter;
 }

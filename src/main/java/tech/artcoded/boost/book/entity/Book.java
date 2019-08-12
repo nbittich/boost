@@ -8,23 +8,28 @@ import tech.artcoded.boost.common.entity.Auditable;
 
 import javax.persistence.*;
 
-@Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder(toBuilder = true)
+@Entity
+@Table(name = "book")
 public class Book extends Auditable<String> {
 
     @Version
     private Long version;
 
     @Id
+    @Column(name = "book_id")
     @GeneratedValue
     private Long id;
 
+    @Column(name = "book_title")
     private String title;
     @Lob
+    @Column(name = "book_description")
     private String description;
+    @Column(name = "book_total_duration")
     private long totalDuration; // probably in millis
 
 }
