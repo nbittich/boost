@@ -33,6 +33,7 @@ public class Book extends Auditable<String> {
     @Lob
     @Column(name = "book_description")
     private String description;
+
     @Column(name = "book_total_duration")
     private long totalDuration; // probably in millis
 

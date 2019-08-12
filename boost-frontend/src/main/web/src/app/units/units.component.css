@@ -1,9 +1,0 @@
-.my-pagination /deep/ .ngx-pagination {
-  margin: 0;
-  padding: 0;
-  font-family: "Arial";
-}
-
-.my-pagination /deep/ .ngx-pagination .current {
-  margin: 0;
-}
