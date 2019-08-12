@@ -1,5 +1,6 @@
 package tech.artcoded.boost.upload.service.impl;
 
+import lombok.Getter;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
@@ -10,9 +11,11 @@ import tech.artcoded.boost.upload.entity.Upload;
 import tech.artcoded.boost.upload.repository.UploadRepository;
 import tech.artcoded.boost.upload.service.UploadService;
 
+import javax.sound.sampled.AudioFormat;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.nio.file.FileSystemNotFoundException;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -20,17 +23,18 @@ import java.util.UUID;
 @Slf4j
 public class UploadServiceImpl implements UploadService {
 
-    private final UploadRepository uploadRepository;
+    @Getter
+    private final UploadRepository repository;
     private final Environment env;
 
     @Autowired
     public UploadServiceImpl(UploadRepository uploadRepository, Environment env) {
-        this.uploadRepository = uploadRepository;
+        this.repository = uploadRepository;
         this.env = env;
     }
 
     @Override
-    public Upload save(byte[] input, String contentType, String fileName) throws Exception {
+    public Upload upload(byte[] input, String contentType, String fileName) throws Exception {
         String id = UUID.randomUUID().toString();
         File file = idToFile(id);
         FileUtils.writeByteArrayToFile(file, input);
@@ -41,7 +45,7 @@ public class UploadServiceImpl implements UploadService {
                 .pathLocation(file.getPath())
                 .build();
         log.info("upload with id {} will be saved", id);
-        return uploadRepository.save(upl);
+        return this.save(upl);
     }
 
     private File idToFile(String id){
@@ -51,22 +55,31 @@ public class UploadServiceImpl implements UploadService {
     @Override
     public Upload get(String id) throws Exception{
         byte[] file=FileUtils.readFileToByteArray(idToFile(id));
-        return uploadRepository.findById(id)
+        return this.findById(id)
                 .map(u -> u.toBuilder().file(file).build())
                 .orElseThrow(FileNotFoundException::new);
     }
 
     @Override
     public Upload delete(String id) throws Exception {
-        Optional<Upload> upload = uploadRepository.findById(id);
+        Optional<Upload> upload = this.findById(id);
         if(upload.isPresent()) {
             Upload u = upload.get();
             FileUtils.forceDelete(idToFile(id));
-            uploadRepository.delete(u);
+            repository.delete(u);
             log.info("upload with id {} removed", id);
             return u;
         }
         throw new RuntimeException("unexpected error when deleting" + id);
     }
 
+    @Override
+    @SneakyThrows
+    public long getAudioDuration(String id) {
+        AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(idToFile(id));
+        AudioFormat format = audioInputStream.getFormat();
+        long frames = audioInputStream.getFrameLength();
+        double durationInSeconds = (frames + 0.0) / format.getFrameRate();
+        return Math.round(durationInSeconds * 1000);
+    }
 }

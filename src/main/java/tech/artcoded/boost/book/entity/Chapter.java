@@ -27,6 +27,8 @@ public class Chapter extends Auditable<String> {
     private String title;
     private long timeDuration; // probably in millis
 
+    private int order; // chapter logical order
+
     @OneToOne
     private Upload upload;
 
