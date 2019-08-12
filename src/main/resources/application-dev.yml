@@ -41,7 +41,7 @@ spring:
     database: postgresql
     generate-ddl: true
     hibernate:
-      ddl-auto: create
+      ddl-auto: create-drop
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQL9Dialect
