@@ -4,6 +4,7 @@ import {HttpClient} from "@angular/common/http";
 import {Router} from "@angular/router";
 import {AuthenticationService} from "../login/authenticationservice";
 import {environment} from "../../environments/environment";
+import {Slugify} from "../common/slugify";
 
 @Component({
   selector: 'app-books',
@@ -28,7 +29,7 @@ export class BooksComponent implements OnInit {
   }
 
   navigate(book, editMode) {
-    this.router.navigateByUrl(BooksComponent.ENDPOINT  + '/' + book.id + '/' + editMode);
+    this.router.navigateByUrl( '/' + Slugify.slugify(book.title) + '/' + book.id + '/' + editMode);
   }
 
   delete(book) {
