@@ -1,9 +1,10 @@
-package tech.artcoded.boost.book.entity;
+package tech.artcoded.boost.upload.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import tech.artcoded.boost.book.entity.Chapter;
 import tech.artcoded.boost.common.entity.Auditable;
 
 import javax.persistence.*;
@@ -13,18 +14,21 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder(toBuilder = true)
-public class Book extends Auditable<String> {
+public class Upload extends Auditable<String> {
 
     @Version
     private Long version;
 
     @Id
-    @GeneratedValue
-    private Long id;
+    private String id;
 
-    private String title;
-    @Lob
-    private String description;
-    private long totalDuration; // probably in millis
+    private String pathLocation;
+
+    private String contentType;
+    private String fileName;
+
+    @Transient
+    private byte[] file;
+
 
 }

@@ -6,16 +6,16 @@
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>2.1.7.RELEASE</version>
-        <relativePath/> <!-- lookup parent from repository -->
+        <relativePath/> <!-- lookup parent from entity -->
     </parent>
     <groupId>tech.artcoded</groupId>
     <artifactId>boost</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>boost</name>
-    <description>Demo project for Spring Boot</description>
+    <description>Boost your day with an Audio book</description>
 
     <properties>
-        <java.version>11</java.version>
+        <java.version>1.8</java.version>
     </properties>
 
     <dependencies>

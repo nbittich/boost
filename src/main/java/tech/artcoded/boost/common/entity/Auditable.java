@@ -1,4 +1,4 @@
-package tech.artcoded.boost.book.entity;
+package tech.artcoded.boost.common.entity;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;

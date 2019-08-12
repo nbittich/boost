@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import tech.artcoded.boost.common.entity.Auditable;
+import tech.artcoded.boost.upload.entity.Upload;
 
 import javax.persistence.*;
 
@@ -21,12 +23,12 @@ public class Chapter extends Auditable<String> {
     @Version
     private Long version;
     @Lob
-    private byte[] chapterStream;
-    @Lob
     private String description;
     private String title;
     private long timeDuration; // probably in millis
 
+    @OneToOne
+    private Upload upload;
 
     @ManyToOne
     private Book book;
