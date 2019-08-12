@@ -1,0 +1,34 @@
+import {Component, isDevMode} from '@angular/core';
+import {NavigationStart, Router} from "@angular/router";
+import {Subscription} from "rxjs";
+import {AuthenticationService} from "./login/authenticationservice";
+import {environment} from "../environments/environment";
+
+@Component({
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.css']
+})
+export class AppComponent {
+  private subscription:Subscription;
+  constructor(private router: Router, authService: AuthenticationService) {
+    if (isDevMode()) {
+      console.log('👋 Development! Backend Url= ' +environment.backendUrl );
+    } else {
+      console.log('💪 Production! Backend Url=' +environment.backendUrl);
+    }
+    this.subscription = router.events.subscribe((event) => {
+      if (event instanceof NavigationStart) {
+        if(!router.navigated) {
+          // browser refresh, clean the local storage.
+          // it can also be done using a timeout that we store in the localstorage as well
+          // this is necessary for the authentication part
+          // TODO disabled for dev purpose
+          //console.log('browser refresh, logout...');
+          //authService.logout();
+        }
+      }
+    });
+  }
+
+}

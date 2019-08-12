@@ -1,0 +1,19 @@
+<div class="container">
+  <strong>Event:</strong>
+  <div *ngIf="showEvent">
+    <ul  class="list-group" *ngFor="let event of unitEvents">
+      <li class="list-group-item"><small class="badge badge-info">#{{event.eventId}}</small></li>
+      <li class="list-group-item">Instance: {{event.instance}}</li>
+      <li class="list-group-item">Status: {{event.status}}</li>
+      <li class="list-group-item">Thread: {{event.thread}}</li>
+      <li class="list-group-item">Type: {{event.type}}</li>
+      <li class="list-group-item">Timestamp: {{event.timestamp}}</li>
+      <li class="list-group-item">
+        <p>Attributes:</p>
+        <ngx-json-viewer  [json]="parse(event.attributes)"></ngx-json-viewer>
+      </li>
+      <br>
+    </ul>
+  </div>
+  <button *ngIf="!showEvent" (click)="showEvent=!showEvent" class="btn btn-primary btn-sm m-1"><i class="fa fa-eye"></i>&nbsp;Show</button>
+</div>

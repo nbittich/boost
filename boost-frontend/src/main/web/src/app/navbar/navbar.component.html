@@ -1,0 +1,24 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <button class="navbar-toggler pb-2" type="button" (click)="toggleNavbar()">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div [ngClass]="toggleNavbarShow()" id="navbarTogglerDemo01">
+    <a class="navbar-brand" routerLink="/">
+      T&T V2
+    </a>
+    <ul class="navbar-nav mr-auto pt-1">
+      <li class="nav-item" *ngFor="let m of menu" (click)="click(m);m.selected=true;">
+        <a routerLink="{{m.route}}" *ngIf="hasRole(m.role)" class="nav-link">
+          <span>{{m.label}}</span>
+        </a>
+      </li>
+      <li class="nav-item" *ngFor="let link of externalLink">
+        <a target="_blank" rel="noopener noreferrer" [href]="link.route" *ngIf="hasRole(link.role)" class="nav-link">
+          <span>{{link.label}}</span>
+        </a>
+      </li>
+    </ul>
+    <app-login></app-login>
+
+  </div>
+</nav>
