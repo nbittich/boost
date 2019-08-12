@@ -13,17 +13,20 @@ export class NavbarComponent implements OnInit {
   public externalLink: MenuLink[];
   public currentMenu: MenuLink;
   public toggleNavbarClass = false;
-  constructor(private authenticationService: AuthenticationService, private router: Router, private actRoute: ActivatedRoute) { }
+
+  constructor(private authenticationService: AuthenticationService, private router: Router, private actRoute: ActivatedRoute) {
+  }
 
   ngOnInit() {
     this.createMenu();
     this.createExternalLink();
     this.setupRoute();
   }
+
   private createMenu() {
     this.menu = [
-      { role: ['ANONYMOUS','USER','ADMIN'], route: '/', label: 'Home'},
-      { role: ['ADMIN','USER'], route: '/units', label: 'Units'}
+      {role: ['ANONYMOUS', 'USER', 'ADMIN'], route: '/', label: 'Home'},
+      {role: ['ADMIN', 'USER','ANONYMOUS'], route: '/books', label: 'Books'}
     ];
   }
 
@@ -65,15 +68,16 @@ export class NavbarComponent implements OnInit {
     }
     return 'collapse navbar-collapse';
   }
+
   hasRole(expected) {
     return this.authenticationService.hasRole(expected);
   }
 
   private createExternalLink() {
     this.externalLink = [
-      { role: ['ADMIN'], route: '/proxy/aggregator/management', label: 'Management'},
-      { role: ['ADMIN'], route: '/proxy/metrics/aggregator', label: 'Metrics'},
-      { role: ['ADMIN'], route: '/proxy/robot/', label: 'Robot'}
+     // {role: ['ADMIN'], route: '/proxy/aggregator/management', label: 'Management'},
+      //{role: ['ADMIN'], route: '/proxy/metrics/aggregator', label: 'Metrics'},
+      //{role: ['ADMIN'], route: '/proxy/robot/', label: 'Robot'}
     ];
   }
 }

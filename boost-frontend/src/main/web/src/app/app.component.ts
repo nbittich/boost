@@ -10,16 +10,17 @@ import {environment} from "../environments/environment";
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  private subscription:Subscription;
+  private subscription: Subscription;
+
   constructor(private router: Router, authService: AuthenticationService) {
     if (isDevMode()) {
-      console.log('👋 Development! Backend Url= ' +environment.backendUrl );
+      console.log('👋 Development! Backend Url= ' + environment.backendUrl);
     } else {
-      console.log('💪 Production! Backend Url=' +environment.backendUrl);
+      console.log('💪 Production! Backend Url=' + environment.backendUrl);
     }
     this.subscription = router.events.subscribe((event) => {
       if (event instanceof NavigationStart) {
-        if(!router.navigated) {
+        if (!router.navigated) {
           // browser refresh, clean the local storage.
           // it can also be done using a timeout that we store in the localstorage as well
           // this is necessary for the authentication part

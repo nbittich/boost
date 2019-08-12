@@ -32,7 +32,7 @@ spring:
     database: postgresql
     generate-ddl: true
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: update
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQL9Dialect
@@ -47,3 +47,8 @@ application:
 boost:
   upload:
     dir: /tmp
+
+fixture:
+  books:
+    size: 20
+    delete-at-start: true

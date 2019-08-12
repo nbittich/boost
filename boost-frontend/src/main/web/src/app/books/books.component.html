@@ -1,0 +1,77 @@
+<div class="container mt-4 ">
+<!--  <app-unit-search-form [searchResponseCallback]="searchCallback()"></app-unit-search-form>-->
+  <div class="table-responsive">
+    <table class="table table-striped table-sm">
+      <thead>
+      <tr  class="bg-secondary text-white">
+        <th scope="col">
+          <small>#</small>
+        </th>
+        <th scope="col">
+          <small>{{'createdDate' | titlecase }}</small>
+        </th>
+        <th scope="col">
+          <small>{{'lastModifiedDate' | titlecase }}</small>
+        </th>
+        <th scope="col">
+          <small>{{'createdBy' | titlecase }}</small>
+        </th>
+        <th scope="col">
+          <small>{{'lastModifiedBy' | titlecase }}</small>
+        </th>
+        <th scope="col">
+          <small>{{'title' | titlecase }}</small>
+        </th>
+        <th scope="col">
+          <small>{{'category' | titlecase }}</small>
+        </th>
+        <th scope="col">
+          <small>{{'totalDuration' | titlecase }}</small>
+        </th>
+        <th scope="col" colspan="3">
+          <small>{{'action' | titlecase }}</small>
+        </th>
+      </tr>
+      </thead>
+      <tbody *ngIf="isLoggedIn() && hasRole('USER') && books && !books.empty">
+      <tr
+        *ngFor="let book of books.content | paginate: { itemsPerPage: books.size, currentPage: books.number+1, totalItems: books.totalElements}">
+        <td>{{book.id}}</td>
+        <td>{{book.createdDate | date: 'dd/MM/yyyy HH:mm:ss'}}</td>
+        <td>{{book.lastModifiedDate | date: 'dd/MM/yyyy HH:mm:ss'}}</td>
+        <td>{{book.createdBy}}</td>
+        <td>{{book.lastModifiedBy}}</td>
+        <td>{{book.title}}</td>
+        <td>{{book.category}}</td>
+        <td>{{book.totalDuration}}</td>
+        <td colspan="3">
+          <div class="btn-group">
+            <button (click)="navigate(book,'view')" class="btn btn-sm btn-primary" aria-label="View"><i
+              class="fa fa-eye"></i></button>
+            <button *ngIf="hasRole('ADMIN')" (click)="navigate(book,'edit')" class="btn btn-sm btn-warning"
+                    aria-label="Edit"><i class="fa fa-edit"></i></button>
+            <button *ngIf="hasRole('ADMIN')" (click)="delete(book)" class="btn btn-sm btn-danger" aria-label="Delete"><i
+              class="fa fa-trash"></i></button>
+          </div>
+        </td>
+      </tr>
+      </tbody>
+      <tbody *ngIf="!isLoggedIn() || !books || books.empty ">
+      <tr class="bg-dark">
+        <td colspan="11" class="text-white text-center"><strong>No result!</strong></td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+  <div *ngIf="books && !books.empty && books.totalPages  > 1"
+       class="badge badge-light mr-1 mb-2 pb-1 border pull-right">
+    <div class="m-0 pt-1 text-wrap">
+      <pagination-controls (pageChange)="getBooks($event)"
+                           previousLabel=""
+                           autoHide="true"
+                           class="my-pagination"
+                           nextLabel="">
+      </pagination-controls>
+    </div>
+  </div>
+</div>

@@ -1,9 +1,9 @@
 import {Component, OnInit} from '@angular/core';
-import {ProcessingUnit} from '../processing.unit';
 import {HttpClient} from '@angular/common/http';
 import {AuthenticationService} from '../login/authenticationservice';
 import {Router} from '@angular/router';
 import {environment} from "../../environments/environment";
+import {ProcessingUnit} from "../processing.unit";
 
 @Component({
   selector: 'app-units',
@@ -27,6 +27,7 @@ export class UnitsComponent implements OnInit {
   hasRole(expected) {
     return this.authenticationService.hasRole([expected]);
   }
+
   navigate(unit, editMode) {
     this.router.navigateByUrl('/unit/' + unit.id + '/' + editMode);
   }
@@ -35,8 +36,9 @@ export class UnitsComponent implements OnInit {
     this.detail = unit;
     this.editMode = true;
   }
+
   delete(unit) {
-    this.http.request<any>('delete', environment.backendUrl+'/processing-unit',{ body: unit }).subscribe(
+    this.http.request<any>('delete', environment.backendUrl + '/processing-unit', {body: unit}).subscribe(
       (datas) => {
         console.log(datas);
         this.getUnits(1);
@@ -51,7 +53,7 @@ export class UnitsComponent implements OnInit {
   }
 
   getUnits(event: number) {
-    this.http.get<any[]>(environment.backendUrl+'/processing-unit?page=' + (event-1 ), {}).subscribe(
+    this.http.get<any[]>(environment.backendUrl + '/processing-unit?page=' + (event - 1), {}).subscribe(
       (datas) => {
         this.units = datas;
       },
@@ -67,13 +69,13 @@ export class UnitsComponent implements OnInit {
     return this.authenticationService.getUser() !== null;
   }
 
-   searchCallback() {
+  searchCallback() {
     let that = this;
     return async (criteria) => {
       criteria.from = new Date(criteria.from).getTime();
       criteria.to = new Date(criteria.to).getTime();
       this.units = null;
-      await that.http.request<any>('post', environment.backendUrl+'/processing-unit/search',{ body: criteria }).subscribe(
+      await that.http.request<any>('post', environment.backendUrl + '/processing-unit/search', {body: criteria}).subscribe(
         (datas) => {
           console.log(datas);
           that.units = datas;

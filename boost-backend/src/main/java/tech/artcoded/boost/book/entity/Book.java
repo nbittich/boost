@@ -26,6 +26,10 @@ public class Book extends Auditable<String> {
 
     @Column(name = "book_title")
     private String title;
+
+    @Column(name = "book_category")
+    private String category;
+
     @Lob
     @Column(name = "book_description")
     private String description;

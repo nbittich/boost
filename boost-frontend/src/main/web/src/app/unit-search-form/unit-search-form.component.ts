@@ -8,9 +8,11 @@ import {Component, Input, OnInit} from '@angular/core';
 export class UnitSearchFormComponent implements OnInit {
   @Input() searchResponseCallback;
   public searchFormVisible = false;
-  
+
   public criteria = {};
-  constructor() { }
+
+  constructor() {
+  }
 
   ngOnInit() {
   }

@@ -48,13 +48,13 @@ public class UploadServiceImpl implements UploadService {
         return this.save(upl);
     }
 
-    private File idToFile(String id){
+    private File idToFile(String id) {
         return new File(env.getProperty("boost.upload.dir", id + ".dat"));
     }
 
     @Override
-    public Upload get(String id) throws Exception{
-        byte[] file=FileUtils.readFileToByteArray(idToFile(id));
+    public Upload get(String id) throws Exception {
+        byte[] file = FileUtils.readFileToByteArray(idToFile(id));
         return this.findById(id)
                 .map(u -> u.toBuilder().file(file).build())
                 .orElseThrow(FileNotFoundException::new);
@@ -63,7 +63,7 @@ public class UploadServiceImpl implements UploadService {
     @Override
     public Upload delete(String id) throws Exception {
         Optional<Upload> upload = this.findById(id);
-        if(upload.isPresent()) {
+        if (upload.isPresent()) {
             Upload u = upload.get();
             FileUtils.forceDelete(idToFile(id));
             repository.delete(u);

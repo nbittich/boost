@@ -1,6 +1,7 @@
 package tech.artcoded.boost.common.entity;
 
 import lombok.AccessLevel;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.annotation.CreatedBy;
@@ -14,12 +15,10 @@ import javax.persistence.EntityListeners;
 import javax.persistence.MappedSuperclass;
 import java.util.Date;
 
-@Getter(AccessLevel.PROTECTED)
-@Setter(AccessLevel.PROTECTED)
+@Data
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
-public class Auditable<U>
-{
+public class Auditable<U> {
 
     @CreatedBy
     @Column(name = "created_by")

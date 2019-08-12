@@ -4,11 +4,11 @@ import {AuthenticationService} from "../login/authenticationservice";
 import {environment} from "../../environments/environment";
 
 class UnitLink {
-  public id:string;
-  public source:string;
-  public target:string;
-  public type:string;
-  public timestamp:string;
+  public id: string;
+  public source: string;
+  public target: string;
+  public type: string;
+  public timestamp: string;
   public attributes: Object;
 }
 
@@ -19,9 +19,9 @@ class UnitLink {
 })
 export class LinksComponent implements OnInit {
   @Input()
-  public unitId:string;
+  public unitId: string;
 
-  public unitLinks:UnitLink[];
+  public unitLinks: UnitLink[];
   showLinks: boolean;
 
   constructor(private http: HttpClient,
@@ -29,15 +29,16 @@ export class LinksComponent implements OnInit {
   }
 
   parse(input) {
-    try{
+    try {
       return JSON.parse(input);
-    }catch (e) {
-      console.log("couldn't parse json.",e);
+    } catch (e) {
+      console.log("couldn't parse json.", e);
       return {rawData: input};
     }
   }
+
   ngOnInit() {
-    this.http.get<any[]>(environment.backendUrl+'/processing-unit/links/'+this.unitId, {}).subscribe(
+    this.http.get<any[]>(environment.backendUrl + '/processing-unit/links/' + this.unitId, {}).subscribe(
       (datas) => {
         this.unitLinks = datas;
       },

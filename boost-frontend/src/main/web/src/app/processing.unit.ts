@@ -1,4 +1,4 @@
-export  class ProcessingUnit {
+export class ProcessingUnit {
   public id;
   public created;
   public updated;

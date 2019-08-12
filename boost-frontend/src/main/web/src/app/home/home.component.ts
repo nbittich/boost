@@ -8,7 +8,8 @@ import {AuthenticationService} from '../login/authenticationservice';
 })
 export class HomeComponent implements OnInit {
 
-  constructor(private authenticationService: AuthenticationService) { }
+  constructor(private authenticationService: AuthenticationService) {
+  }
 
   isLoggedIn() {
     return this.getUser() !== null;

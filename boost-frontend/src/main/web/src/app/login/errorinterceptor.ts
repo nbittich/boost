@@ -16,12 +16,9 @@ export class ErrorInterceptor implements HttpInterceptor {
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     return next.handle(request).pipe(catchError(err => {
-      console.log(err);
-      console.log(err.status);
       let errorMessage = err.error ? err.error.message : err.statusText ? err.statusText : 'Server error';
       let errorLabel = 'Unexpected Error';
-      if (err.status === 401 || err.status === 403 || err.status === 0) {
-        console.log('forbidden');
+      if (err.status === 401 || err.status === 403) {
         this.authenticationService.logout();
         errorLabel = 'Unauthorized';
         errorMessage = 'Forbidden';

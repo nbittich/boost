@@ -2,16 +2,17 @@ package tech.artcoded.boost.book.controller;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.web.bind.annotation.*;
 import tech.artcoded.boost.book.dto.ChapterDto;
+import tech.artcoded.boost.book.entity.Book;
 import tech.artcoded.boost.book.entity.Chapter;
 import tech.artcoded.boost.book.service.BookService;
 import tech.artcoded.boost.book.service.ChapterService;
 
 @RestController
+@CrossOrigin(value = "*", allowedHeaders = "*", exposedHeaders = "x-auth-token")
 @RequestMapping("/book")
 @Slf4j
 public class BookController {
@@ -29,6 +30,11 @@ public class BookController {
     @PostMapping("/chapter/publish")
     public Chapter publishChapter(@RequestBody ChapterDto chapter) {
         return chapterService.saveChapterAndUpload(chapter);
+    }
+
+    @GetMapping
+    public Page<Book> books(Pageable pageable) {
+        return bookService.findAll(pageable);
     }
 
 }

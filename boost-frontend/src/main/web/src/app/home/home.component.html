@@ -1,11 +1,12 @@
-<div class="jumbotron mt-4 container" >
+<div class="jumbotron mt-4 container">
   <h1 class="display-4">Boost!</h1>
   <p class="lead">Welcome to Boost.</p>
   <hr class="my-4">
   <p *ngIf="!isLoggedIn()">You must be logged in to continue.</p>
   <div *ngIf="isLoggedIn()">
     <p>Welcome {{getUser().username}}!</p>
-    <p>Your access roles are: <span class="badge badge-info" *ngFor="let role of getUser().authorities">{{role.authority}}</span> </p>
+    <p>Your access roles are: <span class="badge badge-info"
+                                    *ngFor="let role of getUser().authorities">{{role.authority}}</span></p>
   </div>
 
 </div>

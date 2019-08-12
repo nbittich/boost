@@ -16,7 +16,7 @@ export class AuthenticationService {
       'Content-Type': 'application/json',
       'Authorization': 'Basic ' + window.btoa(username + ':' + password)
     });
-    return this.http.post<any>(environment.backendUrl+'/user/info', {}, {
+    return this.http.post<any>(environment.backendUrl + '/user/info', {}, {
       headers: headers,
       observe: 'response'
     })
@@ -49,8 +49,8 @@ export class AuthenticationService {
   }
 
   hasRole(expectedRole) {
-    const user = this.getUser() || {authorities: [{authority: 'ANONYMOUS' }]};
-    const authorities = user.authorities || [{authority: 'ANONYMOUS' }];
+    const user = this.getUser() || {authorities: [{authority: 'ANONYMOUS'}]};
+    const authorities = user.authorities || [{authority: 'ANONYMOUS'}];
     return expectedRole.some(r => authorities.map(a => a.authority.toLowerCase()).includes(r.toLowerCase()));
   }
 

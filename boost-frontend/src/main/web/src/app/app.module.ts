@@ -7,17 +7,13 @@ import {NavbarComponent} from './navbar/navbar.component';
 import {LoginComponent} from './login/login.component';
 import {FormsModule} from '@angular/forms';
 import {ErrorComponent} from './error/error.component';
-import {UnitsComponent} from './units/units.component';
 import {HomeComponent} from './home/home.component';
 import {AuthGuardService} from './login/authguardservice';
-import {UnitDetailComponent} from './unit-detail/unit-detail.component';
 import {AuthInterceptor} from './login/authinterceptor';
 import {ErrorInterceptor} from './login/errorinterceptor';
-import {UnitSearchFormComponent} from './unit-search-form/unit-search-form.component';
 import {NgxPaginationModule} from "ngx-pagination";
 import {NgxJsonViewerModule} from "ngx-json-viewer";
-import {LinksComponent} from './links/links.component';
-import {EventComponent} from './event/event.component';
+import { BooksComponent } from './books/books.component';
 
 @NgModule({
   declarations: [
@@ -25,12 +21,8 @@ import {EventComponent} from './event/event.component';
     NavbarComponent,
     LoginComponent,
     ErrorComponent,
-    UnitsComponent,
     HomeComponent,
-    UnitDetailComponent,
-    UnitSearchFormComponent,
-    LinksComponent,
-    EventComponent
+    BooksComponent,
   ],
   imports: [
     BrowserModule,
@@ -48,4 +40,5 @@ import {EventComponent} from './event/event.component';
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}

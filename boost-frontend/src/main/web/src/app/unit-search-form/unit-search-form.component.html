@@ -1,5 +1,6 @@
 <div class=" mb-4">
-  <button class="btn btn-primary btn-sm pull-right" (click)="searchFormVisible=!searchFormVisible" *ngIf="!searchFormVisible"><i class="fa fa-search"></i></button>
+  <button class="btn btn-primary btn-sm pull-right" (click)="searchFormVisible=!searchFormVisible"
+          *ngIf="!searchFormVisible"><i class="fa fa-search"></i></button>
   <div *ngIf="searchFormVisible" class="card">
     <div class="card-header">
       <span>Search</span>
@@ -54,7 +55,8 @@
             </select>
           </div>
         </div>
-        <button (click)="searchResponseCallback(criteria)" type="button" class="btn btn-primary pull-right"><i class="fa fa-search"></i></button>
+        <button (click)="searchResponseCallback(criteria)" type="button" class="btn btn-primary pull-right"><i
+          class="fa fa-search"></i></button>
       </div>
     </div>
   </div>

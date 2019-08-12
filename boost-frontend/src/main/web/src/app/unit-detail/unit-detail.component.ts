@@ -19,10 +19,10 @@ export class UnitDetailComponent implements OnInit {
               private authenticationService: AuthenticationService,
               private location: Location,
               private route: ActivatedRoute) {
-    this.route.params.subscribe( params => {
-        const id = params.id;
-        const editMode = params.editMode;
-        this.http.request<any>('get', environment.backendUrl+'/processing-unit/' + id,{}).subscribe(
+    this.route.params.subscribe(params => {
+      const id = params.id;
+      const editMode = params.editMode;
+      this.http.request<any>('get', environment.backendUrl + '/processing-unit/' + id, {}).subscribe(
         (datas) => {
           this.unit = datas;
           this.editMode = editMode !== null && editMode !== undefined && editMode === 'edit';
@@ -33,14 +33,15 @@ export class UnitDetailComponent implements OnInit {
         () => {
         },
       );
-      });
+    });
   }
 
-  back(){
+  back() {
     this.location.back();
   }
+
   save() {
-    this.http.request<any>('post', environment.backendUrl+'/processing-unit',{ body: this.unit }).subscribe(
+    this.http.request<any>('post', environment.backendUrl + '/processing-unit', {body: this.unit}).subscribe(
       (datas) => {
         console.log(datas);
         alert(datas.message);
@@ -52,14 +53,15 @@ export class UnitDetailComponent implements OnInit {
       },
     );
   }
+
   ngOnInit() {
   }
 
   parse(input) {
-    try{
+    try {
       return JSON.parse(input);
-    }catch (e) {
-      console.log("couldn't parse json.",e);
+    } catch (e) {
+      console.log("couldn't parse json.", e);
       return {rawData: input};
     }
   }
