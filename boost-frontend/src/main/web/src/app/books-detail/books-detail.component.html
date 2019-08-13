@@ -1,7 +1,7 @@
 <div class="row">
   <div *ngIf="book" class="container">
     <button (click)="back()">back</button>
-    <app-image-loader [imageId]="book.cover.id"></app-image-loader>
+    <app-image-loader *ngIf="book.cover" [imageId]="book.cover.id"></app-image-loader>
     <p>{{book.id}}</p>
     <p>{{book.title}}</p>
     <p>{{book.description}}</p>
