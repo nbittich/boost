@@ -1,4 +1,4 @@
-package tech.artcoded.boost.book.config;
+package tech.artcoded.boost.common.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

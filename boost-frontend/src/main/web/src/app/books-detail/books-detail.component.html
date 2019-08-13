@@ -1,5 +1,9 @@
-<div *ngIf="book">
-  <button (click)="back()">back</button>
-  <p>{{book.id}}</p>
-  <p>{{book.title}}</p>
+<div class="row">
+  <div *ngIf="book" class="container">
+    <button (click)="back()">back</button>
+    <p>{{book.id}}</p>
+    <p>{{book.title}}</p>
+    <p>{{book.description}}</p>
+    <p>{{book.totalDuration}}</p>
+  </div>
 </div>

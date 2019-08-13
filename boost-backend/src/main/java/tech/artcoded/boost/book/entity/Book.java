@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import tech.artcoded.boost.common.entity.Auditable;
+import tech.artcoded.boost.upload.entity.Upload;
 
 import javax.persistence.*;
 
@@ -35,5 +36,9 @@ public class Book extends Auditable<String> {
 
     @Column(name = "book_total_duration")
     private long totalDuration; // probably in millis
+
+    @OneToOne
+    @JoinColumn(referencedColumnName = "upload_id")
+    private Upload cover;
 
 }

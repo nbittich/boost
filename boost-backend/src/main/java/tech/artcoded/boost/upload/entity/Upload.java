@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import tech.artcoded.boost.book.entity.Book;
 import tech.artcoded.boost.book.entity.Chapter;
 import tech.artcoded.boost.common.entity.Auditable;
 
@@ -33,7 +34,12 @@ public class Upload extends Auditable<String> {
 
     @Transient
     private byte[] file;
+
     @OneToOne
     @JoinColumn(referencedColumnName = "chapter_id")
     private Chapter chapter;
+
+    @OneToOne
+    @JoinColumn(referencedColumnName = "book_id")
+    private Book book;
 }

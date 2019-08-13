@@ -9,16 +9,10 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.core.env.Environment;
 import tech.artcoded.boost.book.entity.Book;
 import tech.artcoded.boost.book.service.BookService;
-import tech.artcoded.boost.user.dto.Role;
-import tech.artcoded.boost.user.entity.User;
 import tech.artcoded.boost.user.service.UserService;
 
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.Locale;
 import java.util.stream.IntStream;
-
-import static tech.artcoded.boost.user.dto.Role.RoleType.*;
 
 
 /**
@@ -51,7 +45,12 @@ public class BookFixture implements CommandLineRunner {
         IntStream.range(0, env.getProperty("fixture.books.size", Integer.class))
                 .peek(i -> log.info("saving book #" + i))
                 .mapToObj(i -> faker.book())
-                .map(book -> Book.builder().category(book.genre()).title(book.title()).totalDuration(5000).description(faker.lorem().paragraph(20)).build())
+                .map(book -> Book.builder()
+                        .category(book.genre())
+                        .title(book.title())
+                        .totalDuration(5000)
+                        .description(faker.lorem().paragraph(20))
+                        .build())
                 .map(bookService::save)
                 .forEach(book -> log.info("book '{}' saved with id {}.", book.getTitle(), book.getId()));
 
