@@ -17,6 +17,7 @@ import {BooksComponent} from './books/books.component';
 import {BooksDetailComponent} from './books-detail/books-detail.component';
 import {BookFormComponent} from './book-form/book-form.component';
 import {ImagePreviewComponent} from './image-preview/image-preview.component';
+import { ImageLoaderComponent } from './image-loader/image-loader.component';
 
 @NgModule({
   declarations: [
@@ -29,6 +30,7 @@ import {ImagePreviewComponent} from './image-preview/image-preview.component';
     BooksDetailComponent,
     BookFormComponent,
     ImagePreviewComponent,
+    ImageLoaderComponent,
   ],
   imports: [
     BrowserModule,

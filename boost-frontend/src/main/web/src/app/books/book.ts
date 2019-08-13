@@ -5,6 +5,7 @@ export class Book extends Auditable{
   public title:string;
   public description:string;
   public totalDuration:string;
+  public cover:any;
 }
 export class BookDto {
   public id:number;
@@ -12,7 +13,7 @@ export class BookDto {
   public description:string;
   public totalDuration:string;
   public category:string;
-  public  cover:any;
+  public cover:any;
   public fileName:string;
   public contentType: string;
 }

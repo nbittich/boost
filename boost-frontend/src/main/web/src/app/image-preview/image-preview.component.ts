@@ -7,6 +7,7 @@ import {ImagePreview} from "./image.preview";
   styleUrls: ['./image-preview.component.css']
 })
 export class ImagePreviewComponent implements OnInit {
+  public loadingCover:boolean;
   public imagePath;
   public imgURL: any;
   public filename:string;
@@ -21,9 +22,9 @@ export class ImagePreviewComponent implements OnInit {
   preview(files) {
     if (files.length === 0)
       return;
-
-    this.filename = files[0].type;
-    this.contentType = files[0].name;
+    this.loadingCover=true;
+    this.filename = files[0].name;
+    this.contentType = files[0].type;
 
     let reader = new FileReader();
     this.imagePath = files;
@@ -36,6 +37,7 @@ export class ImagePreviewComponent implements OnInit {
       imagePreview.imagePath = this.imagePath;
       imagePreview.imgURL = this.imgURL;
       this.emitter.emit(imagePreview);
+      this.loadingCover = false;
     }
   }
   ngOnInit() {
