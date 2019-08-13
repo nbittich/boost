@@ -46,7 +46,7 @@ application:
   version: v0.0.1-SNAPSHOT
 boost:
   upload:
-    dir: /tmp
+    dir: /tmp/boost
 
 fixture:
   books:

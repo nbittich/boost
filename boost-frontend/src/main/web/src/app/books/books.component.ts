@@ -13,15 +13,12 @@ import {Slugify} from "../common/slugify";
 })
 export class BooksComponent implements OnInit {
   public books: any;
-  static ENDPOINT='/book';
+  static ENDPOINT = '/book';
 
   constructor(private http: HttpClient, private router: Router, private authenticationService: AuthenticationService) {
 
   }
 
-  public addOrEditBookCallback(){
-    console.log('callback, todo');
-  }
   ngOnInit() {
     this.getBooks(1);
   }
@@ -32,11 +29,11 @@ export class BooksComponent implements OnInit {
   }
 
   navigate(book, editMode) {
-    this.router.navigateByUrl( '/books/' + Slugify.slugify(book.title) + '/' + book.id + '/' + editMode);
+    this.router.navigateByUrl('/books/' + Slugify.slugify(book.title) + '/' + book.id + '/' + editMode);
   }
 
   delete(book) {
-    this.http.request<any>('delete', environment.backendUrl + BooksComponent.ENDPOINT , {body: book}).subscribe(
+    this.http.request<any>('delete', environment.backendUrl + BooksComponent.ENDPOINT, {body: book}).subscribe(
       (datas) => {
         this.getBooks(1);
         alert(datas.message);
@@ -50,7 +47,7 @@ export class BooksComponent implements OnInit {
   }
 
   getBooks(event: number) {
-    this.http.get<any[]>(environment.backendUrl + BooksComponent.ENDPOINT  + '?page=' + (event - 1), {}).subscribe(
+    this.http.get<any[]>(environment.backendUrl + BooksComponent.ENDPOINT + '?page=' + (event - 1), {}).subscribe(
       (datas) => {
         this.books = datas;
       },

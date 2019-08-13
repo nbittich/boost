@@ -49,7 +49,8 @@ public class UploadServiceImpl implements UploadService {
     }
 
     private File idToFile(String id) {
-        return new File(env.getProperty("boost.upload.dir", id + ".dat"));
+        File file = new File(env.getProperty("boost.upload.dir"), id);
+        return file;
     }
 
     @Override

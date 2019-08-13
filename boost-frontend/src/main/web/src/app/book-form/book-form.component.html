@@ -17,65 +17,20 @@
           <div class="col-lg-8">
               <div class="form-group">
                 <label for="bookTitle">Title</label>
-                <input type="text" class="form-control" id="bookTitle" [(ngModel)]="book.title">
+                <input type="text" class="form-control" id="bookTitle" [(ngModel)]="bookCopy.title">
               </div>
               <div class="form-group">
                 <label for="bookCategory">Category</label>
-                <input type="text" class="form-control" id="bookCategory" [(ngModel)]="book.category">
+                <input type="text" class="form-control" id="bookCategory" [(ngModel)]="bookCopy.category">
               </div>
               <div class="form-group">
                 <label for="bookDescription">Description</label>
-                <textarea class="form-control" id="bookDescription" [(ngModel)]="book.description"></textarea>
+                <textarea class="form-control" id="bookDescription" [(ngModel)]="bookCopy.description"></textarea>
               </div>
           </div>
         </div>
-       <!-- <div class="form-row">
-          <div class="form-group col-md-12">
-            <label for="inputId">Id</label>
-            <input type="text" class="form-control" id="inputId" [(ngModel)]="criteria.id">
-          </div>
-        </div>
-        <div class="form-row">
-          <div class="form-group col-md-6">
-            <label for="inputFrom">From</label>
-            <input type="datetime-local" class="form-control" id="inputFrom" [(ngModel)]="criteria.from">
-          </div>
-          <div class="form-group col-md-6">
-            <label for="inputTo">To</label>
-            <input type="datetime-local" class="form-control" id="inputTo" [(ngModel)]="criteria.to">
-          </div>
-        </div>
-        <div class="form-row">
-          <div class="form-group col-md-6">
-            <label for="scope">Scope</label>
-            <select class="form-control" id="scope" [(ngModel)]="criteria.scope">
-              <option value="processing">Processing</option>
-              <option value="finished">FINISHED</option>
-              <option value="error">Error</option>
-            </select>
-          </div>
-          <div class="form-group col-md-6">
-            <label for="status">Last status</label>
-            <input type="text" class="form-control" id="status" [(ngModel)]="criteria.lastStatus">
-          </div>
-        </div>
-        <div class="form-row">
-          <div class="form-group col-md-6">
-            <label for="inputType">Type</label>
-            <input type="text" class="form-control" id="inputType" [(ngModel)]="criteria.type">
-          </div>
-          <div class="form-group col-md-6">
-            <label for="inputCat">Category</label>
-            <select id="inputCat" class="form-control" [(ngModel)]="criteria.category">
-              <option selected>Choose...</option>
-              <option>A</option>
-              <option>B</option>
-              <option>C</option>
-            </select>
-          </div>
-        </div>-->
-        <button (click)="searchResponseCallback(criteria)" type="button" class="btn btn-primary pull-right"><i
-          class="fa fa-search"></i></button>
+        <button (click)="saveBookToDB()" class="btn btn-primary pull-right"><i
+          class="fa fa-plus"></i>&nbsp;Add</button>
       </div>
     </div>
   </div>

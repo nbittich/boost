@@ -7,6 +7,7 @@ export class Book extends Auditable{
   public totalDuration:string;
 }
 export class BookDto {
+  public id:number;
   public title:string;
   public description:string;
   public totalDuration:string;
