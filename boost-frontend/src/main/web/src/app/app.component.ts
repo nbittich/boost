@@ -20,13 +20,12 @@ export class AppComponent {
     }
     this.subscription = router.events.subscribe((event) => {
       if (event instanceof NavigationStart) {
-        if (!router.navigated) {
+        if (!router.navigated && authService.getUser() ) {
           // browser refresh, clean the local storage.
           // it can also be done using a timeout that we store in the localstorage as well
           // this is necessary for the authentication part
-          // TODO disabled for dev purpose
-          //console.log('browser refresh, logout...');
-          //authService.logout();
+          console.log('browser refresh, check authentication...');
+          authService.autoLogin();
         }
       }
     });

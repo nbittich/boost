@@ -1,7 +1,7 @@
 jwt:
   audience: authenticated-app
   expire:
-    after: 1200000 # 20 min
+    after: 60000 # 2 min
   header: Authorization
   issuer: authentication-server
   prefix: Bearer

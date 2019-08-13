@@ -11,6 +11,19 @@ export class AuthenticationService {
   constructor(private http: HttpClient) {
   }
 
+  autoLogin() {
+    this.http.request<any>('post', environment.backendUrl + '/user/info' , {}).subscribe(
+      (datas) => {
+        console.log(datas);
+      },
+      (err) => {
+        console.log(err);
+      },
+      () => {
+      });
+
+  }
+
   login(username: string, password: string, callBackNext?: any, callbackError?: any, callbackComplete?: any) {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
