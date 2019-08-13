@@ -16,6 +16,7 @@ import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.Base64;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -37,7 +38,7 @@ public class UploadServiceImpl implements UploadService {
     public Upload upload(byte[] input, String contentType, String fileName) throws Exception {
         String id = UUID.randomUUID().toString();
         File file = idToFile(id);
-        FileUtils.writeByteArrayToFile(file, input);
+        FileUtils.writeByteArrayToFile(file, Base64.getDecoder().decode(input));
         Upload upl = Upload.builder()
                 .id(id)
                 .contentType(contentType)
@@ -49,8 +50,7 @@ public class UploadServiceImpl implements UploadService {
     }
 
     private File idToFile(String id) {
-        File file = new File(env.getProperty("boost.upload.dir"), id);
-        return file;
+        return new File(env.getProperty("boost.upload.dir"), id + ".dat");
     }
 
     @Override
