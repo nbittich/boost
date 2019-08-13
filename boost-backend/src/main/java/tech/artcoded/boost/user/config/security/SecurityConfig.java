@@ -34,7 +34,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.DELETE, "/book/**").hasAuthority(ADMIN.name())
                 .antMatchers(HttpMethod.PUT, "/book/**").hasAuthority(ADMIN.name())
                 .antMatchers(HttpMethod.POST, "/book/**").hasAuthority(ADMIN.name())
-                .antMatchers(HttpMethod.GET, "/book/**").hasAuthority(USER.name())
+                .antMatchers(HttpMethod.GET, "/book/**").permitAll()
+
+                .antMatchers(HttpMethod.DELETE, "/upload/**").hasAuthority(ADMIN.name())
+                .antMatchers(HttpMethod.PUT, "/upload/**").hasAuthority(ADMIN.name())
+                .antMatchers(HttpMethod.POST, "/upload/**").hasAuthority(ADMIN.name())
+                .antMatchers(HttpMethod.GET, "/upload/**").permitAll()
 
                 .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
 

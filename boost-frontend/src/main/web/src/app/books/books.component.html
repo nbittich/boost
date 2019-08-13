@@ -1,5 +1,6 @@
 <div class="container mt-4 ">
 <!--  <app-unit-search-form [searchResponseCallback]="searchCallback()"></app-unit-search-form>-->
+  <app-book-form [editMode]="false" [book]="newBook()" [callbackFunction]="addOrEditBookCallback"></app-book-form>
   <div class="table-responsive">
     <table class="table table-striped table-sm">
       <thead>

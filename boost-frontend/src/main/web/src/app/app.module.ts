@@ -13,8 +13,10 @@ import {AuthInterceptor} from './login/authinterceptor';
 import {ErrorInterceptor} from './login/errorinterceptor';
 import {NgxPaginationModule} from "ngx-pagination";
 import {NgxJsonViewerModule} from "ngx-json-viewer";
-import { BooksComponent } from './books/books.component';
-import { BooksDetailComponent } from './books-detail/books-detail.component';
+import {BooksComponent} from './books/books.component';
+import {BooksDetailComponent} from './books-detail/books-detail.component';
+import {BookFormComponent} from './book-form/book-form.component';
+import {ImagePreviewComponent} from './image-preview/image-preview.component';
 
 @NgModule({
   declarations: [
@@ -25,6 +27,8 @@ import { BooksDetailComponent } from './books-detail/books-detail.component';
     HomeComponent,
     BooksComponent,
     BooksDetailComponent,
+    BookFormComponent,
+    ImagePreviewComponent,
   ],
   imports: [
     BrowserModule,

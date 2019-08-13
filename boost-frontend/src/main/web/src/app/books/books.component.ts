@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import {Book} from "./book";
+import {Component, OnInit} from '@angular/core';
+import {BookDto} from "./book";
 import {HttpClient} from "@angular/common/http";
 import {Router} from "@angular/router";
 import {AuthenticationService} from "../login/authenticationservice";
@@ -19,6 +19,9 @@ export class BooksComponent implements OnInit {
 
   }
 
+  public addOrEditBookCallback(){
+    console.log('callback, todo');
+  }
   ngOnInit() {
     this.getBooks(1);
   }
@@ -63,4 +66,7 @@ export class BooksComponent implements OnInit {
     return this.authenticationService.getUser() !== null;
   }
 
+  newBook() {
+    return new BookDto();
+  }
 }
