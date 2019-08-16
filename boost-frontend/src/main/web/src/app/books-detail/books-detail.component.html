@@ -1,12 +1,13 @@
 <div class="row">
-  <div *ngIf="book" class="container">
-    <button (click)="back()">back</button>
-    <app-image-loader *ngIf="book.cover" [imageId]="book.cover.id"></app-image-loader>
-    <p>{{book.id}}</p>
-    <p>{{book.title}}</p>
-    <p>{{book.description}}</p>
-    <p>{{book.totalDuration}}</p>
-    <app-book-form [editMode]="true" [formVisible]="true" [book]="book"></app-book-form>
-
+  <div class="container">
+    <button class="btn btn-secondary m-2" (click)="back()">back</button>
+    <div *ngIf="book && !editMode">
+      <app-image-loader *ngIf="book.cover" [imageId]="book.cover.id"></app-image-loader>
+      <p>{{book.id}}</p>
+      <p>{{book.title}}</p>
+      <p>{{book.description}}</p>
+      <p>{{book.totalDuration}}</p>
+    </div>
+    <app-book-form *ngIf="editMode && book" [editMode]="editMode" [formVisible]="true" [book]="book"></app-book-form>
   </div>
 </div>

@@ -63,8 +63,9 @@ public interface CrudService<K, V> {
         return getRepository().saveAll(var1);
     }
 
-    default Optional<V> findById(K var1) {
-        return getRepository().findById(var1);
+    default Optional<V> findById(K id) {
+
+        return id == null ? Optional.empty() : getRepository().findById(id);
     }
 
     default boolean existsById(K var1) {

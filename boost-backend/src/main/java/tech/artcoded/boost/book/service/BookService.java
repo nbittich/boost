@@ -7,15 +7,19 @@ import tech.artcoded.boost.common.service.CrudService;
 import tech.artcoded.boost.upload.entity.Upload;
 import tech.artcoded.boost.upload.service.UploadService;
 
+import java.util.Optional;
+
 public interface BookService extends CrudService<Long, Book> {
 
     UploadService getUploadService();
 
     @SneakyThrows
     default Book saveBookWithCover(BookDto book) {
+        Optional<Book> optionalBook = this.findById(book.getId());
         Upload upload = getUploadService().upload(book.getCover(), book.getContentType(), book.getFileName());
         return getRepository().save(
-                Book.builder()
+                optionalBook.map(Book::toBuilder).orElseGet(Book::builder)
+                        .id(optionalBook.map(Book::getId).orElse(null))
                         .cover(upload)
                         .title(book.getTitle())
                         .category(book.getCategory())

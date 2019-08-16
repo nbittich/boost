@@ -3,7 +3,7 @@
           *ngIf="!formVisible"><i class="fa fa-plus"></i></button>
   <div *ngIf="formVisible" class="card">
     <div class="card-header">
-    <span>Add/edit book</span>
+    <span>Book</span>
       <div class="pull-right">
         <a class="text-link" href="#" (click)="formVisible=false"><i class="fa fa-times"></i></a>
       </div>
@@ -30,7 +30,7 @@
           </div>
         </div>
         <button (click)="saveBookToDB()" class="btn btn-primary pull-right"><i
-          class="fa fa-plus"></i>&nbsp;Add</button>
+          class="fa fa-save"></i>&nbsp;Save</button>
       </div>
     </div>
   </div>
