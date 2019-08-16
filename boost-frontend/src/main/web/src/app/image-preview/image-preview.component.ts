@@ -1,5 +1,6 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {ImagePreview} from "./image.preview";
+import {environment} from "../../environments/environment";
 
 @Component({
   selector: 'app-image-preview',
@@ -12,6 +13,9 @@ export class ImagePreviewComponent implements OnInit {
   public imgURL: any;
   public filename:string;
   public contentType:string;
+
+  @Input()
+  public defaultImage:any;
 
   @Output()
   public emitter: EventEmitter<ImagePreview>= new EventEmitter<ImagePreview>();
@@ -43,4 +47,7 @@ export class ImagePreviewComponent implements OnInit {
   ngOnInit() {
   }
 
+  getUrlForDefaultCover(defaultImage: any) {
+    return environment.backendUrl + '/upload/' + defaultImage;
+  }
 }

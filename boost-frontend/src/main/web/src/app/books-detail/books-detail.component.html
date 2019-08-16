@@ -6,5 +6,7 @@
     <p>{{book.title}}</p>
     <p>{{book.description}}</p>
     <p>{{book.totalDuration}}</p>
+    <app-book-form [editMode]="true" [formVisible]="true" [book]="book"></app-book-form>
+
   </div>
 </div>

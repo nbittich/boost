@@ -1,12 +1,15 @@
 <fieldset>
   <div class="col-lg-12 ">
-    <div *ngIf="!imgURL" class="col-lg-12">
+    <div *ngIf="!imgURL && !defaultImage" class="col-lg-12">
       <label for="cover" class="btn btn-default">
         <svg width="100%" height="100%"
              style="background-color: rgb(243, 243, 243);border:dashed 2px rgb(146, 146, 146);">
           <text x="40%" y="50%" fill="#999" style="font-weight: bold;text-align: center;">Cover</text>
         </svg>
       </label>
+    </div>
+    <div class="col-lg-12" *ngIf="!imgURL && defaultImage" >
+      <img [src]="getUrlForDefaultCover(defaultImage)" width="100%" height="100%"/>
     </div>
     <div class="col-lg-12">
       <img [src]="imgURL" *ngIf="imgURL" width="100%" height="100%"/>
