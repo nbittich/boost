@@ -9,5 +9,6 @@
       <p>{{book.totalDuration}}</p>
     </div>
     <app-book-form *ngIf="editMode && book" [editMode]="editMode" [formVisible]="true" [book]="book"></app-book-form>
+    <app-chapters *ngIf="book" [bookId]="book.id"></app-chapters>
   </div>
 </div>
