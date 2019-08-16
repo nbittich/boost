@@ -50,5 +50,5 @@ boost:
 
 fixture:
   books:
-    size: 20
+    size: 2
     delete-at-start: true

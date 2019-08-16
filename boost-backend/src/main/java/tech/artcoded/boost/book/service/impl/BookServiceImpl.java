@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import tech.artcoded.boost.book.repository.BookRepository;
 import tech.artcoded.boost.book.service.BookService;
+import tech.artcoded.boost.book.service.ChapterService;
 import tech.artcoded.boost.upload.service.UploadService;
 
 import javax.transaction.Transactional;
@@ -16,6 +17,7 @@ import javax.transaction.Transactional;
 public class BookServiceImpl implements BookService {
     @Getter
     private final BookRepository repository;
+
     @Getter
     private final UploadService uploadService;
 

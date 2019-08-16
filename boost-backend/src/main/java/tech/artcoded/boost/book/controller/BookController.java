@@ -14,6 +14,7 @@ import tech.artcoded.boost.book.service.BookService;
 import tech.artcoded.boost.book.service.ChapterService;
 
 import javax.persistence.EntityNotFoundException;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -58,6 +59,11 @@ public class BookController {
     @GetMapping("/{bookId}")
     public Book getOne(@PathVariable("bookId") Long bookId) {
         return bookService.findById(bookId).orElseThrow(EntityNotFoundException::new);
+    }
+
+    @GetMapping("/{bookId}/chapters")
+    public List<Chapter> getChaptersForBook(@PathVariable("bookId") Long bookId) {
+        return chapterService.findByBookId(bookId);
     }
 
 }

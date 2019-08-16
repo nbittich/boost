@@ -3,10 +3,12 @@ package tech.artcoded.boost.book.service;
 import lombok.SneakyThrows;
 import tech.artcoded.boost.book.dto.BookDto;
 import tech.artcoded.boost.book.entity.Book;
+import tech.artcoded.boost.book.entity.Chapter;
 import tech.artcoded.boost.common.service.CrudService;
 import tech.artcoded.boost.upload.entity.Upload;
 import tech.artcoded.boost.upload.service.UploadService;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface BookService extends CrudService<Long, Book> {
