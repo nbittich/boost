@@ -17,12 +17,13 @@ export class ChaptersComponent implements OnInit {
   @Input()
   public bookId:number;
 
-  public chapters:Array<ChapterDto>= [];
+  public chapters:Array<ChapterDto>;
 
   constructor(private http: HttpClient, private router: Router, private authenticationService: AuthenticationService) {
   }
 
   ngOnInit() {
+    this.getChapters();
   }
 
 
