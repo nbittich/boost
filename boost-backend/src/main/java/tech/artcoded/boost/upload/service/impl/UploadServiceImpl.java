@@ -1,7 +1,6 @@
 package tech.artcoded.boost.upload.service.impl;
 
 import lombok.Getter;
-import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,8 +13,10 @@ import tech.artcoded.boost.upload.service.UploadService;
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Base64;
 import java.util.Optional;
 import java.util.UUID;
@@ -75,12 +76,19 @@ public class UploadServiceImpl implements UploadService {
     }
 
     @Override
-    @SneakyThrows
     public long getAudioDuration(String id) {
-        AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(idToFile(id));
-        AudioFormat format = audioInputStream.getFormat();
-        long frames = audioInputStream.getFrameLength();
-        double durationInSeconds = (frames + 0.0) / format.getFrameRate();
-        return Math.round(durationInSeconds * 1000);
+
+        try( AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(idToFile(id))) {
+            AudioFormat format = audioInputStream.getFormat();
+            long frames = audioInputStream.getFrameLength();
+            double durationInSeconds = (frames + 0.0) / format.getFrameRate();
+            return Math.round(durationInSeconds * 1000);
+        } catch (UnsupportedAudioFileException e) {
+            log.error("unsupported",e);
+            return 0;
+        } catch (IOException e) {
+            log.error("io",e);
+            return 0;
+        }
     }
 }
