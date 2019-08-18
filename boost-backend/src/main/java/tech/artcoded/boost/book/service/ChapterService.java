@@ -42,4 +42,9 @@ public interface ChapterService extends CrudService<Long, Chapter> {
         );
 
     }
+
+    default void updateTitle(ChapterDto chapterDto){
+        Chapter chap = this.findById(chapterDto.getId()).orElseThrow(() -> new RuntimeException("chapter not found"));
+        this.save(chap.toBuilder().title(chapterDto.getTitle()).build());
+    }
 }
