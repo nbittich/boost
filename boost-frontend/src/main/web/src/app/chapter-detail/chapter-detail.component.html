@@ -1,5 +1,5 @@
 <div class="d-flex flex-column" *ngIf="chapter">
-  <span *ngIf="!editTitle" (click)="toggleTitle()" class="mr-1 mb-2 badge badge-secondary p-2 text-uppercase text-left">{{chapter.order}}. {{chapter.title}}</span>
+  <p *ngIf="!editTitle" (click)="toggleTitle()" class="mr-1 mb-2 badge badge-secondary p-2 text-uppercase text-left">{{chapter.order}}. {{chapter.title}}</p>
   <div *ngIf="editTitle" class="input-group input-group-sm mb-2">
     <input type="text" class="form-control" [(ngModel)]="chapter.title" (keydown.enter)="updateTitle($event)">
     <div class="input-group-append  mr-1">
