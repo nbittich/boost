@@ -44,4 +44,17 @@ export class ChaptersComponent implements OnInit {
     );
   }
 
+  deleteChapter(ch: Chapterentity) {
+    this.http.request<any>('delete', environment.backendUrl + '/book/chapter/'+ch.id, {}).subscribe(
+      (datas) => {
+        this.chapters = this.chapters.filter(c => c.id !== ch.id);
+        alert(datas.message);
+      },
+      (err) => {
+        console.log(err);
+      },
+      () => {
+      },
+    );
+  }
 }

@@ -67,4 +67,11 @@ public class BookController {
         return chapterService.findByBookId(bookId);
     }
 
+    @DeleteMapping("/chapter/{chapterId}")
+    public Map.Entry<String, String> deleteChapter(@PathVariable("chapterId") Long chapterId) {
+        chapterService.deleteById(chapterId);
+        return Maps.immutableEntry("message", String.format("Chapter %s removed", chapterId));
+
+    }
+
 }
