@@ -22,7 +22,7 @@ public interface ChapterService extends CrudService<Long, Chapter> {
     @Transactional()
     default List<Chapter> findByBookId(Long bookId){
         Optional<Book> book = getBookService().findById(bookId);
-        return book.map(b->getRepository().findByBook(b)).orElseGet(Collections::emptyList);
+        return book.map(b->getRepository().findByBookOrderByOrderAsc(b)).orElseGet(Collections::emptyList);
     }
 
     @SneakyThrows
