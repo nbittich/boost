@@ -1,5 +1,5 @@
 <div class="p-2">
-  <p *ngIf="chapters">{{chapters.length}} chapter(s)</p>
+  <p *ngIf="chapters">{{chapters.length}} chapter{{chapters.length > 1 ? 's':''}}</p>
   <div *ngIf="chapters">
     <ul class="list-group">
       <li *ngFor="let ch of chapters" class="list-group-item">

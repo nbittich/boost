@@ -7,14 +7,14 @@
       Boost!
     </a>
     <ul class="navbar-nav mr-auto pt-1">
-      <li class="nav-item" *ngFor="let m of menu" (click)="click(m);m.selected=true;">
+      <li [ngClass]="'nav-item ' +( m.selected ? 'active' :'')" *ngFor="let m of menu" (click)="$event.preventDefault();click(m);m.selected=true;">
         <a routerLink="{{m.route}}" *ngIf="hasRole(m.role)" class="nav-link">
-          <span>{{m.label}}</span>
+          <span class="text-uppercase">{{m.label}}</span>
         </a>
       </li>
       <li class="nav-item" *ngFor="let link of externalLink">
         <a target="_blank" rel="noopener noreferrer" [href]="link.route" *ngIf="hasRole(link.role)" class="nav-link">
-          <span>{{link.label}}</span>
+          <span class="text-uppercase">{{link.label}}</span>
         </a>
       </li>
     </ul>

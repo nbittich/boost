@@ -25,29 +25,24 @@ export class NavbarComponent implements OnInit {
 
   private createMenu() {
     this.menu = [
-      {role: ['ANONYMOUS', 'USER', 'ADMIN'], route: '/', label: 'Home'},
-      {role: ['ADMIN', 'USER','ANONYMOUS'], route: '/books', label: 'Books'}
+      {role: ['ANONYMOUS', 'USER', 'ADMIN'], route: '/', label: 'Home', selected: false},
+      {role: ['ADMIN', 'USER', 'ANONYMOUS'], route: '/books', label: 'Books', selected: false}
     ];
   }
 
   private setupRoute() {
+    let defaultMenu = {role: ['ANONYMOUS', 'USER', 'ADMIN'], route: '/', label: 'Home', selected: true};
     this.router.events.subscribe(e => {
+      this.currentMenu = defaultMenu;
       if (e instanceof NavigationEnd) {
-        this.menu.forEach(menu => menu.selected = false);
-        const url = e.url;
-        if (url === null || url.length === 0 || url === '/') {
-          this.currentMenu = {role: ['ANONYMOUS', 'USER', 'ADMIN'], route: '/', label: 'Home'};
-          this.currentMenu.selected = true;
-        } else {
-          const currentMenuList = this.menu.filter(r => r.route === url);
-          if (currentMenuList && currentMenuList.length > 0) {
-            this.currentMenu = currentMenuList[0];
-            this.currentMenu.selected = true;
-          } else {
-            this.currentMenu = null;
-          }
+        //this.menu.forEach(menu => menu.selected = false);
+        let url = e.url;
+        const currentMenuList = this.menu.filter(r => r.route === url);
+        if (currentMenuList && currentMenuList.length > 0) {
+          let m = currentMenuList[0];
+          m.selected = true;
+          this.currentMenu = m;
         }
-
       }
     });
   }
@@ -56,6 +51,7 @@ export class NavbarComponent implements OnInit {
   click(item: MenuLink) {
     this.menu.forEach(x => x.selected = false);
     this.currentMenu = item;
+    this.currentMenu.selected = true
   }
 
   toggleNavbar() {
@@ -75,7 +71,7 @@ export class NavbarComponent implements OnInit {
 
   private createExternalLink() {
     this.externalLink = [
-     // {role: ['ADMIN'], route: '/proxy/aggregator/management', label: 'Management'},
+      // {role: ['ADMIN'], route: '/proxy/aggregator/management', label: 'Management'},
       //{role: ['ADMIN'], route: '/proxy/metrics/aggregator', label: 'Metrics'},
       //{role: ['ADMIN'], route: '/proxy/robot/', label: 'Robot'}
     ];
