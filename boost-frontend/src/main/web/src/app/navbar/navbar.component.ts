@@ -35,7 +35,7 @@ export class NavbarComponent implements OnInit {
     this.router.events.subscribe(e => {
       this.currentMenu = defaultMenu;
       if (e instanceof NavigationEnd) {
-        //this.menu.forEach(menu => menu.selected = false);
+        this.menu.forEach(menu => menu.selected = false);
         let url = e.url;
         const currentMenuList = this.menu.filter(r => r.route === url);
         if (currentMenuList && currentMenuList.length > 0) {
