@@ -19,6 +19,9 @@ export class ChapterDetailComponent implements OnInit {
   @Input()
   public chapter:Chapterentity;
 
+  @Input()
+  public editMode:boolean=false;
+
   public editTitle:boolean;
 
   ngOnInit() {
@@ -47,5 +50,8 @@ export class ChapterDetailComponent implements OnInit {
       () => {
       },
     );
+  }
+  public toggleTitle() {
+    this.editTitle= this.editMode && !this.editTitle;
   }
 }

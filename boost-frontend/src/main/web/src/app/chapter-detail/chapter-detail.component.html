@@ -1,7 +1,12 @@
-<div *ngIf="chapter">
-  <p *ngIf="!editTitle" (click)="editTitle=!editTitle" class="badge p-2 badge-secondary lead text-uppercase">{{chapter.order}}. {{chapter.title}}</p>
-  <input *ngIf="editTitle" type="text" class="form-control$ form-inline m-1" [(ngModel)]="chapter.title" (keydown.enter)="updateTitle($event)">
-  <audio controls class="pb-3 pl-1 pr-1" style="background:transparent">
+<div class="d-flex flex-column" *ngIf="chapter">
+  <span *ngIf="!editTitle" (click)="toggleTitle()" class="mr-1 mb-2 badge badge-secondary p-2 text-uppercase text-left">{{chapter.order}}. {{chapter.title}}</span>
+  <div *ngIf="editTitle" class="input-group input-group-sm mb-2">
+    <input type="text" class="form-control" [(ngModel)]="chapter.title" (keydown.enter)="updateTitle($event)">
+    <div class="input-group-append  mr-1">
+      <button type="button" class="btn btn-sm btn-outline-secondary" (click)="editTitle=!editTitle">Abort</button>
+    </div>
+  </div>
+  <audio  controls class="pb-3">
     <source [src]="getSource()">
   </audio>
 </div>
