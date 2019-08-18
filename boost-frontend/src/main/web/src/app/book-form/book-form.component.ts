@@ -31,7 +31,6 @@ export class BookFormComponent implements OnInit {
 
   ngOnInit() {
     this.bookCopy = JSON.parse(JSON.stringify(this.book));
-
   }
 
   public setCover($imagePreview: ImagePreview) {

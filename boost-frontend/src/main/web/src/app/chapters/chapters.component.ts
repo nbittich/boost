@@ -22,7 +22,9 @@ export class ChaptersComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.getChapters();
+    if(this.bookId){
+      this.getChapters();
+    }
   }
 
 

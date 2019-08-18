@@ -52,6 +52,7 @@ public class BookController {
 
     @DeleteMapping
     public Map.Entry<String, String> deleteBook(@RequestBody Book book) {
+        chapterService.deleteAll(chapterService.findByBookId(book.getId()));
         bookService.delete(book);
         return Maps.immutableEntry("message", String.format("Book %s removed", book.getId()));
     }
