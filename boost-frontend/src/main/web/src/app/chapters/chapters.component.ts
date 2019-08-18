@@ -14,6 +14,8 @@ import {Chapterentity} from "./chapterentity";
 export class ChaptersComponent implements OnInit {
 
   @Input()
+  public editMode:boolean;
+  @Input()
   public bookId:number;
 
   public chapters:Array<Chapterentity>;

@@ -5,9 +5,7 @@
     </div>
       <div *ngIf="book && !editMode" class="container ">
         <div class="row">
-          <div class="col-lg-4">
             <app-image-loader *ngIf="book.cover" [imageId]="book.cover.id"></app-image-loader>
-          </div>
             <div class="col-lg-8">
               <p class="lead" >
                 {{book.title}}

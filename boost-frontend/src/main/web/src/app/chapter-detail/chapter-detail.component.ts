@@ -14,7 +14,7 @@ export class ChapterDetailComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    console.log(this.chapter);
+
   }
 
   getSource() {
