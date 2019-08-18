@@ -1,5 +1,5 @@
-<div class="d-flex d-flex-row" *ngIf="chapter">
-  <p class="badge badge-secondary lead text-uppercase">{{chapter.title}}</p>
+<div *ngIf="chapter">
+  <p class="badge p-2 badge-secondary lead text-uppercase">{{chapter.order}}. {{chapter.title}}</p>
   <audio controls class="pb-3 pl-1 pr-1" style="background:transparent">
     <source [src]="getSource()">
   </audio>
