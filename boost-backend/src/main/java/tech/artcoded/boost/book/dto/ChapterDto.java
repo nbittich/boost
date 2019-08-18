@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder(toBuilder = true)
 public class ChapterDto {
+    private Long id;
     private Long bookId;
     private String title;
     private int order;

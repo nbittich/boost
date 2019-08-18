@@ -1,0 +1,6 @@
+<div *ngIf="chapter">
+  <div class="badge badge-secondary container">{{chapter.title}}</div>
+  <audio controls class="container">
+    <source [src]="getSource()">
+  </audio>
+</div>

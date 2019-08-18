@@ -3,9 +3,8 @@ import {HttpClient} from "@angular/common/http";
 import {Router} from "@angular/router";
 import {AuthenticationService} from "../login/authenticationservice";
 import {environment} from "../../environments/environment";
+import {Chapterentity} from "./chapterentity";
 
-class ChapterDto {
-}
 
 @Component({
   selector: 'app-chapters',
@@ -17,7 +16,7 @@ export class ChaptersComponent implements OnInit {
   @Input()
   public bookId:number;
 
-  public chapters:Array<ChapterDto>;
+  public chapters:Array<Chapterentity>;
 
   constructor(private http: HttpClient, private router: Router, private authenticationService: AuthenticationService) {
   }

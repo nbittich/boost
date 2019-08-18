@@ -1,5 +1,6 @@
 package tech.artcoded.boost.book.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -38,7 +39,8 @@ public class Chapter extends Auditable<String> {
     @JoinColumn(referencedColumnName = "upload_id")
     private Upload upload;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "chapter_book_id", referencedColumnName = "book_id")
+    @JsonIgnore
     private Book book;
 }
