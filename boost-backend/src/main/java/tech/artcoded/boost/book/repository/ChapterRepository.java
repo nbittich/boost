@@ -12,6 +12,6 @@ import java.util.List;
 public interface ChapterRepository extends JpaRepository<Chapter, Long> {
     List<Chapter> findByBook(Book book);
 
-    @Query("SELECT coalesce(max(chapter.order), 0) FROM Chapter chapter where chapter.book = 1")
+    @Query("SELECT coalesce(max(chapter.order), 0) FROM Chapter chapter where chapter.book = ?1")
     int getMaxOrder(Book book);
 }
