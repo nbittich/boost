@@ -22,6 +22,7 @@ import {ChaptersComponent} from './chapters/chapters.component';
 import {ChapterDetailComponent} from './chapter-detail/chapter-detail.component';
 import {AutosizeModule} from "ngx-autosize";
 import {ChapterFormComponent} from './chapter-form/chapter-form.component';
+import {AutofocusModule} from "angular-autofocus-fix";
 
 @NgModule({
   declarations: [
@@ -46,7 +47,8 @@ import {ChapterFormComponent} from './chapter-form/chapter-form.component';
     AutosizeModule,
     NgxPaginationModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    AutofocusModule
   ],
 
   providers: [

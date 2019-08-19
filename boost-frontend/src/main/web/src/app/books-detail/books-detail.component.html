@@ -2,10 +2,10 @@
       <button class="btn btn-sm btn-secondary m-2 text-uppercase" (click)="back()"><i class="fa fa-arrow-left"></i></button>
       <div *ngIf="book && !editMode">
         <div class="d-flex">
-          <div class="col-2 p-2 offset-1">
+          <div class="col-lg-2 p-2 offset-lg-1 col-sm-12">
             <app-image-loader *ngIf="book.cover" [imageId]="book.cover.id"></app-image-loader>
           </div>
-            <div class="col-lg-8">
+            <div class="col-lg-8 col-sm-12">
               <p class="lead" >
                 {{book.title}}<small class="text-muted"> by {{book.author}}</small>
 

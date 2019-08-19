@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
 import {Chapterentity} from "../chapters/chapterentity";
 import {environment} from "../../environments/environment";
 import {HttpClient} from "@angular/common/http";
@@ -13,8 +13,11 @@ import {ChapterDto} from "../chapters/chapterdto";
 })
 export class ChapterDetailComponent implements OnInit {
 
-  constructor(private http: HttpClient, private router: Router, private authenticationService: AuthenticationService) {
+  constructor(private http: HttpClient, private router: Router, private cd: ChangeDetectorRef,private authenticationService: AuthenticationService) {
   }
+
+  @ViewChild('title',{read:ElementRef,static:true})
+  title:ElementRef;
 
   @Input()
   public chapter:Chapterentity;

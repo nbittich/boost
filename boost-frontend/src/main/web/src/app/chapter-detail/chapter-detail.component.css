@@ -1,7 +1,35 @@
-
 audio
 {
   height: 45px;
-  width:100%;
+  width:60%;
+  margin-left: auto;
   color:transparent;
+}
+.article {
+  display: flex;
+}
+.article .item,
+.article .price {
+  flex: 1 0 auto;
+}
+.article .dots {
+  flex: 0 1 auto;
+  /*Allows too long content to be hidden.*/
+  overflow: hidden;
+}
+.dots::before {
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: clip;
+  content:
+    ". . . . . . . . . . . . . . . . . . . . "
+    ". . . . . . . . . . . . . . . . . . . . "
+    ". . . . . . . . . . . . . . . . . . . . "
+    ". . . . . . . . . . . . . . . . . . . . "
+    ". . . . . . . . . . . . . . . . . . . . "
+    ". . . . . . . . . . . . . . . . . . . . "
+    ". . . . . . . . . . . . . . . . . . . . "
+    ". . . . . . . . . . . . . . . . . . . . "
+    ". . . . . . . . . . . . . . . . . . . . "
 }

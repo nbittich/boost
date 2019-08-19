@@ -15,11 +15,16 @@
                [(ngModel)]="newChapter.title">
       </div>
 
+      <div class="form-group">
+        <label for="newChapDescription">Description</label>
+        <textarea [disabled]="loadingNewFile" autosize class="form-control " id="newChapDescription" [(ngModel)]="newChapter.description"></textarea>
+      </div>
+
       <div class="custom-file">
-        <input #fileRef [disabled]="loadingNewFile" name="custom-file-input" id="inputGroupFile01"
-               aria-describedby="inputGroupFileAddon01" type="file" class="custom-file-input"
+        <input [autofocus]="false" #fileRef [disabled]="loadingNewFile" name="custom-file-input" id="inputGroupFile01"
+               aria-describedby="inputGroupFileAddon01" type="file" class=" shadow-none custom-file-input"
                (change)="setNewChapterFile($event.target.files)">
-        <label class="custom-file-label"
+        <label class="custom-file-label  shadow-none"
                for="inputGroupFile01">{{newChapter.fileName ? newChapter.fileName : 'Choose file'}}</label>
       </div>
     </div>
