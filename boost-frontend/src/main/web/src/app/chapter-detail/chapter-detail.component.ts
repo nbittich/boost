@@ -26,6 +26,7 @@ export class ChapterDetailComponent implements OnInit {
   public editMode:boolean=false;
 
   public editTitle:boolean;
+  editDescription: boolean;
 
   ngOnInit() {
 
@@ -35,17 +36,18 @@ export class ChapterDetailComponent implements OnInit {
     return environment.backendUrl + '/upload/' + this.chapter.upload.id;
   }
 
-  updateTitle($event) {
+  updateChapter($event) {
     $event.preventDefault();
     let chap = new ChapterDto();
     chap.id = this.chapter.id;
     chap.title = this.chapter.title;
+    chap.description = this.chapter.description;
 
     this.http.request<any>('post', environment.backendUrl + '/book/chapter/edit', {body: chap}).subscribe(
       (datas) => {
         console.log(datas);
-        this.editTitle=false;
-        alert(datas.message);
+        this.toggleTitle();
+        this.toggleDescription();
       },
       (err) => {
         console.log(err);
@@ -56,5 +58,11 @@ export class ChapterDetailComponent implements OnInit {
   }
   public toggleTitle() {
     this.editTitle= this.editMode && !this.editTitle;
+    this.cd.detectChanges();
+
+  }
+  public toggleDescription() {
+    this.editDescription= this.editMode && !this.editDescription;
+    this.cd.detectChanges();
   }
 }

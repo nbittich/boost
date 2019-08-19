@@ -5,14 +5,14 @@ audio
   margin-left: auto;
   color:transparent;
 }
-.article {
+.dotted {
   display: flex;
 }
-.article .item,
-.article .price {
+.dotted .item,
+.dotted .price {
   flex: 1 0 auto;
 }
-.article .dots {
+.dotted .dots {
   flex: 0 1 auto;
   /*Allows too long content to be hidden.*/
   overflow: hidden;

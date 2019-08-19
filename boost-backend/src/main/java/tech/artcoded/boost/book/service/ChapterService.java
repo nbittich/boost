@@ -1,6 +1,7 @@
 package tech.artcoded.boost.book.service;
 
 import lombok.SneakyThrows;
+import org.apache.commons.lang3.StringUtils;
 import tech.artcoded.boost.book.dto.ChapterDto;
 import tech.artcoded.boost.book.entity.Book;
 import tech.artcoded.boost.book.entity.Chapter;
@@ -43,8 +44,15 @@ public interface ChapterService extends CrudService<Long, Chapter> {
 
     }
 
-    default void updateTitle(ChapterDto chapterDto){
+    default void updateFields(ChapterDto chapterDto){
         Chapter chap = this.findById(chapterDto.getId()).orElseThrow(() -> new RuntimeException("chapter not found"));
-        this.save(chap.toBuilder().title(chapterDto.getTitle()).build());
+        Chapter.ChapterBuilder builder = chap.toBuilder();
+        if(StringUtils.isNotBlank(chapterDto.getTitle())){
+            builder.title(chapterDto.getTitle());
+        }
+        if(StringUtils.isNotBlank(chapterDto.getDescription())){
+            builder.description(chapterDto.getDescription());
+        }
+        this.save(builder.build());
     }
 }

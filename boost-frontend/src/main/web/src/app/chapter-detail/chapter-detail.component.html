@@ -1,15 +1,24 @@
-<div class="d-flex flex-column" *ngIf="chapter">
-  <div  (click)="toggleTitle()" *ngIf="!editTitle" class="article mb-2 badge badge-secondary p-2 text-uppercase text-left ">
+<div class="d-flex flex-column " *ngIf="chapter">
+  <div  (click)="toggleTitle()" *ngIf="!editTitle" class="dotted mb-2 badge badge-secondary p-2 text-left ">
     <span>{{chapter.order}}. {{chapter.title}}</span>
     <span class="dots"></span>
   </div>
   <div *ngIf="editTitle" class="input-group input-group-sm mb-2">
-    <input #title [autofocus]="true" (focusout)="toggleTitle()" type="text" class="form-control" [(ngModel)]="chapter.title" (keydown.enter)="updateTitle($event)">
+    <input #title [autofocus]="true" (focusout)="toggleTitle()" type="text" class="form-control" [(ngModel)]="chapter.title" (keydown.enter)="updateChapter($event)">
     <div class="input-group-append">
-      <button type="button" class="btn btn-sm btn-danger" (click)="editTitle=!editTitle"><i class="fa fa-times"></i></button>
+      <button type="button" class="btn btn-sm btn-danger" (click)="toggleTitle()"><i class="fa fa-times"></i></button>
     </div>
   </div>
-  <blockquote class="bg-light blockquote"><cite>{{chapter.description ? chapter.description : 'No description for this chapter'}}</cite></blockquote>
+  <div *ngIf="editDescription" class="input-group input-group-sm mb-2">
+    <textarea #description [autofocus]="true" (focusout)="toggleDescription()" autosize class="form-control" [(ngModel)]="chapter.description"></textarea>
+    <div class="input-group-append">
+      <button type="button" class="btn btn-sm btn-success" (click)="updateChapter($event)"><i class="fa fa-save"></i></button>
+    </div>
+  <div class="input-group-append">
+      <button type="button" class="btn btn-sm btn-danger" (click)="toggleDescription()"><i class="fa fa-times"></i></button>
+    </div>
+  </div>
+  <blockquote *ngIf="!editDescription" (click)="toggleDescription()" class="bg-light blockquote"><cite>{{chapter.description ? chapter.description : 'No description for this chapter'}}</cite></blockquote>
     <audio  controls class="pb-3">
       <source [src]="getSource()">
     </audio>

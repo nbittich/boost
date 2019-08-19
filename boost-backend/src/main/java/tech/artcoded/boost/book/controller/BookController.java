@@ -80,7 +80,7 @@ public class BookController {
     }
     @PostMapping("/chapter/edit")
     public Map.Entry<String, String> editTitle(@RequestBody ChapterDto chapterDto) {
-        chapterService.updateTitle(chapterDto);
+        chapterService.updateFields(chapterDto);
         return Maps.immutableEntry("message", String.format("Chapter %s edited", chapterDto.getId()));
 
     }
