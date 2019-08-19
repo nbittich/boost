@@ -1,4 +1,4 @@
-<div class="container">
+<div class="p-2">
   <p class="lead text-uppercase text-center" *ngIf="chapters">{{chapters.length}} chapter{{chapters.length > 1 ? 's':''}}</p>
   <div class="col-12 mb-1">
     <app-chapter-form *ngIf="editMode" [editMode]="editMode" [bookId]="bookId" (emitter)="refreshChapterList($event)"></app-chapter-form>
