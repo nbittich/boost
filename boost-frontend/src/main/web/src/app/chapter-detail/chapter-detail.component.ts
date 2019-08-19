@@ -5,6 +5,7 @@ import {HttpClient} from "@angular/common/http";
 import {Router} from "@angular/router";
 import {AuthenticationService} from "../login/authenticationservice";
 import {ChapterDto} from "../chapters/chapterdto";
+import {faPlus, faSave, faTimes} from "@fortawesome/free-solid-svg-icons";
 
 @Component({
   selector: 'app-chapter-detail',
@@ -16,6 +17,9 @@ export class ChapterDetailComponent implements OnInit {
   constructor(private http: HttpClient, private router: Router, private cd: ChangeDetectorRef,private authenticationService: AuthenticationService) {
   }
 
+  faPlus=faPlus;
+  faTimes=faTimes;
+  faSave=faSave;
   @ViewChild('title',{read:ElementRef,static:true})
   title:ElementRef;
 

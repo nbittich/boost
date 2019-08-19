@@ -4,6 +4,7 @@ import {HttpClient} from "@angular/common/http";
 import {Router} from "@angular/router";
 import {AuthenticationService} from "../login/authenticationservice";
 import {environment} from "../../environments/environment";
+import {faPlus, faSave, faTimes} from "@fortawesome/free-solid-svg-icons";
 
 @Component({
   selector: 'app-chapter-form',
@@ -12,6 +13,9 @@ import {environment} from "../../environments/environment";
 })
 export class ChapterFormComponent implements OnInit {
 
+  faPlus=faPlus;
+  faTimes=faTimes;
+  faSave=faSave;
   @Output() emitter: EventEmitter<any> = new EventEmitter();
 
   @Input()

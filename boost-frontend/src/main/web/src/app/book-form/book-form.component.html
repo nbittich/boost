@@ -1,11 +1,11 @@
 <div class=" mb-4">
-  <button class="btn btn-primary btn-sm pull-right" (click)="formVisible=!formVisible"
-          *ngIf="!formVisible"><i class="fa fa-plus"></i></button>
+  <button class="btn btn-primary btn-sm float-right" (click)="formVisible=!formVisible"
+          *ngIf="!formVisible"><fa-icon [icon]="faPlus"></fa-icon> </button>
   <div *ngIf="formVisible" class="card">
     <div class="card-header">
-    <span class="text-uppercase">Book #{{bookCopy.id}}</span>
-      <div class="pull-right" *ngIf="showCross">
-        <a class="text-link" href="#" (click)="formVisible=false"><i class="fa fa-times"></i></a>
+    <span class="text-uppercase">Book {{bookCopy.id ? bookCopy.id : ''}}</span>
+      <div class="float-right" *ngIf="showCross">
+        <a class="text-link text-muted" href="#" (click)="formVisible=false"><fa-icon [icon]="faTimes" ></fa-icon> </a>
       </div>
     </div>
     <div class="card-body">
@@ -31,8 +31,7 @@
                 <label for="bookDescription">Description</label>
                 <textarea autosize class="form-control " id="bookDescription" [(ngModel)]="bookCopy.description"></textarea>
               </div>
-            <button (click)="saveBookToDB()" class="btn btn-outline-primary btn-sm pull-right text-uppercase"><i
-              class="fa fa-save"></i>&nbsp;Save</button>
+            <button (click)="saveBookToDB()" class="btn btn-outline-primary btn-sm float-right text-uppercase"><fa-icon [icon]="faSave"></fa-icon>&nbsp;Save</button>
           </div>
           <div class="container">
             <hr>

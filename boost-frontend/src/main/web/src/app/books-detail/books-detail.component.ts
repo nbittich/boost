@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {environment} from "../../environments/environment";
 import {ActivatedRoute} from "@angular/router";
 import {Book} from "../books/book";
 import {AuthenticationService} from "../login/authenticationservice";
 import {HttpClient} from "@angular/common/http";
 import {Location} from '@angular/common';
+import {faArrowLeft} from "@fortawesome/free-solid-svg-icons";
 
 @Component({
   selector: 'app-books-detail',
@@ -16,7 +17,7 @@ export class BooksDetailComponent implements OnInit {
 
   public book: Book;
   public editMode;
-
+  faArrowLeft=faArrowLeft;
   constructor(private http: HttpClient,
               private authenticationService: AuthenticationService,
               private location: Location,

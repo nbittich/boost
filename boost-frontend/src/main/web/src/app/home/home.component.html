@@ -5,8 +5,7 @@
   <p *ngIf="!isLoggedIn()">You must be logged in to continue.</p>
   <div *ngIf="isLoggedIn()">
     <p>Welcome {{getUser().username}}!</p>
-    <p>Your access roles are: <span class="badge badge-info"
-                                    *ngFor="let role of getUser().authorities">{{role.authority}}</span></p>
+    <p>Your access roles are: <span class="badge badge-info mr-1" *ngFor="let role of getUser().authorities">{{role.authority}}</span></p>
   </div>
 
 </div>

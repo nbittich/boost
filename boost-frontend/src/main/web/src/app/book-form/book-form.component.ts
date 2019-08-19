@@ -5,6 +5,7 @@ import {HttpClient} from "@angular/common/http";
 import {Router} from "@angular/router";
 import {AuthenticationService} from "../login/authenticationservice";
 import {environment} from "../../environments/environment";
+import {faPlus, faSave, faTimes} from "@fortawesome/free-solid-svg-icons";
 
 @Component({
   selector: 'app-book-form',
@@ -13,6 +14,9 @@ import {environment} from "../../environments/environment";
 })
 export class BookFormComponent implements OnInit {
 
+  faPlus=faPlus;
+  faTimes=faTimes;
+  faSave=faSave;
   public loadingCover:boolean;
 
   @Input()

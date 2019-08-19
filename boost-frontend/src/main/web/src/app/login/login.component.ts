@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {AuthenticationService} from './authenticationservice';
+import {faSignInAlt, faSignOutAlt} from "@fortawesome/free-solid-svg-icons";
 
 /**
  * @author Nordine Bittich
@@ -15,6 +16,8 @@ export class LoginComponent implements OnInit {
 
   public username: string;
   public password: string;
+  faSignInAlt=faSignInAlt;
+  faSignOutAlt=faSignOutAlt;
 
   constructor(private router: Router, private actRoute: ActivatedRoute, private authenticationService: AuthenticationService) {
   }

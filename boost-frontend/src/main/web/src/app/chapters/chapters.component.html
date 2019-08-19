@@ -10,8 +10,8 @@
       </li>
       <li *ngFor="let ch of chapters" class="list-group-item">
         <app-chapter-detail [editMode]="editMode" [id]="ch.id" [chapter]="ch"></app-chapter-detail>
-        <button class="btn btn-sm btn-outline-danger text-uppercase pull-right" (click)="deleteChapter(ch)" *ngIf="editMode">
-          <i class="fa fa-trash"></i>&nbsp;Remove
+        <button class="btn btn-sm btn-outline-danger text-uppercase float-right" (click)="deleteChapter(ch)" *ngIf="editMode">
+          <fa-icon [icon]="faTrash"></fa-icon>&nbsp;Remove
         </button>
       </li>
     </ul>

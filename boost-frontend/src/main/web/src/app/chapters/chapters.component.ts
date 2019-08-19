@@ -4,6 +4,7 @@ import {Router} from "@angular/router";
 import {AuthenticationService} from "../login/authenticationservice";
 import {environment} from "../../environments/environment";
 import {Chapterentity} from "./chapterentity";
+import {faPlus, faSave, faTimes, faTrash} from "@fortawesome/free-solid-svg-icons";
 
 
 @Component({
@@ -13,6 +14,10 @@ import {Chapterentity} from "./chapterentity";
 })
 export class ChaptersComponent implements OnInit {
 
+  faPlus=faPlus;
+  faTimes=faTimes;
+  faTrash=faTrash;
+  faSave=faSave;
   @Input()
   public editMode:boolean;
 

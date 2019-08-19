@@ -7,16 +7,16 @@
   <div *ngIf="editTitle" class="input-group input-group-sm mb-2">
     <input #title [autofocus]="true" (focusout)="toggleTitle()" type="text" class="form-control" [(ngModel)]="chapter.title" (keydown.enter)="updateChapter($event,'editTitle')">
     <div class="input-group-append">
-      <button type="button" class="btn btn-sm btn-danger" (click)="toggleTitle()"><i class="fa fa-times"></i></button>
+      <button type="button" class="btn btn-sm btn-danger" (click)="toggleTitle()"><fa-icon [icon]="faTimes"></fa-icon></button>
     </div>
   </div>
   <div *ngIf="editDescription" class="input-group input-group-sm mb-2">
     <textarea #description [autofocus]="true"  autosize class="form-control" [(ngModel)]="chapter.description"></textarea>
     <div class="input-group-append">
-      <button type="button" class="btn btn-sm btn-success" (click)="updateChapter($event, 'editDescription')"><i class="fa fa-save"></i></button>
+      <button type="button" class="btn btn-sm btn-success" (click)="updateChapter($event, 'editDescription')"><fa-icon [icon]="faSave"></fa-icon></button>
     </div>
   <div class="input-group-append">
-      <button type="button" class="btn btn-sm btn-danger" (click)="toggleDescription()"><i class="fa fa-times"></i></button>
+      <button type="button" class="btn btn-sm btn-danger" (click)="toggleDescription()"><fa-icon [icon]="faTimes"></fa-icon></button>
     </div>
   </div>
   <blockquote *ngIf="!editDescription" (click)="toggleDescription()" class="bg-light blockquote"><cite>{{chapter.description ? chapter.description : 'No description for this chapter'}}</cite></blockquote>

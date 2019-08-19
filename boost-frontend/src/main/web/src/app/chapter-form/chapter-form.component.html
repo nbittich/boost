@@ -1,11 +1,11 @@
 <div class="mb-4">
   <button class="btn btn-primary btn-block text-uppercase" (click)="formVisible=!formVisible"
-          *ngIf="!formVisible"><i class="fa fa-plus"></i>&nbsp;New Chapter</button>
+          *ngIf="!formVisible"><fa-icon [icon]="faPlus"></fa-icon>&nbsp;New Chapter</button>
   <div class="card card-info" *ngIf="editMode && formVisible">
     <div class="card-header">
       <span class="lead text-uppercase">New Chapter</span>
-      <div class="pull-right">
-        <a class="text-link" href="#" (click)="formVisible=false"><i class="fa fa-times"></i></a>
+      <div class="float-right">
+        <a class="text-link text-muted" href="#" (click)="formVisible=false"><fa-icon [icon]="faTimes"></fa-icon></a>
       </div>
     </div>
     <div class="card-body">
@@ -30,7 +30,7 @@
     </div>
     <div class="card-footer bg-transparent">
       <button type="submit" id="newCHAPSubmit" [disabled]="loadingNewFile" (click)="publishNewChapter($event)"
-              class="btn btn-sm btn-outline-success mt-2 text-uppercase pull-right"><i class="fa fa-save"></i>&nbsp;Save
+              class="btn btn-sm btn-outline-success mt-2 text-uppercase float-right"><fa-icon [icon]="faSave"></fa-icon>&nbsp;Save
       </button>
     </div>
   </div>

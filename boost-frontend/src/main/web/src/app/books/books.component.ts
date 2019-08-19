@@ -5,6 +5,7 @@ import {Router} from "@angular/router";
 import {AuthenticationService} from "../login/authenticationservice";
 import {environment} from "../../environments/environment";
 import {Slugify} from "../common/slugify";
+import {faAd, faEdit, faEye, faTrash} from "@fortawesome/free-solid-svg-icons";
 
 @Component({
   selector: 'app-books',
@@ -14,7 +15,10 @@ import {Slugify} from "../common/slugify";
 export class BooksComponent implements OnInit {
   public books: any;
   static ENDPOINT = '/book';
-
+  faAd=faAd;
+  faEdit=faEdit;
+  faTrash=faTrash;
+  faEye=faEye;
   constructor(private http: HttpClient, private router: Router, private authenticationService: AuthenticationService) {
 
   }

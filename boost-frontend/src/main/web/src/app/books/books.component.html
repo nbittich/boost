@@ -31,12 +31,10 @@
         <td>{{book.totalDuration}}</td>
         <td colspan="3">
           <div class="btn-group">
-            <button (click)="navigate(book,'view')" class="btn btn-sm btn-primary" aria-label="View"><i
-              class="fa fa-eye"></i></button>
+            <button (click)="navigate(book,'view')" class="btn btn-sm btn-primary" aria-label="View"><fa-icon [icon]="faEye"></fa-icon></button>
             <button *ngIf="hasRole('ADMIN')" (click)="navigate(book,'edit')" class="btn btn-sm btn-warning"
-                    aria-label="Edit"><i class="fa fa-edit"></i></button>
-            <button *ngIf="hasRole('ADMIN')" (click)="delete(book)" class="btn btn-sm btn-danger" aria-label="Delete"><i
-              class="fa fa-trash"></i></button>
+                    aria-label="Edit"><fa-icon [icon]="faEdit"></fa-icon></button>
+            <button *ngIf="hasRole('ADMIN')" (click)="delete(book)" class="btn btn-sm btn-danger" aria-label="Delete"><fa-icon [icon]="faTrash"></fa-icon> </button>
           </div>
         </td>
       </tr>
@@ -49,7 +47,7 @@
     </table>
   </div>
   <div *ngIf="books && !books.empty && books.totalPages  > 1"
-       class="badge badge-light mr-1 mb-2 pb-1 border pull-right">
+       class="badge badge-light mr-1 mb-2 pb-1 border float-right">
     <div class="m-0 pt-1 text-wrap">
       <pagination-controls (pageChange)="getBooks($event)"
                            previousLabel=""
