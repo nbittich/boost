@@ -20,6 +20,7 @@ import {ImagePreviewComponent} from './image-preview/image-preview.component';
 import {ImageLoaderComponent} from './image-loader/image-loader.component';
 import {ChaptersComponent} from './chapters/chapters.component';
 import {ChapterDetailComponent} from './chapter-detail/chapter-detail.component';
+import {AutosizeModule} from "ngx-autosize";
 
 @NgModule({
   declarations: [
@@ -40,6 +41,7 @@ import {ChapterDetailComponent} from './chapter-detail/chapter-detail.component'
     BrowserModule,
     NgxJsonViewerModule,
     AppRoutingModule,
+    AutosizeModule,
     NgxPaginationModule,
     FormsModule,
     HttpClientModule

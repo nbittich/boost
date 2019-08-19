@@ -12,7 +12,9 @@ import {environment} from "../../environments/environment";
   styleUrls: ['./book-form.component.css']
 })
 export class BookFormComponent implements OnInit {
+
   public loadingCover:boolean;
+
   @Input()
   public book: BookDto;
 
@@ -30,6 +32,7 @@ export class BookFormComponent implements OnInit {
     }
 
   ngOnInit() {
+
     this.bookCopy = JSON.parse(JSON.stringify(this.book));
   }
 

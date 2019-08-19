@@ -5,11 +5,11 @@
   <input (keydown.enter)="login()" [(ngModel)]="password" name="password" class="form-control mr-sm-2"
          type="password" placeholder="Password"
          aria-label="Password">
-  <button class="btn  mb-sm-1 btn-info text-white " type="button" (click)="login()">login
+  <button class="btn  mb-sm-1 btn-info text-white btn-sm " type="button" (click)="login()"><i class="fa fa-sign-in"></i>
   </button>
 </div>
 <div *ngIf="isLoggedIn()" class="form-inline my-2 my-lg-0">
   <span>Welcome {{getUser().username}}</span>&nbsp;
-  <button class="btn btn-danger text-white my-2 my-sm-0" type="button" (click)="logout()">logout
+  <button class="btn btn-danger text-white my-2 my-sm-0 btn-sm" type="button" (click)="logout()"><i class="fa fa-sign-out"></i>
   </button>
 </div>

@@ -1,8 +1,6 @@
 <div class="col-12">
   <div class="container">
-    <div class="col-12">
-      <button class="btn btn-secondary m-2 text-uppercase" (click)="back()"><i class="fa fa-arrow-left"></i>&nbsp;Back</button>
-    </div>
+      <button class="btn btn-sm btn-secondary m-2 text-uppercase" (click)="back()"><i class="fa fa-arrow-left"></i></button>
       <div *ngIf="book && !editMode" class="container ">
         <div class="row">
             <app-image-loader *ngIf="book.cover" [imageId]="book.cover.id"></app-image-loader>

@@ -25,15 +25,16 @@
               </div>
               <div class="form-group">
                 <label for="bookDescription">Description</label>
-                <textarea class="form-control" id="bookDescription" [(ngModel)]="bookCopy.description"></textarea>
+                <textarea autosize class="form-control " id="bookDescription" [(ngModel)]="bookCopy.description"></textarea>
               </div>
-            <div class="form-group">
-              <app-chapters [editMode]="editMode" *ngIf="bookCopy && bookCopy.id" [bookId]="bookCopy.id"></app-chapters>
-            </div>
+            <button (click)="saveBookToDB()" class="btn btn-outline-primary btn-sm pull-right text-uppercase"><i
+              class="fa fa-save"></i>&nbsp;Save</button>
+          </div>
+          <div class="container">
+            <hr>
+            <app-chapters [editMode]="editMode" *ngIf="bookCopy && bookCopy.id" [bookId]="bookCopy.id"></app-chapters>
           </div>
         </div>
-        <button (click)="saveBookToDB()" class="btn btn-primary pull-right text-uppercase"><i
-          class="fa fa-save"></i>&nbsp;Save</button>
       </div>
     </div>
   </div>
