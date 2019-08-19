@@ -21,6 +21,7 @@ import {ImageLoaderComponent} from './image-loader/image-loader.component';
 import {ChaptersComponent} from './chapters/chapters.component';
 import {ChapterDetailComponent} from './chapter-detail/chapter-detail.component';
 import {AutosizeModule} from "ngx-autosize";
+import {ChapterFormComponent} from './chapter-form/chapter-form.component';
 
 @NgModule({
   declarations: [
@@ -36,6 +37,7 @@ import {AutosizeModule} from "ngx-autosize";
     ImageLoaderComponent,
     ChaptersComponent,
     ChapterDetailComponent,
+    ChapterFormComponent,
   ],
   imports: [
     BrowserModule,

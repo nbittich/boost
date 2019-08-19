@@ -15,8 +15,10 @@ export class ChaptersComponent implements OnInit {
 
   @Input()
   public editMode:boolean;
+
   @Input()
   public bookId:number;
+
 
   public chapters:Array<Chapterentity>;
 
@@ -56,5 +58,10 @@ export class ChaptersComponent implements OnInit {
       () => {
       },
     );
+  }
+
+  refreshChapterList($event: any) {
+    alert($event.message);
+    this.getChapters();
   }
 }

@@ -15,6 +15,7 @@ import tech.artcoded.boost.book.entity.Book;
 import tech.artcoded.boost.book.entity.Chapter;
 import tech.artcoded.boost.book.service.BookService;
 import tech.artcoded.boost.book.service.ChapterService;
+import tech.artcoded.boost.upload.service.UploadService;
 import tech.artcoded.boost.user.service.UserService;
 
 import java.util.Base64;
@@ -34,14 +35,16 @@ import static org.apache.commons.io.IOUtils.toByteArray;
 @Slf4j
 public class BookFixture implements CommandLineRunner {
     private final UserService userService;
+    private final UploadService uploadService;
     private final BookService bookService;
     private final ChapterService chapterService;
     private final Environment env;
     private final ObjectMapper objectMapper;
 
     @Autowired
-    public BookFixture(UserService userService, BookService bookService, ChapterService chapterService, Environment env, ObjectMapper objectMapper) {
+    public BookFixture(UserService userService, UploadService uploadService, BookService bookService, ChapterService chapterService, Environment env, ObjectMapper objectMapper) {
         this.userService = userService;
+        this.uploadService = uploadService;
         this.bookService = bookService;
         this.chapterService = chapterService;
         this.env = env;
@@ -56,6 +59,9 @@ public class BookFixture implements CommandLineRunner {
             log.info("deleting books");
             bookService.deleteAll();
             chapterService.deleteAll();
+            uploadService.deleteAll();
+            uploadService.deleteAllUploadFiles();
+
         }
 
         Long bookSize = env.getProperty("fixture.books.size", Long.class);

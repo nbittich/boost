@@ -16,6 +16,7 @@ import tech.artcoded.boost.book.service.ChapterService;
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CompletableFuture;
 
 @RestController
 @CrossOrigin(value = "*", allowedHeaders = "*", exposedHeaders = "x-auth-token")
@@ -33,9 +34,13 @@ public class BookController {
     }
 
 
-    @PostMapping("/chapter/publish")
-    public Chapter publishChapter(@RequestBody ChapterDto chapter) {
-        return chapterService.saveChapterAndUpload(chapter);
+    @PutMapping("/chapter/publish")
+    public Map.Entry<String, String> publishChapter(@RequestBody ChapterDto chapter) {
+        CompletableFuture.runAsync(()->{
+             chapterService.saveChapterAndUpload(chapter);
+        });
+        return Maps.immutableEntry("message", String.format("Chapter will be added"));
+
     }
 
     @PutMapping

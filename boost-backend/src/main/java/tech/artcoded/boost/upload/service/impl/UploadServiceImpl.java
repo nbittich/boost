@@ -1,6 +1,7 @@
 package tech.artcoded.boost.upload.service.impl;
 
 import lombok.Getter;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -91,4 +92,15 @@ public class UploadServiceImpl implements UploadService {
             return 0;
         }
     }
+
+    @Override
+    @SneakyThrows
+    public void deleteAllUploadFiles() {
+        log.warn("this action will delete all the files but won't affect the database, use it carefully ");
+        File directory = new File(env.getProperty("boost.upload.dir"));
+        FileUtils.deleteDirectory(directory);
+        directory.mkdir();
+    }
+
+
 }

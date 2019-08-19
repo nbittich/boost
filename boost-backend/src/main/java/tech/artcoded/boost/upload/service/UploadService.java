@@ -11,4 +11,6 @@ public interface UploadService extends CrudService<String, Upload> {
     Upload delete(String id) throws Exception;
 
     long getAudioDuration(String id);
+
+    void deleteAllUploadFiles();
 }

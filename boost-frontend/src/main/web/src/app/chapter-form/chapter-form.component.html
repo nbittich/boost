@@ -1,0 +1,33 @@
+<div class="mb-4">
+  <button class="btn btn-primary btn-block text-uppercase" (click)="formVisible=!formVisible"
+          *ngIf="!formVisible"><i class="fa fa-plus"></i>&nbsp;New Chapter</button>
+  <div class="card card-info" *ngIf="editMode && formVisible">
+    <div class="card-header">
+      <span class="lead text-uppercase">New Chapter</span>
+      <div class="pull-right">
+        <a class="text-link" href="#" (click)="formVisible=false"><i class="fa fa-times"></i></a>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="form-group">
+        <label for="newChapTitle">Title</label>
+        <input [disabled]="loadingNewFile" name="newChapTitle" class="form-control" type="text" id="newChapTitle"
+               [(ngModel)]="newChapter.title">
+      </div>
+
+      <div class="custom-file">
+        <input #fileRef [disabled]="loadingNewFile" name="custom-file-input" id="inputGroupFile01"
+               aria-describedby="inputGroupFileAddon01" type="file" class="custom-file-input"
+               (change)="setNewChapterFile($event.target.files)">
+        <label class="custom-file-label"
+               for="inputGroupFile01">{{newChapter.fileName ? newChapter.fileName : 'Choose file'}}</label>
+      </div>
+    </div>
+    <div class="card-footer bg-transparent">
+      <button type="submit" id="newCHAPSubmit" [disabled]="loadingNewFile" (click)="publishNewChapter($event)"
+              class="btn btn-sm btn-outline-success mt-2 text-uppercase pull-right"><i class="fa fa-save"></i>&nbsp;Save
+      </button>
+    </div>
+  </div>
+
+</div>
