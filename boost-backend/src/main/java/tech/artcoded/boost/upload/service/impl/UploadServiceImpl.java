@@ -7,18 +7,19 @@ import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
+import org.tritonus.share.sampled.file.TAudioFileFormat;
 import tech.artcoded.boost.upload.entity.Upload;
 import tech.artcoded.boost.upload.repository.UploadRepository;
 import tech.artcoded.boost.upload.service.UploadService;
 
-import javax.sound.sampled.AudioFormat;
-import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioFileFormat;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Base64;
+import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -78,12 +79,19 @@ public class UploadServiceImpl implements UploadService {
 
     @Override
     public long getAudioDuration(String id) {
+        try {
+            AudioFileFormat audioFileFormat = AudioSystem.getAudioFileFormat(idToFile(id));
+            if (audioFileFormat instanceof TAudioFileFormat) {
+                Map<?, ?> properties = ((TAudioFileFormat) audioFileFormat).properties();
+                String key = "duration";
+                Long microseconds = (Long) properties.get(key);
+                return microseconds;
+            }else {
+                long frames = audioFileFormat.getFrameLength();
+                double durationInSeconds = (frames + 0.0) / audioFileFormat.getFormat().getFrameRate();
+                return Math.round(durationInSeconds * 1000);
+            }
 
-        try( AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(idToFile(id))) {
-            AudioFormat format = audioInputStream.getFormat();
-            long frames = audioInputStream.getFrameLength();
-            double durationInSeconds = (frames + 0.0) / format.getFrameRate();
-            return Math.round(durationInSeconds * 1000);
         } catch (UnsupportedAudioFileException e) {
             log.error("unsupported",e);
             return 0;
