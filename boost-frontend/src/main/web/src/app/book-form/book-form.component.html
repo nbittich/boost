@@ -3,8 +3,8 @@
           *ngIf="!formVisible"><i class="fa fa-plus"></i></button>
   <div *ngIf="formVisible" class="card">
     <div class="card-header">
-    <span>Book</span>
-      <div class="pull-right">
+    <span class="text-uppercase">Book #{{bookCopy.id}}</span>
+      <div class="pull-right" *ngIf="showCross">
         <a class="text-link" href="#" (click)="formVisible=false"><i class="fa fa-times"></i></a>
       </div>
     </div>

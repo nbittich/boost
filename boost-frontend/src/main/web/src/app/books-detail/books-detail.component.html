@@ -13,6 +13,6 @@
             </div>
           </div>
         </div>
-    <app-book-form *ngIf="editMode && book" [editMode]="editMode" [formVisible]="true" [book]="book"></app-book-form>
+    <app-book-form [showCross]="false" *ngIf="editMode && book" [editMode]="editMode" [formVisible]="true" [book]="book"></app-book-form>
   </div>
 </div>

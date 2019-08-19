@@ -27,6 +27,9 @@ export class BookFormComponent implements OnInit {
   @Input()
   public formVisible = false;
 
+  @Input()
+  showCross: boolean=true;
+
 
     constructor(private http: HttpClient, private router: Router, private authenticationService: AuthenticationService) {
     }
