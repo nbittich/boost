@@ -65,6 +65,7 @@ public class BookFixture implements CommandLineRunner {
                 .map(builder -> builder
                         .category(faker.book().genre())
                         .title(faker.book().title())
+                        .author(faker.book().author())
                         .totalDuration(5000)
                         .description(faker.lorem().paragraph(20))
                         .build())

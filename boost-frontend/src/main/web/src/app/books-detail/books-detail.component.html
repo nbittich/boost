@@ -6,7 +6,8 @@
             <app-image-loader *ngIf="book.cover" [imageId]="book.cover.id"></app-image-loader>
             <div class="col-lg-8">
               <p class="lead" >
-                {{book.title}}
+                {{book.title}}<small class="text-muted"> by {{book.author}}</small>
+
               </p>
               <p>{{book.description}}</p>
               <app-chapters *ngIf="book" [bookId]="book.id"></app-chapters>

@@ -3,12 +3,10 @@ package tech.artcoded.boost.book.service;
 import lombok.SneakyThrows;
 import tech.artcoded.boost.book.dto.BookDto;
 import tech.artcoded.boost.book.entity.Book;
-import tech.artcoded.boost.book.entity.Chapter;
 import tech.artcoded.boost.common.service.CrudService;
 import tech.artcoded.boost.upload.entity.Upload;
 import tech.artcoded.boost.upload.service.UploadService;
 
-import java.util.List;
 import java.util.Optional;
 
 public interface BookService extends CrudService<Long, Book> {
@@ -18,11 +16,25 @@ public interface BookService extends CrudService<Long, Book> {
     @SneakyThrows
     default Book saveBookWithCover(BookDto book) {
         Optional<Book> optionalBook = this.findById(book.getId());
-        Upload upload = getUploadService().upload(book.getCover(), book.getContentType(), book.getFileName());
+
+
+        final Book.BookBuilder bookE = optionalBook.
+                map(Book::toBuilder)
+                .orElseGet(Book::builder)
+                .id(optionalBook.map(Book::getId).orElse(null));
+        Optional.ofNullable(book.getCover()).ifPresent(c -> {
+            try {
+                if (c.length > 0) {
+                    Upload upload = getUploadService().upload(c, book.getContentType(), book.getFileName());
+                    bookE.cover(upload);
+                }
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        });
+
         return getRepository().save(
-                optionalBook.map(Book::toBuilder).orElseGet(Book::builder)
-                        .id(optionalBook.map(Book::getId).orElse(null))
-                        .cover(upload)
+                bookE.author(book.getAuthor())
                         .title(book.getTitle())
                         .category(book.getCategory())
                         .description(book.getDescription())

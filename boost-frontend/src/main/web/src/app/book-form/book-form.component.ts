@@ -27,6 +27,8 @@ export class BookFormComponent implements OnInit {
   @Input()
   public formVisible = false;
 
+  private coverChanged:boolean;
+
   @Input()
   showCross: boolean=true;
 
@@ -35,11 +37,11 @@ export class BookFormComponent implements OnInit {
     }
 
   ngOnInit() {
-
     this.bookCopy = JSON.parse(JSON.stringify(this.book));
   }
 
   public setCover($imagePreview: ImagePreview) {
+      this.coverChanged = true;
     this.bookCopy.cover = btoa($imagePreview.imgURL.split(',')[1]);
     this.bookCopy.fileName = $imagePreview.fileName;
     this.bookCopy.contentType= $imagePreview.contentType;
@@ -47,8 +49,11 @@ export class BookFormComponent implements OnInit {
   }
 
   public saveBookToDB() {
-      console.log(this.bookCopy);
-      this.http.request<any>('put', environment.backendUrl + '/book', {body: this.bookCopy}).subscribe(
+      let b = JSON.parse(JSON.stringify(this.bookCopy));
+      if(!this.coverChanged) {
+        b.cover = null;
+      }
+      this.http.request<any>('put', environment.backendUrl + '/book', {body: b}).subscribe(
         (datas) => {
           alert(datas.message);
         },

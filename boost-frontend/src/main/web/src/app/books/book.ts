@@ -3,6 +3,7 @@ import {Auditable} from "../common/auditable";
 export class Book extends Auditable{
   public id:number;
   public title:string;
+  public author:string;
   public description:string;
   public totalDuration:string;
   public cover:any;
@@ -10,6 +11,7 @@ export class Book extends Auditable{
 export class BookDto {
   public id:number;
   public title:string;
+  public author:string;
   public description:string;
   public totalDuration:string;
   public category:string;
