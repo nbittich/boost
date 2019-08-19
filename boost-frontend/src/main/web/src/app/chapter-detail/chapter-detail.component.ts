@@ -36,7 +36,7 @@ export class ChapterDetailComponent implements OnInit {
     return environment.backendUrl + '/upload/' + this.chapter.upload.id;
   }
 
-  updateChapter($event) {
+  updateChapter($event, updateType:string) {
     $event.preventDefault();
     let chap = new ChapterDto();
     chap.id = this.chapter.id;
@@ -46,8 +46,12 @@ export class ChapterDetailComponent implements OnInit {
     this.http.request<any>('post', environment.backendUrl + '/book/chapter/edit', {body: chap}).subscribe(
       (datas) => {
         console.log(datas);
-        this.toggleTitle();
-        this.toggleDescription();
+        switch (updateType) {
+          case 'editTitle': this.toggleTitle();break;
+          case 'editDescription': this.toggleDescription();break;
+        }
+        alert(datas.message);
+
       },
       (err) => {
         console.log(err);

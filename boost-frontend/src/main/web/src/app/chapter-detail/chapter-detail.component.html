@@ -4,15 +4,15 @@
     <span class="dots"></span>
   </div>
   <div *ngIf="editTitle" class="input-group input-group-sm mb-2">
-    <input #title [autofocus]="true" (focusout)="toggleTitle()" type="text" class="form-control" [(ngModel)]="chapter.title" (keydown.enter)="updateChapter($event)">
+    <input #title [autofocus]="true" (focusout)="toggleTitle()" type="text" class="form-control" [(ngModel)]="chapter.title" (keydown.enter)="updateChapter($event,'editTitle')">
     <div class="input-group-append">
       <button type="button" class="btn btn-sm btn-danger" (click)="toggleTitle()"><i class="fa fa-times"></i></button>
     </div>
   </div>
   <div *ngIf="editDescription" class="input-group input-group-sm mb-2">
-    <textarea #description [autofocus]="true" (focusout)="toggleDescription()" autosize class="form-control" [(ngModel)]="chapter.description"></textarea>
+    <textarea #description [autofocus]="true"  autosize class="form-control" [(ngModel)]="chapter.description"></textarea>
     <div class="input-group-append">
-      <button type="button" class="btn btn-sm btn-success" (click)="updateChapter($event)"><i class="fa fa-save"></i></button>
+      <button type="button" class="btn btn-sm btn-success" (click)="updateChapter($event, 'editDescription')"><i class="fa fa-save"></i></button>
     </div>
   <div class="input-group-append">
       <button type="button" class="btn btn-sm btn-danger" (click)="toggleDescription()"><i class="fa fa-times"></i></button>
