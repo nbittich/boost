@@ -1,7 +1,7 @@
 <div class="container">
       <button class="btn btn-sm btn-secondary m-2 text-uppercase" (click)="back()"><i class="fa fa-arrow-left"></i></button>
       <div *ngIf="book && !editMode">
-        <div class="d-flex">
+        <div class="row">
           <div class="col-lg-2 p-2 offset-lg-1 col-sm-12">
             <app-image-loader *ngIf="book.cover" [imageId]="book.cover.id"></app-image-loader>
           </div>

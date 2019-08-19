@@ -1,10 +1,13 @@
 <div class="p-2">
-  <p class="lead text-uppercase text-center" *ngIf="chapters">{{chapters.length}} chapter{{chapters.length > 1 ? 's':''}}</p>
   <div class="col-12 mb-1">
     <app-chapter-form *ngIf="editMode" [editMode]="editMode" [bookId]="bookId" (emitter)="refreshChapterList($event)"></app-chapter-form>
   </div>
   <div class="col-12" *ngIf="chapters">
     <ul class="list-group">
+      <li class="list-group-item d-flex justify-content-between align-items-center text-uppercase disabled" aria-disabled="true">
+        Chapter{{chapters.length > 1 ? 's':''}}
+        <h3><span class="badge badge-secondary badge-pill lead">{{chapters.length}}</span></h3>
+      </li>
       <li *ngFor="let ch of chapters" class="list-group-item">
         <app-chapter-detail [editMode]="editMode" [id]="ch.id" [chapter]="ch"></app-chapter-detail>
         <button class="btn btn-sm btn-outline-danger text-uppercase pull-right" (click)="deleteChapter(ch)" *ngIf="editMode">
