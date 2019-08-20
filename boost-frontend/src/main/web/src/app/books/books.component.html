@@ -18,7 +18,7 @@
         </th>
       </tr>
       </thead>
-      <tbody *ngIf="isLoggedIn() && hasRole('USER') && books && !books.empty">
+      <tbody *ngIf="books && !books.empty">
       <tr
         *ngFor="let book of books.content | paginate: { itemsPerPage: books.size, currentPage: books.number+1, totalItems: books.totalElements}">
         <!--<td>{{book.id}}</td>
