@@ -1,19 +1,10 @@
-jwt:
-  audience: authenticated-app
-  expire:
-    after: 600000 # 10 min
-  header: Authorization
-  issuer: authentication-server
-  prefix: Bearer
-  secret: Zq4t7w!z%C*F-JaNdRgUkXp2s5u8x/A?D(G+KbPeShVmYq3t6w9y$B&E)H@McQfT
-  type: jwt
 server:
   port: 8070
 spring:
   kafka:
     consumer:
       bootstrap-servers: localhost:9092
-      group-id: book_app
+      group-id: boost_group_app
       auto-offset-reset: earliest
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
@@ -21,6 +12,7 @@ spring:
       bootstrap-servers: localhost:9092
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.apache.kafka.common.serialization.StringSerializer
+      client-id: boost_client_id
   cache:
     type: caffeine
   servlet:
@@ -53,8 +45,19 @@ application:
   title: Boost!
   version: v0.0.1-SNAPSHOT
 boost:
+  event:
+    topic: boostevent
   upload:
     dir: /tmp/boost
+jwt:
+  audience: authenticated-app
+  expire:
+    after: 600000 # 10 min
+  header: Authorization
+  issuer: authentication-server
+  prefix: Bearer
+  secret: Zq4t7w!z%C*F-JaNdRgUkXp2s5u8x/A?D(G+KbPeShVmYq3t6w9y$B&E)H@McQfT
+  type: jwt
 
 fixture:
   books:

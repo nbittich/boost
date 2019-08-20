@@ -36,7 +36,7 @@ public class BookController {
 
     @PutMapping("/chapter/publish")
     public Map.Entry<String, String> publishChapter(@RequestBody ChapterDto chapter) {
-        CompletableFuture.runAsync(()->{
+        CompletableFuture.runAsync(() -> {
             Chapter chap = chapterService.saveChapterAndUpload(chapter);
             Book bookUpdated = chap.getBook().toBuilder().totalDuration(chapterService.getTotalDuration(chap.getBook())).build();
             bookService.save(bookUpdated);
@@ -80,6 +80,7 @@ public class BookController {
         return Maps.immutableEntry("message", String.format("Chapter %s removed", chapterId));
 
     }
+
     @PostMapping("/chapter/edit")
     public Map.Entry<String, String> editChapter(@RequestBody ChapterDto chapterDto) {
         chapterService.updateFields(chapterDto);

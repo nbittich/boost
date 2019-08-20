@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import tech.artcoded.boost.book.repository.ChapterRepository;
 import tech.artcoded.boost.book.service.BookService;
 import tech.artcoded.boost.book.service.ChapterService;
+import tech.artcoded.boost.event.kafka.KafkaEventProducer;
 import tech.artcoded.boost.upload.service.UploadService;
 
 @Service
@@ -18,11 +19,14 @@ public class ChapterServiceImpl implements ChapterService {
     private final UploadService uploadService;
     @Getter
     private final ChapterRepository repository;
+    @Getter
+    private final KafkaEventProducer eventProducer;
 
     @Autowired
-    public ChapterServiceImpl(BookService bookService, UploadService uploadService, ChapterRepository repository) {
+    public ChapterServiceImpl(BookService bookService, UploadService uploadService, ChapterRepository repository, KafkaEventProducer eventProducer) {
         this.bookService = bookService;
         this.uploadService = uploadService;
         this.repository = repository;
+        this.eventProducer = eventProducer;
     }
 }

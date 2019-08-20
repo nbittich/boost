@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 import org.tritonus.share.sampled.file.TAudioFileFormat;
+import tech.artcoded.boost.event.kafka.KafkaEventProducer;
 import tech.artcoded.boost.upload.entity.Upload;
 import tech.artcoded.boost.upload.repository.UploadRepository;
 import tech.artcoded.boost.upload.service.UploadService;
@@ -29,11 +30,14 @@ public class UploadServiceImpl implements UploadService {
 
     @Getter
     private final UploadRepository repository;
+    @Getter
+    private final KafkaEventProducer eventProducer;
     private final Environment env;
 
     @Autowired
-    public UploadServiceImpl(UploadRepository uploadRepository, Environment env) {
+    public UploadServiceImpl(UploadRepository uploadRepository, KafkaEventProducer eventProducer, Environment env) {
         this.repository = uploadRepository;
+        this.eventProducer = eventProducer;
         this.env = env;
     }
 

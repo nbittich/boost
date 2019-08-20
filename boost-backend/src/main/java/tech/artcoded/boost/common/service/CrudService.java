@@ -5,11 +5,15 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
+import tech.artcoded.boost.event.kafka.KafkaEventProducer;
 
 import java.util.List;
 import java.util.Optional;
+
 public interface CrudService<K, V> {
     JpaRepository<V, K> getRepository();
+
+    KafkaEventProducer getEventProducer();
 
     default Optional<V> findOneById(K id) {
         return getRepository().findById(id);
@@ -52,6 +56,7 @@ public interface CrudService<K, V> {
     }
 
     default Page<V> findAll(Pageable var1) {
+        getEventProducer().sendEvent(getClass().getSimpleName().toUpperCase() + "_FIND_ALL", "page: " + var1.getPageNumber());
         return getRepository().findAll(var1);
     }
 
@@ -64,7 +69,7 @@ public interface CrudService<K, V> {
     }
 
     default Optional<V> findById(K id) {
-
+        getEventProducer().sendEvent(getClass().getSimpleName().toUpperCase() + "_FIND_BY_ID", "id: " + id.toString());
         return id == null ? Optional.empty() : getRepository().findById(id);
     }
 
@@ -81,14 +86,17 @@ public interface CrudService<K, V> {
     }
 
     default void deleteById(K var1) {
+        getEventProducer().sendEvent(getClass().getSimpleName().toUpperCase() + "_DELETE_BY_ID", "id: " + var1.toString());
         getRepository().deleteById(var1);
     }
 
     default void delete(V var1) {
+        getEventProducer().sendEvent(getClass().getSimpleName().toUpperCase() + "_DELETE", "id: " + var1.toString());
         getRepository().delete(var1);
     }
 
     default void deleteAll(Iterable<V> var1) {
+        getEventProducer().sendEvent(getClass().getSimpleName().toUpperCase() + "_DELETE_ALL", "ids: " + var1.toString());
         getRepository().deleteAll(var1);
     }
 
