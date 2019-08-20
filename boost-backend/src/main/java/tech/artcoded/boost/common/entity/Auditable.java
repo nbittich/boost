@@ -1,9 +1,6 @@
 package tech.artcoded.boost.common.entity;
 
-import lombok.AccessLevel;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
@@ -21,11 +18,11 @@ import java.util.Date;
 public class Auditable<U> {
 
     @CreatedBy
-    @Column(name = "created_by")
+    @Column(name = "created_by",updatable = false)
     private U createdBy;
 
     @CreatedDate
-    @Column(name = "created_date")
+    @Column(name = "created_date",updatable = false)
     private Date createdDate;
 
     @LastModifiedBy

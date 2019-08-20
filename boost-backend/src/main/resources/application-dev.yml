@@ -7,12 +7,20 @@ jwt:
   prefix: Bearer
   secret: Zq4t7w!z%C*F-JaNdRgUkXp2s5u8x/A?D(G+KbPeShVmYq3t6w9y$B&E)H@McQfT
   type: jwt
-kafka:
-  bootstrap:
-    address: localhost:9092
 server:
   port: 8070
 spring:
+  kafka:
+    consumer:
+      bootstrap-servers: localhost:9092
+      group-id: book_app
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+    producer:
+      bootstrap-servers: localhost:9092
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
   cache:
     type: caffeine
   servlet:
