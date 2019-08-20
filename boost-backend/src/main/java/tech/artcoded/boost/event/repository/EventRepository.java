@@ -5,5 +5,5 @@ import org.springframework.stereotype.Repository;
 import tech.artcoded.boost.event.entity.Event;
 
 @Repository
-public interface EventRepository extends JpaRepository<Event, Long> {
+public interface EventRepository extends JpaRepository<Event, String> {
 }

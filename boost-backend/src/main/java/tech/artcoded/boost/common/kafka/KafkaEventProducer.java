@@ -8,6 +8,7 @@ import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 import tech.artcoded.boost.common.dto.EventDto;
 
+import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 
 @Service
@@ -27,11 +28,12 @@ public class KafkaEventProducer {
 
     public void sendEvent(String name, String value) {
       CompletableFuture.runAsync(()-> {
-            EventDto event = new EventDto();
-            event.setName(name);
-            event.setValue(value);
-            log.info("sending event.");
-            kafkaTemplate.send(env.getProperty("boost.event.topic"), event);
+          EventDto event = new EventDto();
+          event.setEventName(name);
+          event.setEventValue(value);
+          event.setEventId(UUID.randomUUID().toString());
+          log.info("sending event.");
+          kafkaTemplate.send(env.getProperty("boost.event.topic"), event);
         });
     }
 }

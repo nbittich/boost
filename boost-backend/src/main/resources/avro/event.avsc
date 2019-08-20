@@ -3,12 +3,18 @@
   "type": "record",
   "name": "EventDto",
   "fields": [
+
     {
-      "name": "name",
+      "name": "event_id",
+      "type": "string",
+      "optional": true
+    },
+    {
+      "name": "event_name",
       "type": "string"
     },
     {
-      "name": "value",
+      "name": "event_value",
       "type": "string"
     }
   ]

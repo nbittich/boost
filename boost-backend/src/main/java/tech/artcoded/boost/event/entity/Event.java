@@ -20,8 +20,7 @@ public class Event extends Auditable<String> {
 
     @Id
     @Column(name = "event_id")
-    @GeneratedValue
-    private Long id;
+    private String id;
 
     @Column(name = "event_name")
     private String name;
