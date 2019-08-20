@@ -1,0 +1,15 @@
+{
+  "namespace": "tech.artcoded.boost.common.dto",
+  "type": "record",
+  "name": "EventDto",
+  "fields": [
+    {
+      "name": "name",
+      "type": "string"
+    },
+    {
+      "name": "value",
+      "type": "string"
+    }
+  ]
+}

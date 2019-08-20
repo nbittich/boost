@@ -27,4 +27,5 @@ public class EventController {
     public Page<Event> events(Pageable pageable) {
         return this.eventService.findAll(pageable);
     }
+
 }

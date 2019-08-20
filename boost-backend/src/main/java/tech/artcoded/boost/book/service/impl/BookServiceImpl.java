@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import tech.artcoded.boost.book.repository.BookRepository;
 import tech.artcoded.boost.book.service.BookService;
-import tech.artcoded.boost.event.kafka.KafkaEventProducer;
+import tech.artcoded.boost.common.kafka.KafkaEventProducer;
 import tech.artcoded.boost.upload.service.UploadService;
 
 import javax.transaction.Transactional;

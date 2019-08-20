@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 import org.tritonus.share.sampled.file.TAudioFileFormat;
-import tech.artcoded.boost.event.kafka.KafkaEventProducer;
+import tech.artcoded.boost.common.kafka.KafkaEventProducer;
 import tech.artcoded.boost.upload.entity.Upload;
 import tech.artcoded.boost.upload.repository.UploadRepository;
 import tech.artcoded.boost.upload.service.UploadService;

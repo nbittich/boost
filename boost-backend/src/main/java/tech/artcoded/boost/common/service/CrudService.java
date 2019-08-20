@@ -5,7 +5,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
-import tech.artcoded.boost.event.kafka.KafkaEventProducer;
+import tech.artcoded.boost.common.kafka.KafkaEventProducer;
 
 import java.util.List;
 import java.util.Optional;

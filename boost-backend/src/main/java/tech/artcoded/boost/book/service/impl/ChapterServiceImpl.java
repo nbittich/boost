@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import tech.artcoded.boost.book.repository.ChapterRepository;
 import tech.artcoded.boost.book.service.BookService;
 import tech.artcoded.boost.book.service.ChapterService;
-import tech.artcoded.boost.event.kafka.KafkaEventProducer;
+import tech.artcoded.boost.common.kafka.KafkaEventProducer;
 import tech.artcoded.boost.upload.service.UploadService;
 
 @Service

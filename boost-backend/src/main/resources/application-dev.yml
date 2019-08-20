@@ -2,6 +2,10 @@ server:
   port: 8070
 spring:
   kafka:
+    properties:
+      schema:
+        registry:
+          url: http://localhost:8081
     consumer:
       bootstrap-servers: localhost:9092
       group-id: boost_group_app
@@ -11,7 +15,7 @@ spring:
     producer:
       bootstrap-servers: localhost:9092
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
-      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: io.confluent.kafka.serializers.KafkaAvroSerializer
       client-id: boost_client_id
   cache:
     type: caffeine

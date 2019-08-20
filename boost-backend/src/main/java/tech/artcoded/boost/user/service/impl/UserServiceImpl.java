@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import tech.artcoded.boost.event.kafka.KafkaEventProducer;
+import tech.artcoded.boost.common.kafka.KafkaEventProducer;
 import tech.artcoded.boost.user.entity.User;
 import tech.artcoded.boost.user.repository.UserRepository;
 import tech.artcoded.boost.user.service.UserService;
