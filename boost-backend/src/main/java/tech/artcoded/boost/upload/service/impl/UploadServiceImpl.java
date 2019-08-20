@@ -82,14 +82,14 @@ public class UploadServiceImpl implements UploadService {
         try {
             AudioFileFormat audioFileFormat = AudioSystem.getAudioFileFormat(idToFile(id));
             if (audioFileFormat instanceof TAudioFileFormat) {
-                Map<?, ?> properties = ((TAudioFileFormat) audioFileFormat).properties();
+                Map<?, ?> properties = audioFileFormat.properties();
                 String key = "duration";
                 Long microseconds = (Long) properties.get(key);
-                return microseconds;
+                return Math.round(microseconds / 1000.00d);
             }else {
                 long frames = audioFileFormat.getFrameLength();
                 double durationInSeconds = (frames + 0.0) / audioFileFormat.getFormat().getFrameRate();
-                return Math.round(durationInSeconds * 1000);
+                return Math.round(durationInSeconds * 1000.00d);
             }
 
         } catch (UnsupportedAudioFileException e) {

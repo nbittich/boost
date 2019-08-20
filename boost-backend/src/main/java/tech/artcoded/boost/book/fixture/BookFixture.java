@@ -72,7 +72,6 @@ public class BookFixture implements CommandLineRunner {
                         .category(faker.book().genre())
                         .title(faker.book().title())
                         .author(faker.book().author())
-                        .totalDuration(5000)
                         .description(faker.lorem().paragraph(20))
                         .build())
                 .map(bookService::save)
@@ -107,7 +106,8 @@ public class BookFixture implements CommandLineRunner {
                 chapterService.flush();
                 byte[] input = toByteArray(cover.getInputStream());
                 Book bookWCover = books.get((int)i).toBuilder().cover(bookService.getUploadService().upload(Base64.getEncoder().encode(input), MediaType.IMAGE_JPEG_VALUE, "cover.jpg")).build();
-                bookService.saveAndFlush(bookWCover);
+                Book bookUpdated = bookWCover.toBuilder().totalDuration(chapterService.getTotalDuration(bookWCover)).build();
+                bookService.save(bookUpdated);
 
             }
         }

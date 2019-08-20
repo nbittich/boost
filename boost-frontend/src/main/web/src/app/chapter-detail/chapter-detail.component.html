@@ -2,7 +2,7 @@
   <div  (click)="toggleTitle()" *ngIf="!editTitle" class="dotted mb-2 badge badge-secondary p-2 text-left ">
     <span>{{chapter.order}}. {{chapter.title}}</span>
     <span class="dots"></span>
-    <span>̣{{(chapter.timeDuration / 1000) | date:'mm'}} minutes</span>
+    <span>{{getTimeDuration(chapter)}}</span>
   </div>
   <div *ngIf="editTitle" class="input-group input-group-sm mb-2">
     <input #title [autofocus]="true" (focusout)="toggleTitle()" type="text" class="form-control" [(ngModel)]="chapter.title" (keydown.enter)="updateChapter($event,'editTitle')">

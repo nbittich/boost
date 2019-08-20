@@ -28,7 +28,7 @@
         <td>{{book.lastModifiedBy}}</td>
         --><td>{{book.title}}</td>
         <td>{{book.category}}</td>
-        <td>{{book.totalDuration}}</td>
+        <td>{{getTotalDuration(book)}}</td>
         <td colspan="3">
           <div class="btn-group">
             <button (click)="navigate(book,'view')" class="btn btn-sm btn-primary" aria-label="View"><fa-icon [icon]="faEye"></fa-icon></button>

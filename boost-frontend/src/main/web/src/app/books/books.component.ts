@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {BookDto} from "./book";
+import {Book, BookDto} from "./book";
 import {HttpClient} from "@angular/common/http";
 import {Router} from "@angular/router";
 import {AuthenticationService} from "../login/authenticationservice";
@@ -69,5 +69,9 @@ export class BooksComponent implements OnInit {
 
   newBook() {
     return new BookDto();
+  }
+
+  getTotalDuration(book: Book) {
+    return Math.round(book.totalDuration/1000 / 60 ) + ' minutes';
   }
 }

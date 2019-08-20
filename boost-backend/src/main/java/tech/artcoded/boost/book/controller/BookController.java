@@ -37,7 +37,9 @@ public class BookController {
     @PutMapping("/chapter/publish")
     public Map.Entry<String, String> publishChapter(@RequestBody ChapterDto chapter) {
         CompletableFuture.runAsync(()->{
-             chapterService.saveChapterAndUpload(chapter);
+            Chapter chap = chapterService.saveChapterAndUpload(chapter);
+            Book bookUpdated = chap.getBook().toBuilder().totalDuration(chapterService.getTotalDuration(chap.getBook())).build();
+            bookService.save(bookUpdated);
         });
         return Maps.immutableEntry("message", String.format("Chapter will be added"));
 

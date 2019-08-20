@@ -26,6 +26,10 @@ public interface ChapterService extends CrudService<Long, Chapter> {
         return book.map(b->getRepository().findByBookOrderByOrderAsc(b)).orElseGet(Collections::emptyList);
     }
 
+    default long getTotalDuration(Book book){
+        return getRepository().getTotalDuration(book);
+    }
+
     @SneakyThrows
     default Chapter saveChapterAndUpload(ChapterDto chapter) {
         Upload upload = getUploadService().upload(chapter.getFile(), chapter.getContentType(), chapter.getFileName());

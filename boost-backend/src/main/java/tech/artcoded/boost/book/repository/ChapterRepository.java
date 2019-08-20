@@ -15,6 +15,8 @@ public interface ChapterRepository extends JpaRepository<Chapter, Long> {
 
     @Query("SELECT coalesce(max(chapter.order), 0) FROM Chapter chapter where chapter.book = ?1")
     int getMaxOrder(Book book);
+    @Query("SELECT coalesce(sum(chapter.timeDuration), 0) FROM Chapter chapter where chapter.book = ?1")
+    long getTotalDuration(Book book);
 
     List<Chapter> findByBookOrderByOrderDesc(Book b);
 }

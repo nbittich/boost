@@ -73,4 +73,8 @@ export class ChapterDetailComponent implements OnInit {
     this.editDescription= this.editMode && !this.editDescription;
     this.cd.detectChanges();
   }
+
+  getTimeDuration(chapter: Chapterentity) {
+      return Math.round(chapter.timeDuration/1000 / 60 ) + ' minutes';
+  }
 }
