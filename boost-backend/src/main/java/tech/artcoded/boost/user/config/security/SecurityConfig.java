@@ -26,7 +26,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.cors().and().authorizeRequests()
 
-                //.antMatchers(HttpMethod.DELETE, "/**").hasAnyAuthority(ADMIN.name())
+
+                .antMatchers(HttpMethod.GET, "/event/**").hasAuthority(ADMIN.name())
 
                 .antMatchers(HttpMethod.GET, "/user/**").hasAuthority(USER.name())
                 .antMatchers(HttpMethod.POST, "/user/**").hasAuthority(USER.name())
