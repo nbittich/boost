@@ -28,13 +28,13 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
-        getEventProducer().sendEvent(getClass().getSimpleName().toUpperCase()+"_LOAD_BY_USERNAME", "Username: " + s);
+        produceEvent("_LOAD_BY_USERNAME", "Username: " + s);
         return repository.findOneByUsername(s).orElseThrow(() -> new UsernameNotFoundException(s + " not found"));
     }
 
     @Override
     public User principalToUser(Principal p) {
-        getEventProducer().sendEvent(getClass().getSimpleName().toUpperCase()+"_PRINCIPAL_TO_USER", "Username: " + p != null? p.getName() : "null_principal" );
+        produceEvent("_PRINCIPAL_TO_USER", "Username: " + p != null? p.getName() : "null_principal" );
         return repository.findOneByUsername(p.getName()).orElseThrow(() ->
                 new RuntimeException(String.format("Principal %s not found", StringUtils.defaultIfEmpty(p.getName(), "USERNAME_NULL")))
         );

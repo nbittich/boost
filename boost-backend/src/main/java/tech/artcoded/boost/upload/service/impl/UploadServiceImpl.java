@@ -19,10 +19,13 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.time.Instant;
 import java.util.Base64;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
+
+import static java.util.Objects.requireNonNull;
 
 @Service
 @Slf4j
@@ -62,6 +65,7 @@ public class UploadServiceImpl implements UploadService {
 
     @Override
     public Upload get(String id) throws Exception {
+        produceEvent("_GET_FILE","id: " + id);
         byte[] file = FileUtils.readFileToByteArray(idToFile(id));
         return this.findById(id)
                 .map(u -> u.toBuilder().file(file).build())
@@ -75,8 +79,9 @@ public class UploadServiceImpl implements UploadService {
             Upload u = upload.get();
             FileUtils.forceDelete(idToFile(id));
             repository.delete(u);
-            log.info("upload with id {} removed", id);
-            return u;
+            log.info("upload with id {} removed"+id);
+            produceEvent("_DELETE","upload & file with id "+id +" removed");
+
         }
         throw new RuntimeException("unexpected error when deleting" + id);
     }
@@ -89,11 +94,15 @@ public class UploadServiceImpl implements UploadService {
                 Map<?, ?> properties = audioFileFormat.properties();
                 String key = "duration";
                 Long microseconds = (Long) properties.get(key);
-                return Math.round(microseconds / 1000.00d);
+                long millis = Math.round(microseconds / 1000.00d);
+                produceEvent("_GET_AUDIO_DURATION_MP3","id: " + id + ", millis: "+ millis);
+                return millis;
             }else {
                 long frames = audioFileFormat.getFrameLength();
                 double durationInSeconds = (frames + 0.0) / audioFileFormat.getFormat().getFrameRate();
-                return Math.round(durationInSeconds * 1000.00d);
+                long millis = Math.round(durationInSeconds * 1000.00d);
+                produceEvent("_GET_AUDIO_DURATION_NOT_MP3","id: " + id + ", millis: "+ millis);
+                return millis;
             }
 
         } catch (UnsupportedAudioFileException e) {
@@ -109,7 +118,9 @@ public class UploadServiceImpl implements UploadService {
     @SneakyThrows
     public void deleteAllUploadFiles() {
         log.warn("this action will delete all the files but won't affect the database, use it carefully ");
-        File directory = new File(env.getProperty("boost.upload.dir"));
+        produceEvent("_DELETE_ALL_FILE", Instant.now().toEpochMilli()+"");
+        String property = env.getProperty("boost.upload.dir");
+        File directory = new File(requireNonNull(property));
         FileUtils.deleteDirectory(directory);
         directory.mkdir();
     }

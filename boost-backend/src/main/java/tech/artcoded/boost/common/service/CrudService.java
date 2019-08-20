@@ -56,7 +56,7 @@ public interface CrudService<K, V> {
     }
 
     default Page<V> findAll(Pageable var1) {
-        getEventProducer().sendEvent(getClass().getSimpleName().toUpperCase() + "_FIND_ALL", "page: " + var1.getPageNumber());
+        produceEvent("_FIND_ALL", "page: " + var1.getPageNumber());
         return getRepository().findAll(var1);
     }
 
@@ -69,8 +69,9 @@ public interface CrudService<K, V> {
     }
 
     default Optional<V> findById(K id) {
-        getEventProducer().sendEvent(getClass().getSimpleName().toUpperCase() + "_FIND_BY_ID", "id: " + id.toString());
-        return id == null ? Optional.empty() : getRepository().findById(id);
+
+        produceEvent("_FIND_BY_ID", "id: " + id);
+        return getRepository().findById(id);
     }
 
     default boolean existsById(K var1) {
@@ -86,17 +87,17 @@ public interface CrudService<K, V> {
     }
 
     default void deleteById(K var1) {
-        getEventProducer().sendEvent(getClass().getSimpleName().toUpperCase() + "_DELETE_BY_ID", "id: " + var1.toString());
+        produceEvent("_DELETE_BY_ID", "id: " + var1);
         getRepository().deleteById(var1);
     }
 
     default void delete(V var1) {
-        getEventProducer().sendEvent(getClass().getSimpleName().toUpperCase() + "_DELETE", "id: " + var1.toString());
+        produceEvent("_DELETE", "id: " + var1);
         getRepository().delete(var1);
     }
 
     default void deleteAll(Iterable<V> var1) {
-        getEventProducer().sendEvent(getClass().getSimpleName().toUpperCase() + "_DELETE_ALL", "ids: " + var1.toString());
+        produceEvent("_DELETE_ALL", "ids: " + var1);
         getRepository().deleteAll(var1);
     }
 
@@ -114,10 +115,19 @@ public interface CrudService<K, V> {
 
     default long count(Example<V> var1) {
         return getRepository().count(var1);
-
     }
 
     default boolean exists(Example<V> var1) {
         return getRepository().exists(var1);
+    }
+
+    default boolean isProduceEvent() {
+        return true;
+    }
+
+    default void produceEvent(String key, String value) {
+        if (isProduceEvent()) {
+            getEventProducer().sendEvent(getClass().getSimpleName().toUpperCase() + key, value);
+        }
     }
 }

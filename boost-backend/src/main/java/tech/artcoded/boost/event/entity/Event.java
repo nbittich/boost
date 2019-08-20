@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import tech.artcoded.boost.common.entity.Auditable;
 
 import javax.persistence.*;
 
@@ -14,7 +13,11 @@ import javax.persistence.*;
 @Builder(toBuilder = true)
 @Entity
 @Table(name = "event")
-public class Event extends Auditable<String> {
+public class Event {
+
+    @Column(name = "created_date")
+    private long createdDate;
+
     @Version
     private Long version;
 

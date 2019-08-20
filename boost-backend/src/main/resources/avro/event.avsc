@@ -16,6 +16,10 @@
     {
       "name": "event_value",
       "type": "string"
+    },
+    {
+      "name": "created_date",
+       "type": "long"
     }
   ]
 }

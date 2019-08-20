@@ -31,6 +31,7 @@ public class KafkaEventProducer {
           EventDto event = new EventDto();
           event.setEventName(name);
           event.setEventValue(value);
+          event.setCreatedDate(System.currentTimeMillis());
           event.setEventId(UUID.randomUUID().toString());
           log.info("sending event.");
           kafkaTemplate.send(env.getProperty("boost.event.topic"), event);
