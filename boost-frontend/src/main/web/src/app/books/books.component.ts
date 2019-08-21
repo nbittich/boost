@@ -19,6 +19,7 @@ export class BooksComponent implements OnInit {
   faEdit=faEdit;
   faTrash=faTrash;
   faEye=faEye;
+  bookFormVisible: boolean;
   constructor(private http: HttpClient, private router: Router, private authenticationService: AuthenticationService) {
 
   }

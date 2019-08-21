@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {BookDto} from "../books/book";
 import {ImagePreview} from "../image-preview/image.preview";
 import {HttpClient} from "@angular/common/http";
@@ -28,6 +28,8 @@ export class BookFormComponent implements OnInit {
   public editMode: boolean;
 
 
+  @Output() emitter: EventEmitter<boolean> = new EventEmitter();
+
   @Input()
   public formVisible = false;
 
@@ -35,7 +37,6 @@ export class BookFormComponent implements OnInit {
 
   @Input()
   showCross: boolean=true;
-
 
     constructor(private http: HttpClient, private router: Router, private authenticationService: AuthenticationService) {
     }
@@ -67,5 +68,10 @@ export class BookFormComponent implements OnInit {
         () => {
         },
       );
+  }
+
+  toggleFormVisible() {
+    this.formVisible = !this.formVisible;
+    this.emitter.emit(this.formVisible);
   }
 }

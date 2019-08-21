@@ -1,20 +1,21 @@
-<div class="">
-  <button class="btn btn-primary btn-sm float-right mb-2" (click)="formVisible=!formVisible"
+<div>
+  <button class="btn btn-primary btn-sm float-right mb-2" (click)="toggleFormVisible()"
           *ngIf="!formVisible"><fa-icon [icon]="faPlus"></fa-icon> </button>
-  <div *ngIf="formVisible" class="card">
-    <div class="card-header">
-    <span class="text-uppercase">Book {{bookCopy.id ? bookCopy.id : ''}}</span>
-      <div class="float-right" *ngIf="showCross">
-        <a class="text-link text-muted" href="#" (click)="formVisible=false"><fa-icon [icon]="faTimes" ></fa-icon> </a>
+  <div class="span3 clearfix" *ngIf="formVisible" >
+    <div class="card">
+      <div class="card-header">
+        <span class="text-uppercase">Book {{bookCopy.id ? bookCopy.id : ''}}</span>
+        <div class="float-right" *ngIf="showCross">
+          <a class="text-link text-muted" (click)="toggleFormVisible()"><fa-icon [icon]="faTimes" ></fa-icon> </a>
+        </div>
       </div>
-    </div>
-    <div class="card-body">
-      <div class="container">
-        <div class="row">
-          <div class="col-lg-4">
-            <app-image-preview [defaultImage]="bookCopy.cover ? bookCopy.cover.id: null" (emitter)="setCover($event)"></app-image-preview>
-          </div>
-          <div class="col-lg-8 text-uppercase">
+      <div class="card-body">
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-4">
+              <app-image-preview [defaultImage]="bookCopy.cover ? bookCopy.cover.id: null" (emitter)="setCover($event)"></app-image-preview>
+            </div>
+            <div class="col-lg-8 text-uppercase">
               <div class="form-group">
                 <label for="bookTitle">Title</label>
                 <input type="text" class="form-control" id="bookTitle" [(ngModel)]="bookCopy.title">
@@ -31,11 +32,12 @@
                 <label for="bookDescription">Description</label>
                 <textarea autosize class="form-control " id="bookDescription" [(ngModel)]="bookCopy.description"></textarea>
               </div>
-            <button (click)="saveBookToDB()" class="btn btn-outline-primary btn-sm float-right text-uppercase"><fa-icon [icon]="faSave"></fa-icon>&nbsp;Save</button>
-          </div>
-          <div class="container">
-            <hr>
-            <app-chapters [editMode]="editMode" *ngIf="bookCopy && bookCopy.id" [bookId]="bookCopy.id"></app-chapters>
+              <button (click)="saveBookToDB()" class="btn btn-outline-primary btn-sm float-right text-uppercase"><fa-icon [icon]="faSave"></fa-icon>&nbsp;Save</button>
+            </div>
+            <div class="container">
+              <hr>
+              <app-chapters [editMode]="editMode" *ngIf="bookCopy && bookCopy.id" [bookId]="bookCopy.id"></app-chapters>
+            </div>
           </div>
         </div>
       </div>
