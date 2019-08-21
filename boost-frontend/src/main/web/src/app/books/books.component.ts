@@ -37,11 +37,11 @@ export class BooksComponent implements OnInit {
     this.router.navigateByUrl('/books/' + Slugify.slugify(book.title) + '/' + book.id + '/' + editMode);
   }
 
-  delete(book) {
+  delete(book,e) {
+    e.stopPropagation();
     this.http.request<any>('delete', environment.backendUrl + BooksComponent.ENDPOINT, {body: book}).subscribe(
       (datas) => {
         this.getBooks(1);
-        alert(datas.message);
       },
       (err) => {
         console.log(err);

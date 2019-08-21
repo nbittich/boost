@@ -22,23 +22,7 @@ export class BooksDetailComponent implements OnInit {
               private authenticationService: AuthenticationService,
               private location: Location,
               private route: ActivatedRoute) {
-    this.route.params.subscribe(params => {
-      const id = params.id;
-      const title = params.title;
-      console.log(id);
-      const editMode = params.editMode;
-      this.http.request<any>('get', environment.backendUrl + BooksDetailComponent.ENDPOINT+ '/' + id, {}).subscribe(
-        (datas) => {
-          this.book = datas;
-          this.editMode = editMode !== null && editMode !== undefined && editMode === 'edit';
-        },
-        (err) => {
-          console.log(err);
-        },
-        () => {
-        },
-      );
-    });
+
   }
 
   back() {
@@ -60,6 +44,23 @@ export class BooksDetailComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.route.params.subscribe(params => {
+      const id = params.id;
+      const title = params.title;
+      console.log(id);
+      const editMode = params.editMode;
+      this.http.request<any>('get', environment.backendUrl + BooksDetailComponent.ENDPOINT+ '/' + id, {}).subscribe(
+        (datas) => {
+          this.book = datas;
+          this.editMode = editMode !== null && editMode !== undefined && editMode === 'edit';
+        },
+        (err) => {
+          console.log(err);
+        },
+        () => {
+        },
+      );
+    });
   }
 }
 

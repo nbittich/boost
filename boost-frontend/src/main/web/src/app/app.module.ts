@@ -23,7 +23,10 @@ import {ChapterDetailComponent} from './chapter-detail/chapter-detail.component'
 import {AutosizeModule} from "ngx-autosize";
 import {ChapterFormComponent} from './chapter-form/chapter-form.component';
 import {AutofocusModule} from "angular-autofocus-fix";
-import {FontAwesomeModule} from "@fortawesome/angular-fontawesome";
+import {FaIconLibrary, FontAwesomeModule} from "@fortawesome/angular-fontawesome";
+import {StarsComponent} from './stars/stars.component';
+import {fas} from '@fortawesome/free-solid-svg-icons';
+import {far} from '@fortawesome/free-regular-svg-icons';
 
 @NgModule({
   declarations: [
@@ -40,6 +43,7 @@ import {FontAwesomeModule} from "@fortawesome/angular-fontawesome";
     ChaptersComponent,
     ChapterDetailComponent,
     ChapterFormComponent,
+    StarsComponent,
   ],
   imports: [
     BrowserModule,
@@ -61,4 +65,9 @@ import {FontAwesomeModule} from "@fortawesome/angular-fontawesome";
   bootstrap: [AppComponent]
 })
 export class AppModule {
+  constructor(library: FaIconLibrary) {
+    // Add an icon to the library for convenient access in other components
+    library.addIconPacks(fas, far);
+
+  }
 }

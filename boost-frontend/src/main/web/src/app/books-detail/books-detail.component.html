@@ -1,22 +1,24 @@
-<div class="container">
-  <div class="text-center mb-2 ">
+<div class="container mb-4">
+  <div class="text-center mb-2">
     <button class="btn btn-sm btn-outline-info mt-2 text-uppercase" (click)="back()"><fa-icon [icon]="faArrowLeft"></fa-icon></button>
   </div>
       <div *ngIf="book && !editMode">
         <div class="clearfix"></div>
         <div class="row">
-          <div class="col-lg-2 p-2 offset-lg-1 col-sm-12">
+          <div class="col-lg-2  offset-lg-1 col-sm-12">
             <app-image-loader *ngIf="book.cover" [imageId]="book.cover.id"></app-image-loader>
           </div>
             <div class="col-lg-8 col-sm-12">
               <p class="lead" >
                 {{book.title}}<small class="text-muted"> by {{book.author}}</small>
-
               </p>
               <p>{{book.description}}</p>
             </div>
         </div>
-        <div class="col-12">
+          <div class="col-12 ">
+            <app-stars></app-stars>
+          </div>
+        <div class="col-12 float-right">
             <app-chapters *ngIf="book" [bookId]="book.id"></app-chapters>
           </div>
         </div>

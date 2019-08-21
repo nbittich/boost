@@ -4,7 +4,7 @@
     <button *ngIf="!bookFormVisible" (click)="getBooks(1)" class="btn btn-outline-secondary mb-2 ml-1"><fa-icon [icon]="faSync" ></fa-icon></button>
     <input  *ngIf="!bookFormVisible" (keydown.enter)="searchBookByTitle($event.target.value)" type="text"  [class]="'form-control input-sm ' +(bookFormVisible?'mt-2':'ml-2')" placeholder="Search...">
   </div>
-  <div class="mt-2 table-responsive" *ngIf="!bookFormVisible">
+  <div class=" table-responsive" *ngIf="!bookFormVisible">
     <table class="table table-hover table-light table-sm">
       <thead>
       <tr class="bg-light">
@@ -29,10 +29,12 @@
         <td>{{getTotalDuration(book)}}</td>
         <td colspan="3">
           <div class="btn-group">
-            <button (click)="navigate(book,'view')" class="btn btn-sm btn-primary" aria-label="View"><fa-icon [icon]="faEye"></fa-icon></button>
-            <button *ngIf="hasRole('ADMIN')" (click)="navigate(book,'edit')" class="btn btn-sm btn-warning"
+            <button [id]="book.id + 'viewaction'" (click)="navigate(book,'view')" class="btn btn-sm btn-primary" aria-label="View"><fa-icon [icon]="faEye"></fa-icon></button>
+
+            <button [id]="book.id + 'editaction'" *ngIf="hasRole('ADMIN')" (click)="navigate(book,'edit')" class="btn btn-sm btn-warning"
                     aria-label="Edit"><fa-icon [icon]="faEdit"></fa-icon></button>
-            <button *ngIf="hasRole('ADMIN')" (click)="delete(book)" class="btn btn-sm btn-danger" aria-label="Delete"><fa-icon [icon]="faTrash"></fa-icon> </button>
+
+            <button [id]="book.id+'delaction'" *ngIf="hasRole('ADMIN')" (click)="delete(book,$event)" class="btn btn-sm btn-danger" aria-label="Delete"><fa-icon [icon]="faTrash"></fa-icon> </button>
           </div>
         </td>
       </tr>
