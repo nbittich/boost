@@ -27,6 +27,7 @@ export class AuthenticationService {
   login(username: string, password: string, callBackNext?: any, callbackError?: any, callbackComplete?: any) {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
+      'X-Requested-With': 'XMLHttpRequest',
       'Authorization': 'Basic ' + window.btoa(username + ':' + password)
     });
     return this.http.post<any>(environment.backendUrl + '/user/info', {}, {

@@ -18,7 +18,7 @@
             <id>boost-build</id>
             <activation>
                 <file>
-                    <missing>src/main/web/dist/boost-portal</missing>
+                    <missing>${project.basedir}/src/main/web/dist/boost-portal</missing>
                 </file>
             </activation>
             <build>
