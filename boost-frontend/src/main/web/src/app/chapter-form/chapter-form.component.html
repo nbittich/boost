@@ -1,14 +1,14 @@
 <div class="mb-4">
   <button class="btn btn-primary btn-block text-uppercase" (click)="formVisible=!formVisible"
-          *ngIf="!formVisible"><fa-icon [icon]="faPlus"></fa-icon>&nbsp;New Chapter</button>
+          *ngIf="!formVisible"><fa-icon [icon]="faPlus"></fa-icon>&nbsp;New Track</button>
   <div class="card card-info" *ngIf="editMode && formVisible">
     <div class="card-header">
-      <span class="lead text-uppercase">New Chapter</span>
+      <span class="lead text-uppercase">New Track</span>
       <div class="float-right">
         <a class="text-link text-muted" href="#" (click)="formVisible=false"><fa-icon [icon]="faTimes"></fa-icon></a>
       </div>
     </div>
-    <div class="card-body">
+    <div class="card-body text-uppercase">
       <div class="form-group">
         <label for="newChapTitle">Title</label>
         <input [disabled]="loadingNewFile" name="newChapTitle" class="form-control" type="text" id="newChapTitle"
