@@ -2,6 +2,7 @@ package tech.artcoded.boost.event.controller;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -15,6 +16,7 @@ import tech.artcoded.boost.event.service.EventService;
 @CrossOrigin(value = "*", allowedHeaders = "*", exposedHeaders = "x-auth-token")
 @RequestMapping("/event")
 @Slf4j
+@Profile("kafka")
 public class EventController {
     private final EventService eventService;
 

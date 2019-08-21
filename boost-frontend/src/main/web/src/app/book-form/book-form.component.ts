@@ -29,6 +29,7 @@ export class BookFormComponent implements OnInit {
 
 
   @Output() emitter: EventEmitter<boolean> = new EventEmitter();
+  @Output() bookCreatedCallback: EventEmitter<any> = new EventEmitter();
 
   @Input()
   public formVisible = false;
@@ -60,6 +61,9 @@ export class BookFormComponent implements OnInit {
       }
       this.http.request<any>('put', environment.backendUrl + '/book', {body: b}).subscribe(
         (datas) => {
+          this.bookCreatedCallback.emit(datas.message);
+          this.bookCopy=new BookDto();
+          this.toggleFormVisible();
           alert(datas.message);
         },
         (err) => {

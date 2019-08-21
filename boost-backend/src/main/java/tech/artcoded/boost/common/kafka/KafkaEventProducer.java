@@ -23,7 +23,7 @@ public class KafkaEventProducer {
     private final ObjectMapper objectMapper;
     private final Environment env;
 
-    @Autowired
+    @Autowired(required = false)
     public KafkaEventProducer(KafkaTemplate<String, EventDto> kafkaTemplate, ObjectMapper objectMapper, Environment env) {
         this.kafkaTemplate = kafkaTemplate;
         this.objectMapper = objectMapper;
@@ -36,20 +36,24 @@ public class KafkaEventProducer {
 
     public void sendEvent(String name, String value, Map attrs) {
       CompletableFuture.runAsync(()-> {
-          EventDto event = new EventDto();
-          //event.setEventName(name);
-          ByteBuffer attributes = null;
-          try {
-              attributes = ByteBuffer.wrap(objectMapper.writeValueAsBytes(attrs));
-          } catch (JsonProcessingException e) {
-          }
+          if (env.getProperty("boost.kafka.enabled",Boolean.class)){
+              EventDto event = new EventDto();
+              //event.setEventName(name);
+              ByteBuffer attributes = null;
+              try {
+                  attributes = ByteBuffer.wrap(objectMapper.writeValueAsBytes(attrs));
+              } catch (JsonProcessingException e) {
+              }
 
-          event.setEventAttributes(attributes);
-          event.setEventValue(value);
-          event.setCreatedDate(System.currentTimeMillis());
-          event.setEventId(UUID.randomUUID().toString());
-          log.info("sending event.");
-          kafkaTemplate.send(env.getProperty("boost.event.topic"), event);
+              event.setEventAttributes(attributes);
+              event.setEventValue(value);
+              event.setCreatedDate(System.currentTimeMillis());
+              event.setEventId(UUID.randomUUID().toString());
+              log.info("sending event.");
+              kafkaTemplate.send(env.getProperty("boost.event.topic"), event);
+          }else  {
+              log.warn("kafka disabled");
+          }
         });
     }
 }
