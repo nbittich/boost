@@ -1,5 +1,6 @@
 package tech.artcoded.boost.common.kafka;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,9 @@ import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 import tech.artcoded.boost.common.dto.EventDto;
 
+import java.nio.ByteBuffer;
+import java.util.Collections;
+import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 
@@ -27,9 +31,20 @@ public class KafkaEventProducer {
     }
 
     public void sendEvent(String name, String value) {
+        sendEvent(name,value, Collections.emptyMap());
+    }
+
+    public void sendEvent(String name, String value, Map attrs) {
       CompletableFuture.runAsync(()-> {
           EventDto event = new EventDto();
-          event.setEventName(name);
+          //event.setEventName(name);
+          ByteBuffer attributes = null;
+          try {
+              attributes = ByteBuffer.wrap(objectMapper.writeValueAsBytes(attrs));
+          } catch (JsonProcessingException e) {
+          }
+
+          event.setEventAttributes(attributes);
           event.setEventValue(value);
           event.setCreatedDate(System.currentTimeMillis());
           event.setEventId(UUID.randomUUID().toString());
