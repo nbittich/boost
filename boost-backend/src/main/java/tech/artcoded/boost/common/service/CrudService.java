@@ -56,7 +56,6 @@ public interface CrudService<K, V> {
     }
 
     default Page<V> findAll(Pageable var1) {
-        produceEvent("_FIND_ALL", "page: " + var1.getPageNumber());
         return getRepository().findAll(var1);
     }
 
@@ -69,8 +68,6 @@ public interface CrudService<K, V> {
     }
 
     default Optional<V> findById(K id) {
-
-        produceEvent("_FIND_BY_ID", "id: " + id);
         return getRepository().findById(id);
     }
 
