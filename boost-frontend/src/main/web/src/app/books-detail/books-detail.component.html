@@ -1,6 +1,9 @@
 <div class="container">
-    <button class="btn btn-sm btn-secondary mb-2 mt-2 align-content-lg-end text-uppercase" (click)="back()"><fa-icon [icon]="faArrowLeft"></fa-icon></button>
       <div *ngIf="book && !editMode">
+        <div class="text-center">
+          <button class="btn btn-sm btn-outline-info mt-2 text-uppercase" (click)="back()"><fa-icon [icon]="faArrowLeft"></fa-icon></button>
+        </div>
+        <div class="clearfix"></div>
         <div class="row">
           <div class="col-lg-2 p-2 offset-lg-1 col-sm-12">
             <app-image-loader *ngIf="book.cover" [imageId]="book.cover.id"></app-image-loader>
