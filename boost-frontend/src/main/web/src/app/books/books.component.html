@@ -1,9 +1,10 @@
-<div class="container mt-2">
+<div class="container">
   <div [class]="bookFormVisible?'container':'input-group'">
-    <input type="text"  [class]="'form-control input-sm ' +(bookFormVisible?'mb-2':'mr-2')" placeholder="Search...">
-    <app-book-form (bookCreatedCallback)="getBooks(0)" (emitter)="bookFormVisible = $event" *ngIf="hasRole('ADMIN')" [editMode]="false" [book]="newBook()"></app-book-form>
+    <app-book-form (bookCreatedCallback)="getBooks(1)" (emitter)="bookFormVisible = $event" *ngIf="hasRole('ADMIN')" [editMode]="false" [book]="newBook()"></app-book-form>
+    <button *ngIf="!bookFormVisible" (click)="getBooks(1)" class="btn btn-outline-secondary mb-2 ml-1"><fa-icon [icon]="faSync" ></fa-icon></button>
+    <input  *ngIf="!bookFormVisible" (keydown.enter)="searchBookByTitle($event.target.value)" type="text"  [class]="'form-control input-sm ' +(bookFormVisible?'mt-2':'ml-2')" placeholder="Search...">
   </div>
-  <div class="mt-2 table-responsive">
+  <div class="mt-2 table-responsive" *ngIf="!bookFormVisible">
     <table class="table table-hover table-light table-sm">
       <thead>
       <tr class="bg-light">

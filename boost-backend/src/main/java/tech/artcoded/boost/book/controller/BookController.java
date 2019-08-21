@@ -57,6 +57,11 @@ public class BookController {
         return bookService.findAll(pageable);
     }
 
+    @GetMapping("/search/title")
+    public Page<Book> books(@RequestParam("title") String title) {
+        return bookService.findByTitleLike(title);
+    }
+
     @DeleteMapping
     public Map.Entry<String, String> deleteBook(@RequestBody Book book) {
         chapterService.deleteAll(chapterService.findByBookId(book.getId()));

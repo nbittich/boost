@@ -5,7 +5,7 @@ import {Router} from "@angular/router";
 import {AuthenticationService} from "../login/authenticationservice";
 import {environment} from "../../environments/environment";
 import {Slugify} from "../common/slugify";
-import {faAd, faEdit, faEye, faTrash} from "@fortawesome/free-solid-svg-icons";
+import {faEdit, faEye, faSync, faTrash} from "@fortawesome/free-solid-svg-icons";
 
 @Component({
   selector: 'app-books',
@@ -15,7 +15,7 @@ import {faAd, faEdit, faEye, faTrash} from "@fortawesome/free-solid-svg-icons";
 export class BooksComponent implements OnInit {
   public books: any;
   static ENDPOINT = '/book';
-  faAd=faAd;
+  faSync=faSync;
   faEdit=faEdit;
   faTrash=faTrash;
   faEye=faEye;
@@ -74,5 +74,20 @@ export class BooksComponent implements OnInit {
 
   getTotalDuration(book: Book) {
     return Math.round(book.totalDuration/1000 / 60 ) + ' minutes';
+  }
+
+  searchBookByTitle(title) {
+    this.http.get<any[]>(environment.backendUrl + BooksComponent.ENDPOINT + '/search/title', {params:{
+      'title':title
+      }}).subscribe(
+      (datas) => {
+        this.books = datas;
+      },
+      (err) => {
+        console.log(err);
+      },
+      () => {
+      },
+    );
   }
 }
