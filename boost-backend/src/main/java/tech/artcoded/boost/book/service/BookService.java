@@ -16,7 +16,7 @@ public interface BookService extends CrudService<Long, Book> {
     @SneakyThrows
     default Book saveBookWithCover(BookDto book) {
         produceEvent("_SAVE_WITH_COVER", "Title: " + book.getTitle() + ", ContentType: " + book.getContentType());
-        Optional<Book> optionalBook = this.findById(book.getId());
+        Optional<Book> optionalBook = Optional.ofNullable(book.getId()).flatMap(this::findById);
 
         final Book.BookBuilder bookE = optionalBook.
                 map(Book::toBuilder)
