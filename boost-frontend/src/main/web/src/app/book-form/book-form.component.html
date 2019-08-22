@@ -32,6 +32,7 @@
                 <label for="bookDescription">Description</label>
                 <textarea autosize class="form-control " id="bookDescription" [(ngModel)]="bookCopy.description"></textarea>
               </div>
+
               <button [disabled]="!bookCopy.title || !bookCopy.author || !bookCopy.category" (click)="saveBookToDB()" class="btn btn-outline-primary btn-sm float-right text-uppercase"><fa-icon [icon]="faSave"></fa-icon>&nbsp;Save</button>
             </div>
             <div class="container">

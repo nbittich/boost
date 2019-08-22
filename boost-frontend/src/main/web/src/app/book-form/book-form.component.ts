@@ -46,6 +46,13 @@ export class BookFormComponent implements OnInit {
     this.bookCopy = JSON.parse(JSON.stringify(this.book));
   }
 
+  isLoggedIn() {
+    return this.getUser() !== null;
+  }
+
+  getUser() {
+    return this.authenticationService.getUser();
+  }
   public setCover($imagePreview: ImagePreview) {
       this.coverChanged = true;
     this.bookCopy.cover = btoa($imagePreview.imgURL.split(',')[1]);

@@ -25,7 +25,7 @@ public class Stars extends Auditable<String> {
     private Long id;
 
     @Column(name = "stars_star")
-    private double star;
+    private Double star;
 
     @Version
     private Long version;

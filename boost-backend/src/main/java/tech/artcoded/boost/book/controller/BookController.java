@@ -10,10 +10,15 @@ import tech.artcoded.boost.book.dto.BookDto;
 import tech.artcoded.boost.book.dto.ChapterDto;
 import tech.artcoded.boost.book.entity.Book;
 import tech.artcoded.boost.book.entity.Chapter;
+import tech.artcoded.boost.book.entity.Stars;
 import tech.artcoded.boost.book.service.BookService;
 import tech.artcoded.boost.book.service.ChapterService;
+import tech.artcoded.boost.book.service.StarsService;
+import tech.artcoded.boost.user.entity.User;
+import tech.artcoded.boost.user.service.UserService;
 
 import javax.persistence.EntityNotFoundException;
+import java.security.Principal;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
@@ -26,11 +31,15 @@ public class BookController {
 
     private final BookService bookService;
     private final ChapterService chapterService;
+    private final StarsService starsService;
+    private final UserService userService;
 
     @Autowired
-    public BookController(BookService bookService, ChapterService chapterService) {
+    public BookController(BookService bookService, ChapterService chapterService, StarsService starsService, UserService userService) {
         this.bookService = bookService;
         this.chapterService = chapterService;
+        this.starsService = starsService;
+        this.userService = userService;
     }
 
 
@@ -90,6 +99,16 @@ public class BookController {
     public Map.Entry<String, String> editChapter(@RequestBody ChapterDto chapterDto) {
         chapterService.updateFields(chapterDto);
         return Maps.immutableEntry("message", String.format("Chapter %s edited", chapterDto.getId()));
+
+    }
+
+    @PostMapping("/rate")
+    public Map.Entry<String, String> editStar(@RequestParam("bookId") Long bookId, @RequestParam("star") double star, Principal principal) {
+        User user = userService.principalToUser(principal);
+        Book book = bookService.findById(bookId).orElseThrow(() -> new RuntimeException("book not found"));
+        Stars stars = starsService.findByBookAndUser(book,user).map(b-> b.toBuilder()).orElse(Stars.builder()).star(star).build();
+        starsService.save(stars);
+        return Maps.immutableEntry("message", String.format("star %s saved or edited", stars.getId()));
 
     }
 

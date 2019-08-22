@@ -3,9 +3,10 @@ import {environment} from "../../environments/environment";
 import {ActivatedRoute} from "@angular/router";
 import {Book} from "../books/book";
 import {AuthenticationService} from "../login/authenticationservice";
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpParams} from "@angular/common/http";
 import {Location} from '@angular/common';
 import {faArrowLeft} from "@fortawesome/free-solid-svg-icons";
+import {Star} from "../stars/star";
 
 @Component({
   selector: 'app-books-detail',
@@ -43,24 +44,56 @@ export class BooksDetailComponent implements OnInit {
     );
   }
 
+  fetchBook(id){
+    this.http.request<any>('get', environment.backendUrl + BooksDetailComponent.ENDPOINT+ '/' + id, {}).subscribe(
+      (datas) => {
+        this.book = datas;
+      },
+      (err) => {
+        console.log(err);
+      },
+      () => {
+      },
+    );
+  }
+
   ngOnInit() {
     this.route.params.subscribe(params => {
       const id = params.id;
       const title = params.title;
       console.log(id);
       const editMode = params.editMode;
-      this.http.request<any>('get', environment.backendUrl + BooksDetailComponent.ENDPOINT+ '/' + id, {}).subscribe(
-        (datas) => {
-          this.book = datas;
-          this.editMode = editMode !== null && editMode !== undefined && editMode === 'edit';
-        },
-        (err) => {
-          console.log(err);
-        },
-        () => {
-        },
-      );
+      this.fetchBook(id);
+      this.editMode = editMode === 'edit';
     });
+  }
+
+  isLoggedIn() {
+    return this.getUser() !== null;
+  }
+
+  getUser() {
+    return this.authenticationService.getUser();
+  }
+
+  rateBook($event: Star) {
+    console.log("from book detail " +$event.star);
+    let params = new HttpParams()
+      .set('bookId', this.book.id + '')
+      .set('star', $event.star + '');
+    this.http.request<any>('post', environment.backendUrl + BooksDetailComponent.ENDPOINT+ '/rate', {
+      params:params
+    }).subscribe(
+      (datas) => {
+        this.fetchBook(this.book.id);
+        alert(datas.message);
+      },
+      (err) => {
+        console.log(err);
+      },
+      () => {
+      },
+    );
   }
 }
 

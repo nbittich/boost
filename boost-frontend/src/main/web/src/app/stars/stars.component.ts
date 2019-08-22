@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {faStar, faStarHalfAlt} from "@fortawesome/free-solid-svg-icons";
 import {far} from '@fortawesome/free-regular-svg-icons';
 import {Star} from "./star";
@@ -15,6 +15,16 @@ export class StarsComponent implements OnInit {
   @Input()
   public star:Array<Star>=[];
 
+  @Output()
+  public updateStar:EventEmitter<Star> = new EventEmitter();
+
+  public inputStar:Star=new Star();
+
+  editMode: boolean;
+
+  @Input()
+  public editable:boolean;
+
   constructor() { }
 
   ngOnInit() {
@@ -25,8 +35,15 @@ export class StarsComponent implements OnInit {
       return ['far','star'];
     }
 
-    let temp = this.star.map(s=> s.star).reduce((previousValue, currentValue) => {return previousValue + currentValue}) / this.star.length;
-    let st = Math.round(temp*2)/2;
+    let temp:number = this.star.map(s=> s.star).reduce((previousValue, currentValue) => {return previousValue + currentValue}) / this.star.length;
+    return this.getIconFromCurr(i,temp);
+  }
+
+  getIconFromCurr(i:number, curr:number){
+    if (!curr){
+      return ['far','star'];
+    }
+    let st = Math.round(curr*2)/2;
     if(st < i){
       if (st +0.5 === i){
         return ['fas','star-half-alt'];
@@ -36,5 +53,17 @@ export class StarsComponent implements OnInit {
     }else {
       return ['fas','star'];
     }
+  }
+
+  updateRating(i: number) {
+    let s = new Star();
+    s.star = i;
+    this.inputStar = s;
+  }
+
+  emitVote() {
+    this.updateStar.emit(this.inputStar);
+    this.inputStar = new Star();
+    this.editMode = !this.editMode;
   }
 }
