@@ -17,8 +17,10 @@ import java.security.Principal;
 public class UserServiceImpl implements UserService {
     @Getter
     private final UserRepository repository;
+
     @Getter
     private final KafkaEventProducer eventProducer;
+
 
     @Autowired
     public UserServiceImpl(UserRepository repository, KafkaEventProducer eventProducer) {
@@ -29,7 +31,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
         produceEvent("_LOAD_BY_USERNAME", "Username: " + s);
-        return repository.findOneByUsername(s).orElseThrow(() -> new UsernameNotFoundException(s + " not found"));
+        return this.findOneByUsername(s).orElseThrow(() -> new UsernameNotFoundException(s + " not found"));
     }
 
     @Override

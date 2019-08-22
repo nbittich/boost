@@ -1,4 +1,4 @@
-<div class="container">
+<div class=" container">
   <div [class]="bookFormVisible?'container':'input-group'">
     <app-book-form (bookCreatedCallback)="getBooks(1)" (emitter)="bookFormVisible = $event" *ngIf="hasRole('ADMIN')" [editMode]="false" [book]="newBook()"></app-book-form>
     <button *ngIf="!bookFormVisible" (click)="getBooks(1)" class="btn btn-outline-secondary mb-2 ml-1"><fa-icon [icon]="faSync" ></fa-icon></button>

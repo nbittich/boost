@@ -4,7 +4,7 @@
   <div class="span3 clearfix" *ngIf="formVisible" >
     <div class="card">
       <div class="card-header">
-        <span class="text-uppercase">Book {{bookCopy.id ? bookCopy.id : ''}}</span>
+        <span class="text-uppercase"># {{bookCopy.id ? bookCopy.id : 'New'}}</span>
         <div class="float-right" *ngIf="showCross">
           <a class="text-link text-muted" (click)="toggleFormVisible()"><fa-icon [icon]="faTimes" ></fa-icon> </a>
         </div>
@@ -32,7 +32,7 @@
                 <label for="bookDescription">Description</label>
                 <textarea autosize class="form-control " id="bookDescription" [(ngModel)]="bookCopy.description"></textarea>
               </div>
-              <button (click)="saveBookToDB()" class="btn btn-outline-primary btn-sm float-right text-uppercase"><fa-icon [icon]="faSave"></fa-icon>&nbsp;Save</button>
+              <button [disabled]="!bookCopy.title || !bookCopy.author || !bookCopy.category" (click)="saveBookToDB()" class="btn btn-outline-primary btn-sm float-right text-uppercase"><fa-icon [icon]="faSave"></fa-icon>&nbsp;Save</button>
             </div>
             <div class="container">
               <hr>

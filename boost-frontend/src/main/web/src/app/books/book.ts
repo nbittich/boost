@@ -1,7 +1,9 @@
 import {Auditable} from "../common/auditable";
+import {Star} from "../stars/star";
 
 export class Book extends Auditable{
   public id:number;
+  public stars:Array<Star>;
   public title:string;
   public author:string;
   public description:string;

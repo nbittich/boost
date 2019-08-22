@@ -1,6 +1,7 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {faStar, faStarHalfAlt} from "@fortawesome/free-solid-svg-icons";
 import {far} from '@fortawesome/free-regular-svg-icons';
+import {Star} from "./star";
 
 @Component({
   selector: 'app-stars',
@@ -11,16 +12,21 @@ export class StarsComponent implements OnInit {
   faStar=faStar;
   faStarHalfAlt= faStarHalfAlt;
 
-  public star:number;
+  @Input()
+  public star:Array<Star>=[];
 
   constructor() { }
 
   ngOnInit() {
-    this.star =3.5;
   }
 
   getIcon(i: number) {
-    let st = this.star;
+    if (!this.star || !this.star.length) {
+      return ['far','star'];
+    }
+
+    let temp = this.star.map(s=> s.star).reduce((previousValue, currentValue) => {return previousValue + currentValue}) / this.star.length;
+    let st = Math.round(temp*2)/2;
     if(st < i){
       if (st +0.5 === i){
         return ['fas','star-half-alt'];

@@ -16,7 +16,7 @@
             </div>
         </div>
           <div class="col-12 ">
-            <app-stars></app-stars>
+            <app-stars [star]="book.stars"></app-stars>
           </div>
         <div class="col-12 float-right">
             <app-chapters *ngIf="book" [bookId]="book.id"></app-chapters>

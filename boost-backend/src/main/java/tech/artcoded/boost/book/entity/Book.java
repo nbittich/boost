@@ -1,13 +1,16 @@
 package tech.artcoded.boost.book.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import tech.artcoded.boost.common.entity.Auditable;
 import tech.artcoded.boost.upload.entity.Upload;
+import tech.artcoded.boost.user.entity.User;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -42,5 +45,16 @@ public class Book extends Auditable<String> {
     @OneToOne
     @JoinColumn(referencedColumnName = "upload_id")
     private Upload cover;
+
+
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(referencedColumnName = "usr_id",name = "book_user_id")
+    @JsonIgnore
+    private User user;
+
+
+    @OneToMany(mappedBy = "book",fetch = FetchType.EAGER)
+    private List<Stars> stars;
 
 }

@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import MenuLink from './menulink';
 import {AuthenticationService} from '../login/authenticationservice';
 import {ActivatedRoute, NavigationEnd, Router} from '@angular/router';
+import {faFileAudio, faHome} from "@fortawesome/free-solid-svg-icons";
 
 @Component({
   selector: 'app-navbar',
@@ -22,16 +23,18 @@ export class NavbarComponent implements OnInit {
     this.createExternalLink();
     this.setupRoute();
   }
+  faHome=faHome;
+  faFileAudio=faFileAudio;
 
   private createMenu() {
     this.menu = [
-      {role: ['ANONYMOUS', 'USER', 'ADMIN'], route: '/', label: 'Home', selected: false},
-      {role: ['ADMIN', 'USER', 'ANONYMOUS'], route: '/books', label: 'Books', selected: false}
+      {role: ['ANONYMOUS', 'USER', 'ADMIN'], route: '/', label: 'Home', selected: false, icon:this.faHome},
+      {role: ['ADMIN', 'USER', 'ANONYMOUS'], route: '/books', label: 'Discover', selected: false,icon:faFileAudio}
     ];
   }
 
   private setupRoute() {
-    let defaultMenu = {role: ['ANONYMOUS', 'USER', 'ADMIN'], route: '/', label: 'Home', selected: true};
+    let defaultMenu = {role: ['ANONYMOUS', 'USER', 'ADMIN'], route: '/', label: 'Home', selected: true, icon:this.faHome};
     this.router.events.subscribe(e => {
       this.currentMenu = defaultMenu;
       if (e instanceof NavigationEnd) {

@@ -1,17 +1,18 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-grey text-light">
+<nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
   <button class="navbar-toggler pb-2" type="button" (click)="toggleNavbar()">
     <span class="navbar-toggler-icon"></span>
   </button>
   <div [ngClass]="toggleNavbarShow()" id="navbarTogglerDemo01">
     <ul class="navbar-nav mr-auto pt-1">
       <li [ngClass]="'nav-item ' +( m.selected ? 'active' :'')" *ngFor="let m of menu" (click)="$event.preventDefault();click(m);m.selected=true;">
-        <a routerLink="{{m.route}}" *ngIf="hasRole(m.role)" class="nav-link ">
-          <span class="text-uppercase">{{m.label}}</span>
+        <a routerLink="{{m.route}}" *ngIf="hasRole(m.role)" class="nav-link">
+          <fa-icon [icon]="m.icon" class=""></fa-icon>
+        <span class="text-uppercase">&nbsp;{{m.label}}</span>
         </a>
       </li>
       <li class="nav-item" *ngFor="let link of externalLink">
         <a target="_blank" rel="noopener noreferrer" [href]="link.route" *ngIf="hasRole(link.role)" class="nav-link">
-          <span class="text-uppercase">{{link.label}}</span>
+          <fa-icon [icon]="link.icon"></fa-icon>
         </a>
       </li>
     </ul>

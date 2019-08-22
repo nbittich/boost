@@ -14,7 +14,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @Builder(toBuilder = true)
 public class Role implements GrantedAuthority {
-    public enum RoleType {USER, ADMIN, ANONYMOUS}
+    public enum RoleType {USER, ADMIN, ANONYMOUS,CONTRIBUTOR}
 
     @Enumerated(value = EnumType.STRING)
     @JsonIgnore
