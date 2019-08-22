@@ -62,6 +62,9 @@ export class StarsComponent implements OnInit {
   }
 
   emitVote() {
+    if(!this.inputStar.star) {
+      this.inputStar.star = 0;
+    }
     this.updateStar.emit(this.inputStar);
     this.inputStar = new Star();
     this.editMode = !this.editMode;
