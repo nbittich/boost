@@ -20,6 +20,7 @@ export class BooksComponent implements OnInit {
   faTrash=faTrash;
   faEye=faEye;
   bookFormVisible: boolean;
+  loading: boolean;
   constructor(private http: HttpClient, private router: Router, private authenticationService: AuthenticationService) {
 
   }
@@ -52,9 +53,16 @@ export class BooksComponent implements OnInit {
   }
 
   getBooks(event: number) {
+    this.loading = true;
+    this.books=[];
     this.http.get<any[]>(environment.backendUrl + BooksComponent.ENDPOINT + '?page=' + (event - 1), {}).subscribe(
       (datas) => {
         this.books = datas;
+        setTimeout(()=>{
+          this.loading=false;
+
+        }, 1000);
+
       },
       (err) => {
         console.log(err);

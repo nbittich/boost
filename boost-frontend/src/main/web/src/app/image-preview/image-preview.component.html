@@ -1,7 +1,6 @@
 <fieldset>
-  <div class="col-lg-12 ">
-    <div *ngIf="!imgURL && !defaultImage" class="col-lg-12">
-      <label for="cover" class="btn btn-default">
+    <div *ngIf="!imgURL && !defaultImage">
+      <label for="cover" class="btn btn-default w-100 h-100">
         <svg width="100%" height="100%"
              style="background-color: rgb(243, 243, 243);border:dashed 2px rgb(146, 146, 146);">
           <text x="40%" y="50%" fill="#999" style="font-weight: bold;text-align: center;">Cover</text>
@@ -20,6 +19,5 @@
              aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
       </div>
     </div>
-  </div>
   <input #file id="cover" type="file" style="display:none" (change)="preview(file.files)">
 </fieldset>
