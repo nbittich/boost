@@ -13,6 +13,7 @@ import tech.artcoded.boost.book.repository.BookRepository;
 import tech.artcoded.boost.common.service.CrudService;
 import tech.artcoded.boost.upload.entity.Upload;
 import tech.artcoded.boost.upload.service.UploadService;
+import tech.artcoded.boost.user.entity.User;
 
 import java.util.Optional;
 
@@ -30,7 +31,7 @@ public interface BookService extends CrudService<Long, Book> {
 
     @SneakyThrows
     @CacheEvict(cacheNames = "book")
-    default Book saveBookWithCover(BookDto book) {
+    default Book saveBookWithCover(BookDto book, User user) {
         produceEvent("_SAVE_WITH_COVER", "Title: " + book.getTitle() + ", ContentType: " + book.getContentType());
         Optional<Book> optionalBook = Optional.ofNullable(book.getId()).flatMap(this::findById);
 
@@ -52,6 +53,7 @@ public interface BookService extends CrudService<Long, Book> {
         return getRepository().save(
                 bookE.author(book.getAuthor())
                         .title(book.getTitle())
+                        .user(user)
                         .category(book.getCategory())
                         .description(book.getDescription())
                         .build()
