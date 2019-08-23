@@ -1,22 +1,20 @@
 package tech.artcoded.boost.book.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import tech.artcoded.boost.common.entity.Auditable;
 import tech.artcoded.boost.user.entity.User;
 
 import javax.persistence.*;
 
 @Data
+@ToString(exclude = {"book","chapter"})
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder(toBuilder = true)
 @Entity
-@Table(name = "stars")
-public class Stars extends Auditable<String> {
+@Table(name = "star")
+public class Star extends Auditable<String> {
 
 
     @Id

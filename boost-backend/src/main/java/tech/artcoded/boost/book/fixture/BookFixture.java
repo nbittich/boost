@@ -15,10 +15,10 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import tech.artcoded.boost.book.dto.ChapterDto;
 import tech.artcoded.boost.book.entity.Book;
 import tech.artcoded.boost.book.entity.Chapter;
-import tech.artcoded.boost.book.entity.Stars;
+import tech.artcoded.boost.book.entity.Star;
 import tech.artcoded.boost.book.service.BookService;
 import tech.artcoded.boost.book.service.ChapterService;
-import tech.artcoded.boost.book.service.StarsService;
+import tech.artcoded.boost.book.service.StarService;
 import tech.artcoded.boost.upload.service.UploadService;
 import tech.artcoded.boost.user.dto.Role;
 import tech.artcoded.boost.user.entity.User;
@@ -45,11 +45,11 @@ public class BookFixture implements CommandLineRunner {
     private final ChapterService chapterService;
     private final BCryptPasswordEncoder passwordEncoder;
     private final Environment env;
-    private final StarsService starsService;
+    private final StarService starsService;
     private final ObjectMapper objectMapper;
 
     @Autowired
-    public BookFixture(UserService userService, UploadService uploadService, BookService bookService, ChapterService chapterService, BCryptPasswordEncoder passwordEncoder, Environment env, StarsService starsService, ObjectMapper objectMapper) {
+    public BookFixture(UserService userService, UploadService uploadService, BookService bookService, ChapterService chapterService, BCryptPasswordEncoder passwordEncoder, Environment env, StarService starsService, ObjectMapper objectMapper) {
         this.userService = userService;
         this.uploadService = uploadService;
         this.bookService = bookService;
@@ -138,9 +138,9 @@ public class BookFixture implements CommandLineRunner {
                 Book bookWCover = books.get((int)i).toBuilder().cover(bookService.getUploadService().upload(Base64.getEncoder().encode(input), MediaType.IMAGE_JPEG_VALUE, "cover.jpg")).build();
                 Book bookUpdated = bookWCover.toBuilder().totalDuration(chapterService.getTotalDuration(bookWCover)).build();
                 Book bookSavedWithChapter = bookService.save(bookUpdated);
-                Stars star = Stars.builder().star(Math.round(RandomUtils.nextDouble(0,5) * 2) / 2.0).user(user.toBuilder().build()).book(bookSavedWithChapter).build();
-                Stars star2 = Stars.builder().star(Math.round(RandomUtils.nextDouble(0,5) * 2) / 2.0).user(contr.toBuilder().build()).book(bookSavedWithChapter).build();
-                Stars star3 = Stars.builder().star(Math.round(RandomUtils.nextDouble(0,5) * 2) / 2.0).user(admin.toBuilder().build()).book(bookSavedWithChapter).build();
+                Star star = Star.builder().star(Math.round(RandomUtils.nextDouble(0,5) * 2) / 2.0).user(user.toBuilder().build()).book(bookSavedWithChapter).build();
+                Star star2 = Star.builder().star(Math.round(RandomUtils.nextDouble(0,5) * 2) / 2.0).user(contr.toBuilder().build()).book(bookSavedWithChapter).build();
+                Star star3 = Star.builder().star(Math.round(RandomUtils.nextDouble(0,5) * 2) / 2.0).user(admin.toBuilder().build()).book(bookSavedWithChapter).build();
 
                 starsService.saveAll(Arrays.asList(star,star2,star3));
             }

@@ -10,14 +10,15 @@ import tech.artcoded.boost.book.dto.BookDto;
 import tech.artcoded.boost.book.dto.ChapterDto;
 import tech.artcoded.boost.book.entity.Book;
 import tech.artcoded.boost.book.entity.Chapter;
-import tech.artcoded.boost.book.entity.Stars;
+import tech.artcoded.boost.book.entity.Star;
 import tech.artcoded.boost.book.service.BookService;
 import tech.artcoded.boost.book.service.ChapterService;
-import tech.artcoded.boost.book.service.StarsService;
+import tech.artcoded.boost.book.service.StarService;
 import tech.artcoded.boost.user.entity.User;
 import tech.artcoded.boost.user.service.UserService;
 
 import javax.persistence.EntityNotFoundException;
+import javax.transaction.Transactional;
 import java.security.Principal;
 import java.util.List;
 import java.util.Map;
@@ -31,11 +32,11 @@ public class BookController {
 
     private final BookService bookService;
     private final ChapterService chapterService;
-    private final StarsService starsService;
+    private final StarService starsService;
     private final UserService userService;
 
     @Autowired
-    public BookController(BookService bookService, ChapterService chapterService, StarsService starsService, UserService userService) {
+    public BookController(BookService bookService, ChapterService chapterService, StarService starsService, UserService userService) {
         this.bookService = bookService;
         this.chapterService = chapterService;
         this.starsService = starsService;
@@ -72,9 +73,12 @@ public class BookController {
     }
 
     @DeleteMapping
+    @Transactional
     public Map.Entry<String, String> deleteBook(@RequestBody Book book) {
+        List<Star> stars = starsService.findByBook(book);
+        stars.stream().map(Star::getId).forEach(starsService::deleteById);
         chapterService.deleteAll(chapterService.findByBookId(book.getId()));
-        bookService.delete(book);
+        bookService.deleteById(book.getId());
         return Maps.immutableEntry("message", String.format("Book %s removed", book.getId()));
     }
 
@@ -106,7 +110,7 @@ public class BookController {
     public Map.Entry<String, String> editStar(@RequestParam("bookId") Long bookId, @RequestParam("star") double star, Principal principal) {
         User user = userService.principalToUser(principal);
         Book book = bookService.findById(bookId).orElseThrow(() -> new RuntimeException("book not found"));
-        Stars stars = starsService.findByBookAndUser(book,user).map(b-> b.toBuilder()).orElse(Stars.builder()).star(star).build();
+        Star stars = starsService.findByBookAndUser(book,user).map(b-> b.toBuilder()).orElse(Star.builder()).star(star).build();
         starsService.save(stars);
         return Maps.immutableEntry("message", String.format("star %s saved or edited", stars.getId()));
 
