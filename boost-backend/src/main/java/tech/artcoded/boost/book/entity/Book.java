@@ -54,7 +54,7 @@ public class Book extends Auditable<String> {
     private User user;
 
 
-    @OneToMany(mappedBy = "book",fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "book",fetch = FetchType.LAZY)
     private List<Star> stars;
 
 }

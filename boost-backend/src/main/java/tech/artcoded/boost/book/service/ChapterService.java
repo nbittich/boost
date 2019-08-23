@@ -24,7 +24,7 @@ public interface ChapterService extends CrudService<Long, Chapter> {
 
     @Transactional()
     default List<Chapter> findByBookId(Long bookId) {
-        produceEvent("_FIND_BY_BOOK_ID", "BookId: " + bookId);
+        produceEvent("_FIND_BY_BOOK_ID_AND_CHAPTE_NAME", "BookId: " + bookId);
         Optional<Book> book = getBookService().findById(bookId);
         return book.map(b -> getRepository().findByBookOrderByOrderAsc(b)).orElseGet(Collections::emptyList);
     }

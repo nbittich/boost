@@ -1,5 +1,6 @@
 package tech.artcoded.boost.book.controller;
 
+import com.github.slugify.Slugify;
 import com.google.common.collect.Maps;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +30,8 @@ import java.util.concurrent.CompletableFuture;
 @RequestMapping("/book")
 @Slf4j
 public class BookController {
+
+    private static final Slugify SLUGIFY = new Slugify();
 
     private final BookService bookService;
     private final ChapterService chapterService;
@@ -75,16 +78,20 @@ public class BookController {
     @DeleteMapping
     @Transactional
     public Map.Entry<String, String> deleteBook(@RequestBody Book book) {
-        List<Star> stars = starsService.findByBook(book);
-        stars.stream().map(Star::getId).forEach(starsService::deleteById);
+        starsService.deleteAll(starsService.findByBook(book));
         chapterService.deleteAll(chapterService.findByBookId(book.getId()));
         bookService.deleteById(book.getId());
         return Maps.immutableEntry("message", String.format("Book %s removed", book.getId()));
     }
 
-    @GetMapping("/{bookId}")
-    public Book getOne(@PathVariable("bookId") Long bookId) {
-        return bookService.findById(bookId).orElseThrow(EntityNotFoundException::new);
+    @GetMapping("/{title}/{bookId}")
+    public Book getOne(@PathVariable("bookId") Long bookId,@PathVariable("title") String title){
+
+        Book book = bookService.findById(bookId)
+                    .filter(b -> b.getTitle() != null)
+                    //.filter(b->SLUGIFY.slugify(b.getTitle()).equalsIgnoreCase(title)) not working cuz two implementations differ pff
+                .orElseThrow(EntityNotFoundException::new);
+        return book;
     }
 
     @GetMapping("/{bookId}/chapters")

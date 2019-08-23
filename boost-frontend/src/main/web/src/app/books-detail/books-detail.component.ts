@@ -7,6 +7,7 @@ import {HttpClient, HttpParams} from "@angular/common/http";
 import {Location} from '@angular/common';
 import {faArrowLeft} from "@fortawesome/free-solid-svg-icons";
 import {Star} from "../stars/star";
+import {Slugify} from "../common/slugify";
 
 @Component({
   selector: 'app-books-detail',
@@ -44,8 +45,8 @@ export class BooksDetailComponent implements OnInit {
     );
   }
 
-  fetchBook(id){
-    this.http.request<any>('get', environment.backendUrl + BooksDetailComponent.ENDPOINT+ '/' + id, {}).subscribe(
+  fetchBook(id,title){
+    this.http.request<any>('get', environment.backendUrl + BooksDetailComponent.ENDPOINT+ '/' + title+'/'+id, {}).subscribe(
       (datas) => {
         this.book = datas;
       },
@@ -63,7 +64,7 @@ export class BooksDetailComponent implements OnInit {
       const title = params.title;
       console.log(id);
       const editMode = params.editMode;
-      this.fetchBook(id);
+      this.fetchBook(id,title);
       this.editMode = editMode === 'edit';
     });
   }
@@ -85,7 +86,7 @@ export class BooksDetailComponent implements OnInit {
       params:params
     }).subscribe(
       (datas) => {
-        this.fetchBook(this.book.id);
+        this.fetchBook(this.book.id, Slugify.slugify(this.book.title));
         alert(datas.message);
       },
       (err) => {

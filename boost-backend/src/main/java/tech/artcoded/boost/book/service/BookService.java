@@ -22,6 +22,11 @@ public interface BookService extends CrudService<Long, Book> {
     UploadService getUploadService();
     BookRepository getRepository();
 
+
+    default Optional<Book> findByIdAndTitle(Long id, String title) {
+        return getRepository().findByIdAndTitle(id,title);
+    }
+
     @Cacheable(cacheNames = "book",key = "#title")
     default Page<Book> findByTitleLike(String title) {
         System.out.println("from method");

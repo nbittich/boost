@@ -1,6 +1,7 @@
-  <div class="jumbotron container bg-transparent text-center">
+  <div class="jumbotron container text-center">
+    <button class="btn btn-lg btn-outline-danger" routerLink="/books"><fa-icon class="fa-4x" [icon]="['fas','headphones-alt']"></fa-icon> Start listening</button>
     <hr class="my-4">
-    <p *ngIf="!isLoggedIn()">You must be logged in to continue.</p>
+    <p *ngIf="!isLoggedIn()">You're not logged in.</p>
     <div *ngIf="isLoggedIn()">
       <p>Welcome {{getUser().username}}!</p>
       <p>Your access roles are: <span class="badge badge-info mr-1" *ngFor="let role of getUser().authorities">{{role.authority}}</span></p>

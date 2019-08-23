@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import tech.artcoded.boost.book.entity.Chapter;
 import tech.artcoded.boost.user.dto.Role;
 
 import javax.persistence.*;
@@ -65,5 +66,10 @@ public class User implements UserDetails {
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return roles;
     }
+
+
+    @ManyToOne
+    @JoinColumn(name = "usr_chapter_id", referencedColumnName = "chapter_id")
+    private Chapter currentChapter;
 
 }
