@@ -6,6 +6,7 @@ import {Router} from "@angular/router";
 import {AuthenticationService} from "../login/authenticationservice";
 import {ChapterDto} from "../chapters/chapterdto";
 import {faPlus, faSave, faTimes} from "@fortawesome/free-solid-svg-icons";
+import {AudioPlayerComponent} from "../audio-player/audio-player.component";
 
 @Component({
   selector: 'app-chapter-detail',
@@ -88,10 +89,11 @@ export class ChapterDetailComponent implements OnInit {
   }
 
   updateCurrentChapter($event: Event) {
-    console.log($event);
     this.http.request<any>('post', environment.backendUrl + '/book/chapter/update/current', {params: new HttpParams().set('chapterId',this.chapter.id)}).subscribe(
       (datas) => {
           this.authenticationService.autoLogin();
+          let currentChapterUploadId = (datas.currentChapter || {upload:{}}).upload.id;
+          AudioPlayerComponent.reloadCurrentPlayer(currentChapterUploadId );
       },
       (err) => {
         console.log(err);

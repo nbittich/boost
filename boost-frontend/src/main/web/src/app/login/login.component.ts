@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {AuthenticationService} from './authenticationservice';
 import {faSignInAlt, faSignOutAlt} from "@fortawesome/free-solid-svg-icons";
+import {Slugify} from "../common/slugify";
 
 /**
  * @author Nordine Bittich
@@ -56,5 +57,10 @@ export class LoginComponent implements OnInit {
       console.log(this.returnUrl);
       this.router.navigateByUrl(this.returnUrl);
     });
+  }
+
+  getChapterDetailLink() {
+    let link = '/books/' + Slugify.slugify(this.getCurrentChapter().title) + '/' + this.getCurrentChapter().bookId + '/' + 'view';
+    return link;
   }
 }

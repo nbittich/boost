@@ -43,4 +43,8 @@ public class Chapter extends Auditable<String> {
     @JoinColumn(name = "chapter_book_id", referencedColumnName = "book_id")
     @JsonIgnore
     private Book book;
+
+    public Long getBookId(){
+        return book.getId();
+    }
 }

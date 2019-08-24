@@ -25,7 +25,7 @@
 <div class="form-group">
   <app-audio-player [title]="chapter.title"  [showTitle]="false" [upload]="chapter.upload"></app-audio-player>
   <div class="float-right formg">
-    <label class="form-check-label text-uppercase text-success mr-2" for="currentChap">Current Chapter</label>
+    <label class="form-check-label text-uppercase text-success mr-2" for="currentChap">set as Current track</label>
     <input id="currentChap" type="checkbox" class="form-check-inline" [checked]="getCurrentChapter() !=null && getCurrentChapter().id === chapter.id" (change)="updateCurrentChapter($event)">
   </div>
 </div>

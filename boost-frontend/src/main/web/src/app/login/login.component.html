@@ -9,8 +9,8 @@
   </button>
 </div>
 <div *ngIf="isLoggedIn()" class="form-inline my-2 my-lg-0">
-  <div >
-    <app-audio-player  [upload]="getCurrentChapter().upload" [title]="getCurrentChapter().title"></app-audio-player>
+  <div *ngIf="getCurrentChapter()" >
+    <app-audio-player [currentPlayer]="true" [linkDetail]="getChapterDetailLink()" [upload]="getCurrentChapter().upload" [title]="getCurrentChapter().title"></app-audio-player>
   </div>
   <button class="btn btn-outline-secondary text-white my-2 my-sm-0 " type="button" (click)="logout()">
     <span>{{getUser().username | uppercase}}</span>&nbsp;

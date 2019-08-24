@@ -60,6 +60,7 @@ export class BooksDetailComponent implements OnInit {
 
   ngOnInit() {
     this.route.params.subscribe(params => {
+      this.book = null;
       const id = params.id;
       const title = params.title;
       console.log(id);
