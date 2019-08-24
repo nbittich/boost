@@ -1,12 +1,12 @@
 <div>
-  <button class="btn btn-outline-primary mb-2" (click)="toggleFormVisible()"
+  <button class="border-radius-0 border-left-0 btn btn-outline-primary mb-2" (click)="toggleFormVisible()"
           *ngIf="!formVisible"><fa-icon [icon]="faPlus"></fa-icon> </button>
-  <div class="span3 clearfix" *ngIf="formVisible" >
-    <div class="card ">
+  <div class="row" *ngIf="formVisible" >
+    <div class="card border-0">
       <div class="card-header bg-white text-secondary">
         <span class="text-uppercase"># {{bookCopy.id ? bookCopy.id : 'New'}}</span>
         <div class="float-right" *ngIf="showCross">
-          <a class="text-link text-muted" (click)="toggleFormVisible()"><fa-icon [icon]="faTimes" ></fa-icon> </a>
+          <a class="clickable btn-link text-secondary" (click)="toggleFormVisible()"><fa-icon [icon]="faTimes" ></fa-icon> </a>
         </div>
       </div>
       <div class="card-body">

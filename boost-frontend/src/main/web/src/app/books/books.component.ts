@@ -22,12 +22,13 @@ export class BooksComponent implements OnInit {
   faEye=faEye;
   bookFormVisible: boolean;
   loading: boolean;
+  searchText: string;
   constructor(private http: HttpClient, private router: Router, private authenticationService: AuthenticationService) {
 
   }
 
   ngOnInit() {
-    this.getBooks(1);
+    //this.getBooks(1);
   }
 
 

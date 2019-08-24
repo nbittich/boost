@@ -1,12 +1,15 @@
-<div class=" container">
-  <div [class]="bookFormVisible?'container':'input-group'">
-    <app-book-form (bookCreatedCallback)="getBooks(1)" (emitter)="bookFormVisible = $event" *ngIf="hasRole('ADMIN')" [editMode]="false" [book]="newBook()"></app-book-form>
+<div class="container ">
+  <div [class]="bookFormVisible?'container':'input-group text-center '">
+      <input [(ngModel)]="searchText" *ngIf="!bookFormVisible" (keydown.enter)="searchBookByTitle($event.target.value)" type="text"  [class]="'col-lg-8 ml-auto form-control border-right-0 '" placeholder="Search...">
+      <button *ngIf="!bookFormVisible"  [disabled]="loading" (click)="searchBookByTitle(searchText)" class="btn btn-outline-success  mb-2 border-radius-0"><fa-icon [icon]="['fas','search']" ></fa-icon></button>
 
-    <button *ngIf="!bookFormVisible"  [disabled]="loading" (click)="getBooks(1)" class="btn btn-outline-secondary mb-2 ml-1"><fa-icon [icon]="faSync" ></fa-icon></button>
+    <div  [ngClass]="bookFormVisible ? '':'btn-group mr-auto'">
+      <button *ngIf="!bookFormVisible && isLoggedIn()"  [disabled]="loading" (click)="getBooks(1)" class="btn border-radius-0 btn-outline-secondary border-left-0  mb-2  "><fa-icon [icon]="faSync" ></fa-icon></button>
+      <app-book-form (bookCreatedCallback)="getBooks(1)" (emitter)="bookFormVisible = $event" *ngIf="hasRole('ADMIN')" [editMode]="false" [book]="newBook()"></app-book-form>
+    </div>
 
-    <input  *ngIf="!bookFormVisible" (keydown.enter)="searchBookByTitle($event.target.value)" type="text"  [class]="'form-control input-sm ' +(bookFormVisible?'mt-2':'ml-2')" placeholder="Search...">
   </div>
-  <div class=" table-responsive mt-2 container" >
+  <div class=" table-responsive mt-2 " *ngIf="books">
     <table class="table table-hover table-light table-sm">
       <thead>
       <tr class="bg-light">
