@@ -61,9 +61,8 @@ public class BookController {
     }
 
     @PutMapping
-    public Map.Entry<String, String> addBook(@RequestBody BookDto bookDto, Principal principal) {
-        Book book = bookService.saveBookWithCover(bookDto, userService.principalToUser(principal));
-        return Maps.immutableEntry("message", String.format("Book %s saved", book.getId()));
+    public Book addBook(@RequestBody BookDto bookDto, Principal principal) {
+        return bookService.saveBookWithCover(bookDto, userService.principalToUser(principal));
 
     }
 

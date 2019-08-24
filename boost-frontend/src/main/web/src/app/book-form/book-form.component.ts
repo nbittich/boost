@@ -6,6 +6,7 @@ import {Router} from "@angular/router";
 import {AuthenticationService} from "../login/authenticationservice";
 import {environment} from "../../environments/environment";
 import {faPlus, faSave, faTimes} from "@fortawesome/free-solid-svg-icons";
+import {Slugify} from "../common/slugify";
 
 @Component({
   selector: 'app-book-form',
@@ -61,6 +62,11 @@ export class BookFormComponent implements OnInit {
     console.log(this.book);
   }
 
+  navigate(book, editMode) {
+    let slug = Slugify.slugify(book.title);
+      this.router.navigateByUrl('/books/' + slug + '/' + book.id + '/' + editMode);
+  }
+
   public saveBookToDB() {
       let b = JSON.parse(JSON.stringify(this.bookCopy));
       if(!this.coverChanged) {
@@ -69,9 +75,7 @@ export class BookFormComponent implements OnInit {
       this.http.request<any>('put', environment.backendUrl + '/book', {body: b}).subscribe(
         (datas) => {
           this.bookCreatedCallback.emit(datas.message);
-          this.bookCopy=new BookDto();
-          this.toggleFormVisible();
-          alert(datas.message);
+          this.navigate(datas,'edit');
         },
         (err) => {
           console.log(err);

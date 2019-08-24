@@ -6,7 +6,7 @@
 
     <input  *ngIf="!bookFormVisible" (keydown.enter)="searchBookByTitle($event.target.value)" type="text"  [class]="'form-control input-sm ' +(bookFormVisible?'mt-2':'ml-2')" placeholder="Search...">
   </div>
-  <div class=" table-responsive" *ngIf="!bookFormVisible">
+  <div class=" table-responsive mt-2 container" >
     <table class="table table-hover table-light table-sm">
       <thead>
       <tr class="bg-light">
@@ -19,7 +19,7 @@
         <th scope="col">
           <small>{{'Duration' | uppercase }}</small>
         </th>
-        <th scope="col" colspan="3">
+        <th scope="col" colspan="3" *ngIf="hasRole('ADMIN')">
           <small>{{'action' | uppercase }}</small>
         </th>
       </tr>
@@ -31,8 +31,7 @@
         <td>{{getTotalDuration(book)}}</td>
         <td colspan="3">
           <div class="btn-group">
-            <button [id]="book.id + 'viewaction'" (click)="navigate(book,'view')" class="btn btn-sm btn-primary" aria-label="View"><fa-icon [icon]="faEye"></fa-icon></button>
-
+<!--            <button [id]="book.id + 'viewaction'" (click)="navigate(book,'view')" class="btn btn-sm btn-primary" aria-label="View"><fa-icon [icon]="faEye"></fa-icon></button>-->
             <button [id]="book.id + 'editaction'" *ngIf="hasRole('ADMIN')" (click)="navigate(book,'edit')" class="btn btn-sm btn-warning"
                     aria-label="Edit"><fa-icon [icon]="faEdit"></fa-icon></button>
 
@@ -49,12 +48,12 @@
     </table>
   </div>
   <div *ngIf="books && !books.empty && books.totalPages  > 1"
-       class="badge badge-light mr-1 mb-2 pb-1 border float-right">
-    <div class="m-0 pt-1 text-wrap">
+       class="text-center container mt-2 mr-1 mb-3 pb-1 ">
+    <div class="text-wrap">
       <pagination-controls (pageChange)="getBooks($event)"
                            previousLabel=""
                            autoHide="true"
-                           class="my-pagination"
+                           class="my-pagination "
                            nextLabel="">
       </pagination-controls>
     </div>

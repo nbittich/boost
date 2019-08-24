@@ -7,6 +7,3 @@
 .my-pagination /deep/ .ngx-pagination .current {
   margin: 0;
 }
-.clickable {
-  cursor: pointer;
-}
