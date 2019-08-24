@@ -22,10 +22,10 @@
   <blockquote *ngIf="!editDescription" (click)="toggleDescription()" class="bg-light blockquote"><cite>{{chapter.description ? chapter.description : 'No description for this chapter'}}</cite></blockquote>
 </div>
 
-<div class="form-group">
+<div class="form-group text-center">
   <app-audio-player [title]="chapter.title"  [showTitle]="false" [upload]="chapter.upload"></app-audio-player>
   <div class="float-right formg">
     <label class="form-check-label text-uppercase text-success mr-2" for="currentChap">set as Current track</label>
-    <input id="currentChap" type="checkbox" class="form-check-inline" [checked]="getCurrentChapter() !=null && getCurrentChapter().id === chapter.id" (change)="updateCurrentChapter($event)">
+    <input  id="currentChap" type="checkbox" class="form-check-inline"  [disabled]="isChecked()" [checked]="isChecked()" (change)="updateCurrentChapter($event)">
   </div>
 </div>

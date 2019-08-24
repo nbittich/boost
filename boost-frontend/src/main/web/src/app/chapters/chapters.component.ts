@@ -5,6 +5,7 @@ import {AuthenticationService} from "../login/authenticationservice";
 import {environment} from "../../environments/environment";
 import {Chapterentity} from "./chapterentity";
 import {faPlus, faSave, faTimes, faTrash} from "@fortawesome/free-solid-svg-icons";
+import {AudioPlayerComponent} from "../audio-player/audio-player.component";
 
 
 @Component({
@@ -54,6 +55,10 @@ export class ChaptersComponent implements OnInit {
   deleteChapter(ch: Chapterentity) {
     this.http.request<any>('delete', environment.backendUrl + '/book/chapter/'+ch.id, {}).subscribe(
       (datas) => {
+        this.authenticationService.autoLogin();
+        let currentChapterUploadId = (datas.currentChapter || {upload:{}}).upload.id;
+        AudioPlayerComponent.reloadCurrentPlayer(currentChapterUploadId);
+
         this.chapters = this.chapters.filter(c => c.id !== ch.id);
         alert(datas.message);
       },

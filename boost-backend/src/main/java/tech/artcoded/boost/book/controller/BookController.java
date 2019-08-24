@@ -23,6 +23,8 @@ import javax.transaction.Transactional;
 import java.security.Principal;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
 @RestController
@@ -77,7 +79,12 @@ public class BookController {
 
     @DeleteMapping
     @Transactional
-    public Map.Entry<String, String> deleteBook(@RequestBody Book book) {
+    public Map.Entry<String, String> deleteBook(@RequestBody Book book, Principal principal) {
+        User user = userService.principalToUser(principal);
+        Optional.ofNullable(user.getCurrentChapter())
+                .map(Chapter::getBookId)
+                .filter(id-> Objects.equals(book.getId(), id))
+                .ifPresent(bookId -> userService.save(user.toBuilder().currentChapter(null).build()));
         starsService.deleteAll(starsService.findByBook(book));
         chapterService.deleteAll(chapterService.findByBookId(book.getId()));
         bookService.deleteById(book.getId());
@@ -100,7 +107,14 @@ public class BookController {
     }
 
     @DeleteMapping("/chapter/{chapterId}")
-    public Map.Entry<String, String> deleteChapter(@PathVariable("chapterId") Long chapterId) {
+    public Map.Entry<String, String> deleteChapter(@PathVariable("chapterId") Long chapterId, Principal principal) {
+        User user = userService.principalToUser(principal);
+
+        Optional.ofNullable(user.getCurrentChapter())
+                .map(Chapter::getId)
+                .filter(id-> Objects.equals(chapterId, id))
+                .ifPresent(bookId -> userService.save(user.toBuilder().currentChapter(null).build()));
+
         chapterService.deleteById(chapterId);
         return Maps.immutableEntry("message", String.format("Chapter %s removed", chapterId));
 
@@ -124,7 +138,7 @@ public class BookController {
     }
 
     @PostMapping("/chapter/update/current")
-    public User editStar(@RequestParam("chapterId") Long chapterId, Principal principal) {
+    public User updateCurrentChapter(@RequestParam("chapterId") Long chapterId, Principal principal) {
         User user = userService.principalToUser(principal);
         Chapter chapter = chapterService.findById(chapterId).orElseThrow(() -> new RuntimeException("chapter not found"));
         return userService.save(user.toBuilder().currentChapter(chapter).build());

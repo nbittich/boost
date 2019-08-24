@@ -77,9 +77,18 @@ export class AudioPlayerComponent implements OnInit {
   static reloadCurrentPlayer(newId) {
     let currentPlayerMgmt = AudioPlayerComponent.currentPlayerMgmt;
     if(currentPlayerMgmt) {
-      let audioSource = currentPlayerMgmt.audioSource;
-      audioSource.nativeElement.src=AudioPlayerComponent.getSourceById(newId);
-      audioSource.nativeElement.pause();
+      try{
+        if (newId){
+          let audioSource = currentPlayerMgmt.audioSource;
+          audioSource.nativeElement.src=AudioPlayerComponent.getSourceById(newId);
+          audioSource.nativeElement.pause();
+        }else {
+          AudioPlayerComponent.currentPlayerMgmt.upload = null;
+        }
+      }catch (e) {
+        console.log("error handled ", e);
+        AudioPlayerComponent.currentPlayerMgmt.upload = null;
+      }
     }
   }
 }

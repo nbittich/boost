@@ -103,4 +103,8 @@ export class ChapterDetailComponent implements OnInit {
     );
 
   }
+
+  isChecked() {
+    return this.getCurrentChapter() !=null && this.getCurrentChapter().id === this.chapter.id;
+  }
 }
