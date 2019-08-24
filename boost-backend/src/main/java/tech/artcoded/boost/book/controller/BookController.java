@@ -21,10 +21,7 @@ import tech.artcoded.boost.user.service.UserService;
 import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 import java.security.Principal;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 import java.util.concurrent.CompletableFuture;
 
 @RestController
@@ -80,12 +77,13 @@ public class BookController {
     @Transactional
     public Map.Entry<String, String> deleteBook(@RequestBody Book book, Principal principal) {
         User user = userService.principalToUser(principal);
-        Optional.ofNullable(user.getCurrentChapter())
-                .map(Chapter::getBookId)
-                .filter(id-> Objects.equals(book.getId(), id))
-                .ifPresent(bookId -> userService.save(user.toBuilder().currentChapter(null).build()));
+        List<Chapter> chapters = chapterService.findByBookId(book.getId());
+
+        chapters.stream().map(userService::findByCurrentChapter).flatMap(Collection::stream)
+                .forEach(usr -> userService.save(usr.toBuilder().currentChapter(null).build()));
+
         starsService.deleteAll(starsService.findByBook(book));
-        chapterService.deleteAll(chapterService.findByBookId(book.getId()));
+        chapterService.deleteAll(chapters);
         bookService.deleteById(book.getId());
         return Maps.immutableEntry("message", String.format("Book %s removed", book.getId()));
     }
