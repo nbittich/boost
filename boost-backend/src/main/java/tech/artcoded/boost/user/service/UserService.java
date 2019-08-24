@@ -11,7 +11,7 @@ import java.util.Optional;
 public interface UserService extends CrudService<Long, User>, UserDetailsService {
     User principalToUser(Principal p);
     UserRepository getRepository();
-    default Optional<User> findOneByUsername(String username){
+    default Optional<User> findByUsername(String username){
         return getRepository().findOneByUsername(username);
     }
 }

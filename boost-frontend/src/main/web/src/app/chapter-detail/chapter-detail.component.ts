@@ -1,7 +1,7 @@
 import {ChangeDetectorRef, Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
 import {Chapterentity} from "../chapters/chapterentity";
 import {environment} from "../../environments/environment";
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpParams} from "@angular/common/http";
 import {Router} from "@angular/router";
 import {AuthenticationService} from "../login/authenticationservice";
 import {ChapterDto} from "../chapters/chapterdto";
@@ -36,10 +36,6 @@ export class ChapterDetailComponent implements OnInit {
 
   }
 
-  getSource() {
-    return environment.backendUrl + '/upload/' + this.chapter.upload.id;
-  }
-
   updateChapter($event, updateType:string) {
     $event.preventDefault();
     let chap = new ChapterDto();
@@ -49,7 +45,6 @@ export class ChapterDetailComponent implements OnInit {
 
     this.http.request<any>('post', environment.backendUrl + '/book/chapter/edit', {body: chap}).subscribe(
       (datas) => {
-        console.log(datas);
         switch (updateType) {
           case 'editTitle': this.toggleTitle();break;
           case 'editDescription': this.toggleDescription();break;
@@ -76,5 +71,34 @@ export class ChapterDetailComponent implements OnInit {
 
   getTimeDuration(chapter: Chapterentity) {
       return Math.round(chapter.timeDuration/1000 / 60 ) + ' minutes';
+  }
+
+
+  isLoggedIn() {
+    return this.getUser() !== null;
+  }
+
+  getUser() {
+    return this.authenticationService.getUser();
+  }
+
+  getCurrentChapter(){
+    let currentChapter = this.getUser().currentChapter;
+    return currentChapter;
+  }
+
+  updateCurrentChapter($event: Event) {
+    console.log($event);
+    this.http.request<any>('post', environment.backendUrl + '/book/chapter/update/current', {params: new HttpParams().set('chapterId',this.chapter.id)}).subscribe(
+      (datas) => {
+          this.authenticationService.autoLogin();
+      },
+      (err) => {
+        console.log(err);
+      },
+      () => {
+      },
+    );
+
   }
 }

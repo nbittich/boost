@@ -9,6 +9,9 @@
   </button>
 </div>
 <div *ngIf="isLoggedIn()" class="form-inline my-2 my-lg-0">
+  <div >
+    <app-audio-player  [upload]="getCurrentChapter().upload" [title]="getCurrentChapter().title"></app-audio-player>
+  </div>
   <button class="btn btn-outline-danger text-white my-2 my-sm-0 " type="button" (click)="logout()">
     <span>{{getUser().username | uppercase}}</span>&nbsp;
     <fa-icon [icon]="faSignOutAlt"></fa-icon>

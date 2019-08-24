@@ -27,6 +27,7 @@ import {FaIconLibrary, FontAwesomeModule} from "@fortawesome/angular-fontawesome
 import {StarsComponent} from './stars/stars.component';
 import {fas} from '@fortawesome/free-solid-svg-icons';
 import {far} from '@fortawesome/free-regular-svg-icons';
+import {AudioPlayerComponent} from './audio-player/audio-player.component';
 
 @NgModule({
   declarations: [
@@ -44,6 +45,7 @@ import {far} from '@fortawesome/free-regular-svg-icons';
     ChapterDetailComponent,
     ChapterFormComponent,
     StarsComponent,
+    AudioPlayerComponent,
   ],
   imports: [
     BrowserModule,

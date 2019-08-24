@@ -37,6 +37,11 @@ export class LoginComponent implements OnInit {
     return this.authenticationService.getUser();
   }
 
+  getCurrentChapter(){
+    let currentChapter = this.getUser().currentChapter;
+    return currentChapter;
+  }
+
   logout() {
     this.authenticationService.logout();
     this.router.navigate(['/']);

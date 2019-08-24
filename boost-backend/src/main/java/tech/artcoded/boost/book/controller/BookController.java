@@ -123,4 +123,12 @@ public class BookController {
 
     }
 
+    @PostMapping("/chapter/update/current")
+    public User editStar(@RequestParam("chapterId") Long chapterId, Principal principal) {
+        User user = userService.principalToUser(principal);
+        Chapter chapter = chapterService.findById(chapterId).orElseThrow(() -> new RuntimeException("chapter not found"));
+        return userService.save(user.toBuilder().currentChapter(chapter).build());
+
+    }
+
 }

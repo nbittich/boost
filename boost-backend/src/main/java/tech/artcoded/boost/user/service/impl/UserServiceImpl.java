@@ -11,6 +11,7 @@ import tech.artcoded.boost.user.entity.User;
 import tech.artcoded.boost.user.repository.UserRepository;
 import tech.artcoded.boost.user.service.UserService;
 
+import javax.transaction.Transactional;
 import java.security.Principal;
 
 @Service
@@ -29,14 +30,16 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
         produceEvent("_LOAD_BY_USERNAME", "Username: " + s);
-        return this.findOneByUsername(s).orElseThrow(() -> new UsernameNotFoundException(s + " not found"));
+        return this.findByUsername(s).orElseThrow(() -> new UsernameNotFoundException(s + " not found"));
     }
 
     @Override
+    @Transactional
     public User principalToUser(Principal p) {
-        produceEvent("_PRINCIPAL_TO_USER", "Username: " + p != null? p.getName() : "null_principal" );
+        produceEvent("_PRINCIPAL_TO_USER", p.getName());
         return repository.findOneByUsername(p.getName()).orElseThrow(() ->
                 new RuntimeException(String.format("Principal %s not found", StringUtils.defaultIfEmpty(p.getName(), "USERNAME_NULL")))
         );

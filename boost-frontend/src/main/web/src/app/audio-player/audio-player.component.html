@@ -1,0 +1,6 @@
+<div class="form-group">
+  <label [htmlFor]="upload.id" *ngIf="showTitle" class="badge text-muted text-uppercase ">{{title}}</label>
+  <audio #audioSource [id]="upload.id" (playing)="propagatePlayingEvent($event)" controls class="bg-transparent pr-3 ">
+    <source [src]="getSource()">
+  </audio>
+</div>

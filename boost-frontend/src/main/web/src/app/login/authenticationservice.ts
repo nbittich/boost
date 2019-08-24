@@ -14,7 +14,7 @@ export class AuthenticationService {
   autoLogin() {
     this.http.request<any>('post', environment.backendUrl + '/user/info' , {}).subscribe(
       (datas) => {
-        console.log(datas);
+        localStorage.setItem('user', JSON.stringify(datas));
       },
       (err) => {
         console.log(err);
