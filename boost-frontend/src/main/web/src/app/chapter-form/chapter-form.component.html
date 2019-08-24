@@ -1,8 +1,8 @@
 <div class="mb-4">
   <button class="btn btn-primary btn-block text-uppercase" (click)="formVisible=!formVisible"
           *ngIf="!formVisible"><fa-icon [icon]="faPlus"></fa-icon>&nbsp;New Track</button>
-  <div class="card card-info" *ngIf="editMode && formVisible">
-    <div class="card-header">
+  <div class="card" *ngIf="editMode && formVisible">
+    <div class="card-header bg-white">
       <span class="lead text-uppercase">New Track</span>
       <div class="float-right">
         <a class="text-link text-muted" href="#" (click)="formVisible=false"><fa-icon [icon]="faTimes"></fa-icon></a>

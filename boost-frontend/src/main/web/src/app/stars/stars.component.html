@@ -1,8 +1,6 @@
-<div class="col-12 p-2 text-center ">
   <span class="text-warning" *ngFor="let i of [1,2,3,4,5]">
     <fa-icon  *ngIf="editable && editMode" (mouseenter)="updateRating(i)" [icon]="getIconFromCurr(i, inputStar.star)"></fa-icon>
     <fa-icon  *ngIf="!editable || !editMode" [icon]="getIcon(i)"></fa-icon>
   </span>
   <a class="btn btn-link text-secondary clickable" *ngIf="editable && !editMode" (click)="editMode=!editMode">Vote({{star.length}})</a>
   <a class="btn btn-link text-success clickable" *ngIf="editable &&  editMode" (click)="emitVote()">Submit</a>
-</div>

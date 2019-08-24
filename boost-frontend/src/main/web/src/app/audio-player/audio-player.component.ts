@@ -22,6 +22,9 @@ export class AudioPlayerComponent implements OnInit {
   }
 
   @Input()
+  public width:number;
+
+  @Input()
   public currentPlayer:boolean;
 
   @Input()

@@ -1,9 +1,7 @@
-<div class="">
-    <img  class="img-fluid" *ngIf="imageBase64" [src]="imageBase64">
+    <img  class="img-fluid container" *ngIf="imageBase64" [src]="imageBase64">
     <div *ngIf="!imageBase64" class="lds-ellipsis">
       <div></div>
       <div></div>
       <div></div>
       <div></div>
     </div>
-  </div>

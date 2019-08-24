@@ -2,8 +2,8 @@
   <button class="btn btn-outline-primary mb-2" (click)="toggleFormVisible()"
           *ngIf="!formVisible"><fa-icon [icon]="faPlus"></fa-icon> </button>
   <div class="span3 clearfix" *ngIf="formVisible" >
-    <div class="card">
-      <div class="card-header">
+    <div class="card ">
+      <div class="card-header bg-white text-secondary">
         <span class="text-uppercase"># {{bookCopy.id ? bookCopy.id : 'New'}}</span>
         <div class="float-right" *ngIf="showCross">
           <a class="text-link text-muted" (click)="toggleFormVisible()"><fa-icon [icon]="faTimes" ></fa-icon> </a>

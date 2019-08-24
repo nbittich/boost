@@ -1,9 +1,7 @@
-<div class="p-2">
   <div class="col-12 mb-1">
     <app-chapter-form *ngIf="editMode" [editMode]="editMode" [bookId]="bookId" (emitter)="refreshChapterList($event)"></app-chapter-form>
   </div>
-  <div class="col-12" *ngIf="chapters">
-    <ul class="list-group">
+    <ul class="list-group" *ngIf="chapters">
       <li class="list-group-item d-flex justify-content-between align-items-center text-uppercase disabled" aria-disabled="true">
         Track{{chapters.length > 1 ? 's':''}}
         <h3><span class="badge badge-secondary badge-pill lead">{{chapters.length}}</span></h3>
@@ -18,5 +16,3 @@
         </div>
       </li>
     </ul>
-  </div>
-</div>
