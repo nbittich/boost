@@ -4,7 +4,9 @@
 .form-control:focus {
   box-shadow: none!important;
 }
-
+.no-focus:focus {
+  box-shadow: none!important;
+}
 
 .clickable {
   cursor: pointer;
