@@ -130,7 +130,12 @@ public class BookController {
     public Map.Entry<String, String> editStar(@RequestParam("bookId") Long bookId, @RequestParam("star") double star, Principal principal) {
         User user = userService.principalToUser(principal);
         Book book = bookService.findById(bookId).orElseThrow(() -> new RuntimeException("book not found"));
-        Star stars = starsService.findByBookAndUser(book,user).map(b-> b.toBuilder()).orElse(Star.builder()).star(star).build();
+        Star stars = starsService.findByBookAndUser(book,user).map(Star::toBuilder)
+                .orElseGet(Star::builder)
+                .user(user)
+                .book(book)
+                .star(star)
+                .build();
         starsService.save(stars);
         return Maps.immutableEntry("message", String.format("star %s saved or edited", stars.getId()));
 
