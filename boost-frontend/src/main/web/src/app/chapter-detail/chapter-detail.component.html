@@ -5,7 +5,7 @@
     <span>{{getTimeDuration(chapter)}}</span>
   </div>
   <div *ngIf="editTitle" class="input-group input-group-sm mb-2">
-    <input #title [autofocus]="true" (focusout)="toggleTitle()" type="text" [(ngModel)]="chapter.title" (keydown.enter)="updateChapter($event,'editTitle')">
+    <input #title [autofocus]="true" (focusout)="toggleTitle()" type="text" [(ngModel)]="chapter.title" (keydown.enter)="updateChapter($event,'editTitle')" class="form-control">
     <div class="input-group-append">
       <button type="button" class="btn btn-sm btn-danger" (click)="toggleTitle()"><fa-icon [icon]="faTimes"></fa-icon></button>
     </div>

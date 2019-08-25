@@ -1,18 +1,18 @@
 <div (keydown.enter)="login()" *ngIf="!isLoggedIn()" class="form-inline my-2 my-lg-0">
-  <input autocapitalize="none" autofocus="autofocus" [(ngModel)]="username" name="username" class="form-control mr-sm-2"
+  <input autocapitalize="none" autofocus="autofocus" [(ngModel)]="username" name="username" class="border-radius-0 form-control mr-sm-2"
          type="text"
          placeholder="Username" aria-label="Username">
-  <input (keydown.enter)="login()" [(ngModel)]="password" name="password" class="form-control mr-sm-2"
+  <input (keydown.enter)="login()" [(ngModel)]="password" name="password" class="form-control mr-sm-2 border-radius-0 "
          type="password" placeholder="Password"
          aria-label="Password">
-  <button class="btn  mb-sm-1 border-0 btn-outline-info text-white text-uppercase" type="button" (click)="login()"><fa-icon [icon]="faSignInAlt" ></fa-icon>&nbsp;Login
+  <button class="btn  border-0 btn-outline-secondary text-white text-uppercase" type="button" (click)="login()"><fa-icon [icon]="faSignInAlt" ></fa-icon>&nbsp;Sign in
   </button>
 </div>
 <div *ngIf="isLoggedIn()" class="form-inline my-2 my-lg-0">
   <div *ngIf="getCurrentChapter()" >
     <app-audio-player [currentPlayer]="true" [linkDetail]="getChapterDetailLink()" [upload]="getCurrentChapter().upload" [title]="getCurrentChapter().title"></app-audio-player>
   </div>
-  <button class="btn border-0 btn-outline-secondary text-white my-2 my-sm-0 " type="button" (click)="logout()">
+  <button class="btn border-0 btn-outline-danger text-white my-2 my-sm-0 " type="button" (click)="logout()">
     <span>{{getUser().username | uppercase}}</span>&nbsp;
     <fa-icon [icon]="faSignOutAlt"></fa-icon>
   </button>
