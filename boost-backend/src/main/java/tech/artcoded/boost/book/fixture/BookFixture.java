@@ -92,7 +92,7 @@ public class BookFixture implements CommandLineRunner {
                 .roles(Collections.singletonList(userRole.build()))
                 .password(passwordEncoder.encode("1234")).build());
         log.info("user saved : {}", user);
-            Role.RoleBuilder contributor = Role.builder().role(CONTRIBUTOR);
+        Role.RoleBuilder contributor = Role.builder().role(CONTRIBUTOR);
         User contr = userService.save(User.builder()
                 .password("1234")
                 .username("contributor")
@@ -115,8 +115,15 @@ public class BookFixture implements CommandLineRunner {
                 .map(bookService::save)
                 .collect(Collectors.toList());
 
+        books.forEach(book -> {
+            Star star = Star.builder().star(Math.round(RandomUtils.nextDouble(0, 5) * 2) / 2.0).user(user.toBuilder().build()).book(book).build();
+            Star star2 = Star.builder().star(Math.round(RandomUtils.nextDouble(0, 5) * 2) / 2.0).user(contr.toBuilder().build()).book(book).build();
+            Star star3 = Star.builder().star(Math.round(RandomUtils.nextDouble(0, 5) * 2) / 2.0).user(admin.toBuilder().build()).book(book).build();
+            starsService.saveAll(Arrays.asList(star, star2, star3));
 
-        if(books.size() >= 4) {
+        });
+
+        if (books.size() >= 4) {
             Collections.reverse(books); // shown in the top 3 homepage
             for (int i = 0; i < 4; i++) {
                 final int idx = i;
@@ -126,7 +133,7 @@ public class BookFixture implements CommandLineRunner {
                 Collection<File> files = FileUtils.listFiles(new ClassPathResource(pathChap).getFile(), new String[]{"mp3"}, true);
                 files.stream()
                         .map(audio -> ChapterDto.builder()
-                                        .contentType("audio/mpeg")
+                                .contentType("audio/mpeg")
                                 .order(Integer.valueOf(Integer.valueOf(audio.getName().charAt(0))))
                                 .file(Base64.getEncoder().encode(readFileToByteArray(audio)))
                                 .bookId(books.get(idx).getId())
@@ -142,15 +149,12 @@ public class BookFixture implements CommandLineRunner {
                 Book bookWCover = books.get(i).toBuilder().cover(bookService.getUploadService().upload(Base64.getEncoder().encode(input), MediaType.IMAGE_JPEG_VALUE, "cover.jpg")).build();
                 Book bookUpdated = bookWCover.toBuilder().totalDuration(chapterService.getTotalDuration(bookWCover)).build();
                 Book bookSavedWithChapter = bookService.save(bookUpdated);
-                Star star = Star.builder().star(Math.round(RandomUtils.nextDouble(0,5) * 2) / 2.0).user(user.toBuilder().build()).book(bookSavedWithChapter).build();
-                Star star2 = Star.builder().star(Math.round(RandomUtils.nextDouble(0,5) * 2) / 2.0).user(contr.toBuilder().build()).book(bookSavedWithChapter).build();
-                Star star3 = Star.builder().star(Math.round(RandomUtils.nextDouble(0,5) * 2) / 2.0).user(admin.toBuilder().build()).book(bookSavedWithChapter).build();
 
-                starsService.saveAll(Arrays.asList(star,star2,star3));
             }
         }
 
     }
+
     @SneakyThrows
     private byte[] readFileToByteArray(File file) {
         return FileUtils.readFileToByteArray(file);

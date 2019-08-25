@@ -9,21 +9,34 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import tech.artcoded.boost.book.dto.BookDto;
 import tech.artcoded.boost.book.entity.Book;
+import tech.artcoded.boost.book.entity.Star;
 import tech.artcoded.boost.book.repository.BookRepository;
 import tech.artcoded.boost.common.service.CrudService;
 import tech.artcoded.boost.upload.entity.Upload;
 import tech.artcoded.boost.upload.service.UploadService;
 import tech.artcoded.boost.user.entity.User;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 public interface BookService extends CrudService<Long, Book> {
 
     UploadService getUploadService();
     BookRepository getRepository();
 
-
+    @Cacheable(cacheNames = "bookTop3Stars")
+    default List<Book> findTop3ByStars(Pageable pageable){
+        List<Book> all = getRepository().findAll();
+        List<Book> collect = all.stream()
+                .map(book -> book.toBuilder().totalStar(book.getStars().stream().mapToDouble(Star::getStar).sum()).build())
+                .sorted(Comparator.comparing(Book::getTotalStar).reversed())
+                .limit(3)
+                .collect(Collectors.toList());
+        return collect
+        ;
+    }
     default List<Book> findTop3OrOrderByCreatedDateDesc(){
         return getRepository().findTop3ByOrderByCreatedDateDesc();
     }

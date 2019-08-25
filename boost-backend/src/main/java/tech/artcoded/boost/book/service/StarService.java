@@ -20,4 +20,10 @@ public interface StarService extends CrudService<Long, Star> {
     default List<Star> findByBook(Book book) {
         return getRepository().findByBook(book).orElseGet(Collections::emptyList);
     }
+
+    default Star updateStar(Star star) {
+        return getRepository().save(star);
+    }
+
+
 }

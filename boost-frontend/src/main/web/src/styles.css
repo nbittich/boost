@@ -3,15 +3,22 @@
 }
 .form-control:focus {
   box-shadow: none!important;
+  outline: 0;
 }
+
 .no-focus:focus {
   box-shadow: none!important;
+  outline: 0;
+
 }
 .btn:focus{
   box-shadow: none!important;
+  outline: 0;
+
 }
 .clickable {
   cursor: pointer;
+  outline: 0;
 }
 .border-radius-0{
   border-radius: 0 !important;

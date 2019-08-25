@@ -24,4 +24,6 @@ public interface BookRepository extends JpaRepository<Book, Long> {
     List<Book> findTop3ByOrderByCreatedDateDesc();
 
     List<BookTitle> findByTitleNotNull();
+
+
 }

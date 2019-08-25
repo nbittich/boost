@@ -75,7 +75,7 @@ public interface CrudService<K, V> {
         return getRepository().existsById(var1);
     }
 
-    default Iterable<V> findAll() {
+    default List<V> findAll() {
         return getRepository().findAll();
     }
 

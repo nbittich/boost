@@ -12,14 +12,35 @@
       <div class="d-flex flex-row mb-2 p-2">
         <div *ngFor="let book of books" class="col-lg-4 ">
           <div class="card" >
-            <app-image-loader [customClass]="' card-img-top '" *ngIf="book.cover" [imageId]="book.cover.id"></app-image-loader>
+            <app-image-loader [routerLink]="getBookDetailLink(book)" [customClass]="'clickable card-img-top '" *ngIf="book.cover" [imageId]="book.cover.id"></app-image-loader>
             <div class="card-body border-0 bg-transparent">
-              <h5 class="card-title">{{book.title}}</h5>
-              <p class="card-text">   {{ (book.description && book.description.length>100)? (book.description | slice:0:100)+'..':(book.description ? book.description : 'No description available') }}</p>
-              <a [routerLink]="getBookDetailLink(book)" class="btn btn-outline-primary no-focus  text-uppercase btn-outline-primary">More</a>
+              <h6 class="card-title font-italic">{{book.title}}</h6>
+              <span class="card-text ">   {{ (book.description && book.description.length>100)? (book.description | slice:0:100)+'...':(book.description ? book.description : 'No description available') }}</span>
+              <a [routerLink]="getBookDetailLink(book)" class="btn btn-outline-primary no-focus border-0 p-1 ml-1 text-uppercase btn-outline-primary">&nbsp;More</a>
             </div>
           </div>
         </div>
       </div>
     </div>
+    <!-- top 3 -->
+
+    <div *ngIf="topBooks" class="container text-center">
+      <h2 class="text-muted bg-light mt-2 text-uppercase">TOP</h2>
+      <div class="d-flex flex-row mb-2 p-2">
+        <div *ngFor="let book of topBooks" class="col-lg-4 ">
+          <div class="card" >
+            <app-image-loader [routerLink]="getBookDetailLink(book)" [customClass]="'clickable card-img-top '" *ngIf="book.cover" [imageId]="book.cover.id"></app-image-loader>
+            <div class="card-body border-0 bg-transparent">
+              <h6 class="card-title font-italic">{{book.title}}</h6>
+              <span class="card-text ">   {{ (book.description && book.description.length>100)? (book.description | slice:0:100)+'...':(book.description ? book.description : 'No description available') }}</span>
+              <a [routerLink]="getBookDetailLink(book)" class="btn btn-outline-primary no-focus border-0 p-1 ml-1 text-uppercase btn-outline-primary">&nbsp;More</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+
   </div>

@@ -45,6 +45,8 @@ public class Book extends Auditable<String> {
     private Upload cover;
 
 
+    @Transient
+    private Double totalStar;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(referencedColumnName = "usr_id",name = "book_user_id")

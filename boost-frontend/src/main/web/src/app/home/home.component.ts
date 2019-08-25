@@ -14,6 +14,7 @@ export class HomeComponent implements OnInit {
 
   public loading:boolean;
   public books:any;
+  topBooks: any;
 
   constructor(private http: HttpClient, private router: Router, private authenticationService: AuthenticationService) {
   }
@@ -36,6 +37,17 @@ export class HomeComponent implements OnInit {
       this.http.get<any[]>(environment.backendUrl +'/book/last', {}).subscribe(
         (datas) => {
           this.books = datas;
+            this.loading=false;
+        },
+        (err) => {
+          console.log(err);
+        },
+        () => {
+        },
+      );
+      this.http.get<any[]>(environment.backendUrl +'/book/top', {}).subscribe(
+        (datas) => {
+          this.topBooks = datas;
             this.loading=false;
         },
         (err) => {
