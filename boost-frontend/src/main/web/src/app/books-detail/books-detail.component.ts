@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {environment} from "../../environments/environment";
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {Book} from "../books/book";
 import {AuthenticationService} from "../login/authenticationservice";
 import {HttpClient, HttpParams} from "@angular/common/http";
@@ -20,7 +20,9 @@ export class BooksDetailComponent implements OnInit {
   public book: Book;
   public editMode;
   faArrowLeft=faArrowLeft;
+
   constructor(private http: HttpClient,
+              private router: Router,
               private authenticationService: AuthenticationService,
               private location: Location,
               private route: ActivatedRoute) {
@@ -96,6 +98,14 @@ export class BooksDetailComponent implements OnInit {
       () => {
       },
     );
+  }
+
+  hasRole(expected) {
+    return this.authenticationService.hasRole([expected]);
+  }
+
+  navigate(book, editMode) {
+    this.router.navigateByUrl('/books/' + Slugify.slugify(book.title) + '/' + book.id + '/' + editMode);
   }
 }
 

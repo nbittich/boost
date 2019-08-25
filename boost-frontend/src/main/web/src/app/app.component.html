@@ -1,7 +1,13 @@
 <app-navbar></app-navbar>
 <main role="main" class="flex-shrink-0 mt-lg-5 ">
   <div class="text-center ">
-    <h1 [innerHTML]="'\u266D\u266E\u266E\u266F'" class="display-1 text-muted border-secondary  mt-5 mb-5 py-5 "></h1>
+    <h1 class="display-1 text-muted border-secondary  mt-5  pt-5 ">
+      <span class="text-primary font-weight-bold" [innerHTML]="'\u266D'"></span>
+      <span class="text-danger font-weight-bold" [innerHTML]="'\u266E'"></span>
+      <span class="text-warning font-weight-bold" [innerHTML]="'\u266E'"></span>
+      <span class="text-success font-weight-bold" [innerHTML]="'\u266F'"></span>
+
+    </h1>
   </div>
   <div class="routerContent">
     <router-outlet></router-outlet>

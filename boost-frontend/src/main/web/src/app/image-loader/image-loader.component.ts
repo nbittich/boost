@@ -1,4 +1,4 @@
-import {Component, Inject, Input, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {AuthenticationService} from "../login/authenticationservice";
 import {Location} from "@angular/common";
@@ -13,11 +13,13 @@ import {environment} from "../../environments/environment";
 export class ImageLoaderComponent implements OnInit {
 
   @Input()
+  public customClass:string="img-fluid ";
+  @Input()
   public imageId: string;
   @Input()
-  public width: string;
+  public width: string="100%";
   @Input()
-  public height: string;
+  public height: string="100%";
 
   public imageBase64: any;
 

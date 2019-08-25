@@ -115,7 +115,9 @@ public class BookFixture implements CommandLineRunner {
                 .map(bookService::save)
                 .collect(Collectors.toList());
 
+
         if(books.size() >= 4) {
+            Collections.reverse(books); // shown in the top 3 homepage
             for (int i = 0; i < 4; i++) {
                 final int idx = i;
                 String pathChap = "fixture/chapters/" + (i + 1);
