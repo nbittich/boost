@@ -22,6 +22,9 @@ export class AudioPlayerComponent implements OnInit {
   }
 
   @Input()
+  public currentTime:number=0;
+
+  @Input()
   public width:number;
 
   @Input()
@@ -52,6 +55,7 @@ export class AudioPlayerComponent implements OnInit {
     if(this.currentPlayer) {
       AudioPlayerComponent.currentPlayerMgmt=this;
     }
+
   }
   ngOnInit() {
     console.log(this.upload);
@@ -93,5 +97,13 @@ export class AudioPlayerComponent implements OnInit {
         AudioPlayerComponent.currentPlayerMgmt.upload = null;
       }
     }
+  }
+
+  propagatePauseEvent($event: Event) {
+    console.log('paused');
+  }
+
+  setCurrentTime(time:number){
+    this.audioSource.nativeElement.currentTime = time;
   }
 }

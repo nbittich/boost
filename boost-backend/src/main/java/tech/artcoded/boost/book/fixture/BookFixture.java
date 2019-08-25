@@ -127,6 +127,7 @@ public class BookFixture implements CommandLineRunner {
                 files.stream()
                         .map(audio -> ChapterDto.builder()
                                         .contentType("audio/mpeg")
+                                .order(Integer.valueOf(Integer.valueOf(audio.getName().charAt(0))))
                                 .file(Base64.getEncoder().encode(readFileToByteArray(audio)))
                                 .bookId(books.get(idx).getId())
                                 .description(faker.lorem()
