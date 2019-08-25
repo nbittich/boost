@@ -5,7 +5,6 @@ import com.google.common.collect.Maps;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 import tech.artcoded.boost.book.dto.BookDto;
@@ -75,7 +74,7 @@ public class BookController {
 
     @GetMapping("/top")
     public List<Book> getTop3(){
-        return bookService.findTop3ByStars(PageRequest.of(0,3));
+        return bookService.findTop3ByStars();
     }
 
 

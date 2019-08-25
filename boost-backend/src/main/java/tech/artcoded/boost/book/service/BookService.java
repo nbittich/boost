@@ -2,6 +2,7 @@ package tech.artcoded.boost.book.service;
 
 import lombok.SneakyThrows;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.LoggerFactory;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
@@ -26,16 +27,19 @@ public interface BookService extends CrudService<Long, Book> {
     UploadService getUploadService();
     BookRepository getRepository();
 
+    @CacheEvict(cacheNames = "bookTop3Stars")
+    default void invalidateCacheBookTop3(){
+        LoggerFactory.getLogger(getClass()).info("invalidate cache");
+    }
+
     @Cacheable(cacheNames = "bookTop3Stars")
-    default List<Book> findTop3ByStars(Pageable pageable){
-        List<Book> all = getRepository().findAll();
-        List<Book> collect = all.stream()
+    default List<Book> findTop3ByStars(){
+        return getRepository().findAll()
+                .stream()
                 .map(book -> book.toBuilder().totalStar(book.getStars().stream().mapToDouble(Star::getStar).sum()).build())
                 .sorted(Comparator.comparing(Book::getTotalStar).reversed())
                 .limit(3)
                 .collect(Collectors.toList());
-        return collect
-        ;
     }
     default List<Book> findTop3OrOrderByCreatedDateDesc(){
         return getRepository().findTop3ByOrderByCreatedDateDesc();

@@ -16,7 +16,6 @@
             <div class="card-body border-0 bg-transparent">
               <h6 class="card-title font-italic">{{book.title}}</h6>
               <span class="card-text ">   {{ (book.description && book.description.length>100)? (book.description | slice:0:100)+'...':(book.description ? book.description : 'No description available') }}</span>
-              <a [routerLink]="getBookDetailLink(book)" class="btn btn-outline-primary no-focus border-0 p-1 ml-1 text-uppercase btn-outline-primary">&nbsp;More</a>
             </div>
           </div>
         </div>
@@ -33,7 +32,6 @@
             <div class="card-body border-0 bg-transparent">
               <h6 class="card-title font-italic">{{book.title}}</h6>
               <span class="card-text ">   {{ (book.description && book.description.length>100)? (book.description | slice:0:100)+'...':(book.description ? book.description : 'No description available') }}</span>
-              <a [routerLink]="getBookDetailLink(book)" class="btn btn-outline-primary no-focus border-0 p-1 ml-1 text-uppercase btn-outline-primary">&nbsp;More</a>
             </div>
           </div>
         </div>
