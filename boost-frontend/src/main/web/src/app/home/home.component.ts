@@ -1,5 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {AuthenticationService} from '../login/authenticationservice';
+import {HttpClient} from "@angular/common/http";
+import {Router} from "@angular/router";
+import {environment} from "../../environments/environment";
+import {Slugify} from "../common/slugify";
 
 @Component({
   selector: 'app-home',
@@ -8,7 +12,10 @@ import {AuthenticationService} from '../login/authenticationservice';
 })
 export class HomeComponent implements OnInit {
 
-  constructor(private authenticationService: AuthenticationService) {
+  public loading:boolean;
+  public books:any;
+
+  constructor(private http: HttpClient, private router: Router, private authenticationService: AuthenticationService) {
   }
 
   isLoggedIn() {
@@ -19,7 +26,24 @@ export class HomeComponent implements OnInit {
     return this.authenticationService.getUser();
   }
 
+  getBookDetailLink(book){
+    let link = '/books/' + Slugify.slugify(book.title) + '/' + book.id + '/' + 'view';
+    return link;
+  }
   ngOnInit() {
+      this.loading = true;
+      this.books=null;
+      this.http.get<any[]>(environment.backendUrl +'/book/last', {}).subscribe(
+        (datas) => {
+          this.books = datas;
+            this.loading=false;
+        },
+        (err) => {
+          console.log(err);
+        },
+        () => {
+        },
+      );
   }
 
 }

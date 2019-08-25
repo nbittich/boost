@@ -55,5 +55,5 @@ jwt:
 
 fixture:
   books:
-    size: 2
+    size: 20
     delete-at-start: true

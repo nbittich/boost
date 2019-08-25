@@ -2,7 +2,9 @@ package tech.artcoded.boost.book.fixture;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.javafaker.Faker;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.RandomUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -14,16 +16,17 @@ import org.springframework.http.MediaType;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import tech.artcoded.boost.book.dto.ChapterDto;
 import tech.artcoded.boost.book.entity.Book;
-import tech.artcoded.boost.book.entity.Chapter;
 import tech.artcoded.boost.book.entity.Star;
 import tech.artcoded.boost.book.service.BookService;
 import tech.artcoded.boost.book.service.ChapterService;
 import tech.artcoded.boost.book.service.StarService;
+import tech.artcoded.boost.upload.entity.Upload;
 import tech.artcoded.boost.upload.service.UploadService;
 import tech.artcoded.boost.user.dto.Role;
 import tech.artcoded.boost.user.entity.User;
 import tech.artcoded.boost.user.service.UserService;
 
+import java.io.File;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.LongStream;
@@ -64,6 +67,8 @@ public class BookFixture implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         Faker faker = Faker.instance(Locale.getDefault());
+        ClassPathResource defaultCover = new ClassPathResource("fixture/" + "/cover.jpg");
+
         if (Boolean.TRUE.equals(env.getProperty("fixture.books.delete-at-start", Boolean.class))) {
             log.info("deleting books");
             bookService.deleteAll();
@@ -94,11 +99,14 @@ public class BookFixture implements CommandLineRunner {
                 .roles(Arrays.asList(contributor.build())).build());
 
         Long bookSize = env.getProperty("fixture.books.size", Long.class);
+        byte[] defaultCoverStream = toByteArray(defaultCover.getInputStream());
+        Upload upload = bookService.getUploadService().upload(Base64.getEncoder().encode(defaultCoverStream), MediaType.IMAGE_JPEG_VALUE, "cover.jpg");
         List<Book> books = LongStream.range(0L, bookSize)
                 .peek(i -> log.info("saving book #" + i + 1))
                 .mapToObj(i -> Book.builder())
                 .map(builder -> builder
                         .user(contr)
+                        .cover(upload)
                         .category(faker.book().genre())
                         .title(faker.book().title())
                         .author(faker.book().author())
@@ -107,35 +115,28 @@ public class BookFixture implements CommandLineRunner {
                 .map(bookService::save)
                 .collect(Collectors.toList());
 
-        if(books.size() == 2) {
-            for (int i = 0; i < 2; i++) {
+        if(books.size() >= 4) {
+            for (int i = 0; i < 4; i++) {
+                final int idx = i;
                 String pathChap = "fixture/chapters/" + (i + 1);
                 ClassPathResource cover = new ClassPathResource(pathChap + "/cover.jpg");
-                ClassPathResource audio1 = new ClassPathResource(pathChap + "/1.mp3");
-                ClassPathResource audio2 = new ClassPathResource(pathChap + "/2.mp3");
-                ChapterDto.ChapterDtoBuilder builder = ChapterDto.builder()
-                        .contentType("audio/mpeg");
-                ChapterDto chapter1 = builder
-                        .bookId(books.get(i).getId())
-                        .description(faker.lorem()
-                                .paragraph(3))
-                        .fileName("1.mp3")
-                        .title(faker.book().title())
-                        .file(Base64.getEncoder().encode(toByteArray(audio1.getInputStream())))
-                        .build();
-                ChapterDto chapter2 = builder
-                        .bookId(books.get(i).getId())
-                        .description(faker.lorem()
-                                .paragraph(3))
-                        .fileName("2.mp3")
-                        .title(faker.book().title())
-                        .file(Base64.getEncoder().encode(toByteArray(audio2.getInputStream())))
-                        .build();
-                Chapter chapter1E = chapterService.saveChapterAndUpload(chapter1);
-                Chapter chapter2E = chapterService.saveChapterAndUpload(chapter2);
+
+                Collection<File> files = FileUtils.listFiles(new ClassPathResource(pathChap).getFile(), new String[]{"mp3"}, true);
+                files.stream()
+                        .map(audio -> ChapterDto.builder()
+                                        .contentType("audio/mpeg")
+                                .file(Base64.getEncoder().encode(readFileToByteArray(audio)))
+                                .bookId(books.get(idx).getId())
+                                .description(faker.lorem()
+                                        .paragraph(3))
+                                .fileName(audio.getName())
+                                .title(faker.book().title())
+                                .build()
+                        ).forEach(chapterService::saveChapterAndUpload);
                 chapterService.flush();
+
                 byte[] input = toByteArray(cover.getInputStream());
-                Book bookWCover = books.get((int)i).toBuilder().cover(bookService.getUploadService().upload(Base64.getEncoder().encode(input), MediaType.IMAGE_JPEG_VALUE, "cover.jpg")).build();
+                Book bookWCover = books.get(i).toBuilder().cover(bookService.getUploadService().upload(Base64.getEncoder().encode(input), MediaType.IMAGE_JPEG_VALUE, "cover.jpg")).build();
                 Book bookUpdated = bookWCover.toBuilder().totalDuration(chapterService.getTotalDuration(bookWCover)).build();
                 Book bookSavedWithChapter = bookService.save(bookUpdated);
                 Star star = Star.builder().star(Math.round(RandomUtils.nextDouble(0,5) * 2) / 2.0).user(user.toBuilder().build()).book(bookSavedWithChapter).build();
@@ -146,5 +147,9 @@ public class BookFixture implements CommandLineRunner {
             }
         }
 
+    }
+    @SneakyThrows
+    private byte[] readFileToByteArray(File file) {
+        return FileUtils.readFileToByteArray(file);
     }
 }

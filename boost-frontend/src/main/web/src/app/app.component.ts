@@ -24,8 +24,8 @@ export class AppComponent {
           // browser refresh, clean the local storage.
           // it can also be done using a timeout that we store in the localstorage as well
           // this is necessary for the authentication part
-          console.log('browser refresh, check authentication...');
-          authService.autoLogin();
+          console.log('browser refresh, check authentication (disabled...');
+          //authService.autoLogin();
         }
       }
     });

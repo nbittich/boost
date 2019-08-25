@@ -8,3 +8,20 @@
     </div>
 
   </div>
+<div *ngIf="books" class="container text-center">
+  <h2 class="text-muted text-uppercase">Last</h2>
+  <div class="d-flex flex-row mb-2 p-2">
+    <div *ngFor="let book of books" class="col-lg-4">
+      <div class="card" style="width: 18rem;">
+        <div class="card-img-top">
+          <app-image-loader *ngIf="book.cover" [imageId]="book.cover.id"></app-image-loader>
+        </div>
+        <div class="card-body">
+          <h5 class="card-title">{{book.title}}</h5>
+          <p class="card-text">   {{ (book.description && book.description.length>100)? (book.description | slice:0:100)+'..':(book.description ? book.description : 'No description available') }}</p>
+          <a [routerLink]="getBookDetailLink(book)" class="btn btn-outline-primary no-focus  text-uppercase btn-outline-primary">More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

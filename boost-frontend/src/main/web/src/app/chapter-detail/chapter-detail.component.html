@@ -1,11 +1,11 @@
 <div class="d-flex flex-column " *ngIf="chapter">
-  <div  (click)="toggleTitle()" *ngIf="!editTitle" class="dotted mb-2 badge badge-secondary p-2 text-left ">
+  <div  (click)="toggleTitle()" *ngIf="!editTitle" [ngClass]="'dotted mb-2 badge p-2 text-left ' + (isChecked() ? 'badge-primary':'badge-secondary')">
     <span>{{chapter.order}}. {{chapter.title}}</span>
     <span class="dots"></span>
     <span>{{getTimeDuration(chapter)}}</span>
   </div>
   <div *ngIf="editTitle" class="input-group input-group-sm mb-2">
-    <input #title [autofocus]="true" (focusout)="toggleTitle()" type="text" class="form-control" [(ngModel)]="chapter.title" (keydown.enter)="updateChapter($event,'editTitle')">
+    <input #title [autofocus]="true" (focusout)="toggleTitle()" type="text" [(ngModel)]="chapter.title" (keydown.enter)="updateChapter($event,'editTitle')">
     <div class="input-group-append">
       <button type="button" class="btn btn-sm btn-danger" (click)="toggleTitle()"><fa-icon [icon]="faTimes"></fa-icon></button>
     </div>

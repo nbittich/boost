@@ -15,6 +15,7 @@ import tech.artcoded.boost.upload.entity.Upload;
 import tech.artcoded.boost.upload.service.UploadService;
 import tech.artcoded.boost.user.entity.User;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface BookService extends CrudService<Long, Book> {
@@ -22,6 +23,9 @@ public interface BookService extends CrudService<Long, Book> {
     UploadService getUploadService();
     BookRepository getRepository();
 
+    default List<Book> findTop3OrOrderByCreatedDateDesc(){
+        return getRepository().findTop3ByOrderByCreatedDateDesc();
+    }
 
     default Optional<Book> findByIdAndTitle(Long id, String title) {
         return getRepository().findByIdAndTitle(id,title);

@@ -27,6 +27,7 @@ export class ChapterDetailComponent implements OnInit {
   @Input()
   public chapter:Chapterentity;
 
+
   @Input()
   public editMode:boolean=false;
 

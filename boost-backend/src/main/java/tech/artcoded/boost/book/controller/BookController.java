@@ -66,6 +66,11 @@ public class BookController {
 
     }
 
+    @GetMapping("/last")
+    public List<Book> lastBooks( ) {
+        return bookService.findTop3OrOrderByCreatedDateDesc();
+    }
+
     @GetMapping
     public Page<Book> books(Pageable pageable) {
         return bookService.findAll(pageable);
