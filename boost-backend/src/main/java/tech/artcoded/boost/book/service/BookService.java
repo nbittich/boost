@@ -23,6 +23,7 @@ public interface BookService extends CrudService<Long, Book> {
     UploadService getUploadService();
     BookRepository getRepository();
 
+
     default List<Book> findTop3OrOrderByCreatedDateDesc(){
         return getRepository().findTop3ByOrderByCreatedDateDesc();
     }
@@ -68,5 +69,9 @@ public interface BookService extends CrudService<Long, Book> {
                         .build()
         );
 
+    }
+
+    default List<BookRepository.BookTitle> getTitles(){
+        return this.getRepository().findByTitleNotNull();
     }
 }

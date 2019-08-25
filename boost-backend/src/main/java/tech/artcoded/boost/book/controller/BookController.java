@@ -12,6 +12,7 @@ import tech.artcoded.boost.book.dto.ChapterDto;
 import tech.artcoded.boost.book.entity.Book;
 import tech.artcoded.boost.book.entity.Chapter;
 import tech.artcoded.boost.book.entity.Star;
+import tech.artcoded.boost.book.repository.BookRepository;
 import tech.artcoded.boost.book.service.BookService;
 import tech.artcoded.boost.book.service.ChapterService;
 import tech.artcoded.boost.book.service.StarService;
@@ -65,6 +66,12 @@ public class BookController {
         return bookService.saveBookWithCover(bookDto, userService.principalToUser(principal));
 
     }
+
+    @GetMapping("/titles")
+    public List<BookRepository.BookTitle> getTitles(){
+        return bookService.getTitles();
+    }
+
 
     @GetMapping("/last")
     public List<Book> lastBooks( ) {

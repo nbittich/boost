@@ -13,7 +13,7 @@ import {environment} from "../../environments/environment";
 export class ImageLoaderComponent implements OnInit {
 
   @Input()
-  public customClass:string="img-fluid ";
+  public customClass:string="img-fluid container";
   @Input()
   public imageId: string;
   @Input()

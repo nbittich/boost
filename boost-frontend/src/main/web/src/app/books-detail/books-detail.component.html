@@ -3,8 +3,10 @@
 
     <div class=" btn-group mt-2  ">
       <button class="btn  btn-outline-info  text-uppercase" (click)="back()"><fa-icon [icon]="faArrowLeft"></fa-icon></button>
-      <button [id]="book && book.id + 'editaction'" *ngIf="hasRole('ADMIN')" (click)="navigate(book,'edit')" class="btn  btn-outline-success"
+      <button [id]="book && book.id + 'editaction'" *ngIf="hasRole('ADMIN') && !editMode" (click)="navigate(book,'edit')" class="btn  btn-outline-success"
               aria-label="Edit"><fa-icon [icon]="['fas','edit']"></fa-icon></button>
+      <button [id]="book && book.id + 'viewaction'" *ngIf="hasRole('ADMIN') && editMode" (click)="navigate(book,'view')" class="btn  btn-outline-primary"
+              aria-label="View"><fa-icon [icon]="['fas','eye']"></fa-icon></button>
     </div>
   </div>
   <div class="card border-0 " *ngIf="book && !editMode">

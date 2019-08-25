@@ -85,7 +85,7 @@ export class ChapterDetailComponent implements OnInit {
   }
 
   getCurrentChapter(){
-    let currentChapter = this.getUser().currentChapter;
+    let currentChapter = (this.getUser()||{}).currentChapter;
     return currentChapter;
   }
 

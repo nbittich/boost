@@ -40,6 +40,9 @@ export class BookFormComponent implements OnInit {
   @Input()
   showCross: boolean=true;
 
+  saving: boolean;
+  savingButton: string='Save';
+
     constructor(private http: HttpClient, private router: Router, private authenticationService: AuthenticationService) {
     }
 
@@ -67,15 +70,23 @@ export class BookFormComponent implements OnInit {
       this.router.navigateByUrl('/books/' + slug + '/' + book.id + '/' + editMode);
   }
 
-  public saveBookToDB() {
+  public saveBookToDB($e) {
+      $e.stopPropagation();
+      this.savingButton='Saving...';
+      this.saving = true;
       let b = JSON.parse(JSON.stringify(this.bookCopy));
       if(!this.coverChanged) {
         b.cover = null;
       }
       this.http.request<any>('put', environment.backendUrl + '/book', {body: b}).subscribe(
         (datas) => {
+          this.savingButton='Saved';
           this.bookCreatedCallback.emit(datas.message);
-          this.navigate(datas,'edit');
+          setTimeout(()=> {
+            this.savingButton='Save';
+            this.saving = false;
+            this.navigate(datas,'edit');
+          },1000);
         },
         (err) => {
           console.log(err);

@@ -23,12 +23,23 @@ export class BooksComponent implements OnInit {
   bookFormVisible: boolean;
   loading: boolean;
   searchText: string;
+  titles: any;
   constructor(private http: HttpClient, private router: Router, private authenticationService: AuthenticationService) {
 
   }
 
   ngOnInit() {
     //this.getBooks(1);
+    this.http.get<any[]>(environment.backendUrl + BooksComponent.ENDPOINT + '/titles', {}).subscribe(
+      (datas) => {
+        this.titles = datas;
+      },
+      (err) => {
+        console.log(err);
+      },
+      () => {
+      },
+    );
   }
 
 

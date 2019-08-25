@@ -1,6 +1,12 @@
-<div class="container ">
+<div class="container mt-5">
   <div [class]="bookFormVisible?'container':'input-group text-center '">
-      <input [(ngModel)]="searchText" *ngIf="!bookFormVisible" (keydown.enter)="searchBookByTitle($event.target.value)" type="text"  [class]="'col-lg-8 ml-auto form-control border-right-0 '" placeholder="Search...">
+      <input  list="listTitles" [(ngModel)]="searchText" *ngIf="!bookFormVisible" (ngModelChange)="searchBookByTitle(searchText)" type="text"  [class]="'col-lg-8 ml-auto form-control border-right-0 '" placeholder="Search...">
+      <datalist id="listTitles"  *ngIf="titles">
+        <select class="form-control" >
+          <option *ngFor="let title of titles" [value]="title.title"></option>
+        </select>
+      </datalist>
+
       <button *ngIf="!bookFormVisible"  [disabled]="loading" (click)="searchBookByTitle(searchText)" class="btn no-focus btn-outline-success  mb-2 border-radius-0"><fa-icon [icon]="['fas','search']" ></fa-icon></button>
 
     <div  [ngClass]="bookFormVisible ? '':'btn-group mr-auto'">

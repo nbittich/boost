@@ -18,22 +18,22 @@
             <div class="col-lg-8 text-uppercase">
               <div class="form-group">
                 <label for="bookTitle">Title</label>
-                <input type="text" class="form-control" id="bookTitle" [(ngModel)]="bookCopy.title">
+                <input [disabled]="saving" type="text" class="form-control" id="bookTitle" [(ngModel)]="bookCopy.title">
               </div>
               <div class="form-group">
                 <label for="bookAuthor">Author</label>
-                <input type="text" class="form-control" id="bookAuthor" [(ngModel)]="bookCopy.author">
+                <input [disabled]="saving" type="text" class="form-control" id="bookAuthor" [(ngModel)]="bookCopy.author">
               </div>
               <div class="form-group">
                 <label for="bookCategory">Category</label>
-                <input type="text" class="form-control" id="bookCategory" [(ngModel)]="bookCopy.category">
+                <input [disabled]="saving" type="text" class="form-control" id="bookCategory" [(ngModel)]="bookCopy.category">
               </div>
               <div class="form-group">
                 <label for="bookDescription">Description</label>
-                <textarea autosize class="form-control " id="bookDescription" [(ngModel)]="bookCopy.description"></textarea>
+                <textarea [disabled]="saving" autosize class="form-control " id="bookDescription" [(ngModel)]="bookCopy.description"></textarea>
               </div>
 
-              <button [disabled]="!bookCopy.title || !bookCopy.author || !bookCopy.category" (click)="saveBookToDB()" class="btn btn-outline-primary btn-sm float-right text-uppercase"><fa-icon [icon]="faSave"></fa-icon>&nbsp;Save</button>
+              <button [disabled]="!bookCopy.title || !bookCopy.author || !bookCopy.category || saving" (click)="saveBookToDB($event)" class="btn btn-outline-primary btn-sm float-right text-uppercase"><fa-icon [icon]="faSave"></fa-icon>&nbsp;{{savingButton}}</button>
             </div>
             <div class="container">
               <hr>
