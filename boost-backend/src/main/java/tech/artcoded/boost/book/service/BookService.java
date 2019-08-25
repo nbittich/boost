@@ -36,7 +36,7 @@ public interface BookService extends CrudService<Long, Book> {
     default List<Book> findTop3ByStars(){
         return getRepository().findAll()
                 .stream()
-                .map(book -> book.toBuilder().totalStar(book.getStars().stream().mapToDouble(Star::getStar).sum()).build())
+                .map(book -> book.toBuilder().totalStar(book.getStars().stream().mapToDouble(Star::getStar).average().orElse(0d)).build())
                 .sorted(Comparator.comparing(Book::getTotalStar).reversed())
                 .limit(3)
                 .collect(Collectors.toList());
