@@ -58,8 +58,9 @@ export class ChaptersComponent implements OnInit {
         this.authenticationService.autoLogin();
         let currentChapterUploadId = (datas.currentChapter || {upload:{}}).upload.id;
         AudioPlayerComponent.reloadCurrentPlayer(currentChapterUploadId, (datas.currentChapter||{}).title);
-        this.chapters = this.chapters.filter(c => c.id !== ch.id);
+        this.chapters = this.chapters.content.filter(c => c.id !== ch.id);
         alert(datas.message);
+        this.getChapters();
       },
       (err) => {
         console.log(err);

@@ -65,6 +65,7 @@ public class BookController {
     }
 
     @PutMapping
+    @Transactional
     public Book addBook(@RequestBody BookDto bookDto, Principal principal) {
         return bookService.saveBookWithCover(bookDto, userService.principalToUser(principal));
 

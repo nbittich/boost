@@ -74,10 +74,16 @@ export class BookFormComponent implements OnInit {
       $e.stopPropagation();
       this.savingButton='Saving...';
       this.saving = true;
-      let b = JSON.parse(JSON.stringify(this.bookCopy));
-      if(!this.coverChanged) {
-        b.cover = null;
-      }
+      let b = {
+        id: this.bookCopy.id,
+        title: this.bookCopy.title,
+        description: this.bookCopy.description,
+        author: this.bookCopy.author,
+        cover: this.coverChanged ? this.bookCopy.cover : null,
+        fileName: this.coverChanged ? this.bookCopy.fileName : null,
+        contentType: this.coverChanged ? this.bookCopy.contentType : null,
+        category: this.bookCopy.category
+      };
       this.http.request<any>('put', environment.backendUrl + '/book', {body: b}).subscribe(
         (datas) => {
           this.savingButton='Saved';
@@ -86,6 +92,7 @@ export class BookFormComponent implements OnInit {
             this.savingButton='Save';
             this.saving = false;
             this.navigate(datas,'edit');
+
           },1000);
         },
         (err) => {

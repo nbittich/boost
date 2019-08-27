@@ -77,8 +77,9 @@ export class AudioPlayerComponent implements OnInit {
 
       });
     this.updateCurrentTimeInterval = setInterval(()=>{
-      let currentT = this.audioSource.nativeElement.currentTime;
-      if (this.updateCurrentTimeUrl) {
+      if (this.updateCurrentTimeUrl && this.audioSource && this.audioSource.nativeElement) {
+        let currentT = this.audioSource.nativeElement.currentTime;
+
         if (!this.isLoggedIn()){
           clearInterval(this.updateCurrentTimeInterval);
         }
@@ -90,6 +91,8 @@ export class AudioPlayerComponent implements OnInit {
           () => {
           },
         );
+      }else{
+        clearInterval(this.updateCurrentTimeInterval);
       }
     },10000);
 
