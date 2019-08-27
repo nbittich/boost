@@ -88,4 +88,8 @@ export class HomeComponent implements OnInit {
     }
   }
 
+  getChapterDetailLink(chapter: any) {
+      let link = '/books/' + Slugify.slugify(chapter.title) + '/' + chapter.bookId + '/' + 'view';
+      return link;
+  }
 }

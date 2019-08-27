@@ -10,7 +10,7 @@
 </div>
 <div *ngIf="isLoggedIn()" class="form-inline my-2 my-lg-0">
   <div *ngIf="currentChapter" >
-    <app-audio-player [currentTime]="currentChapter.currentTime || 0.0" [updateCurrentTimeUrl]="getUpdateCurrentTimeUrl()" [currentPlayer]="true" [linkDetail]="getChapterDetailLink()" [upload]="currentChapter.upload" [title]="currentChapter.title"></app-audio-player>
+    <app-audio-player [currentTime]="currentChapter.currentTime || 0.0" [updateCurrentTimeUrl]="getUpdateCurrentTimeUrl()" [currentPlayer]="true" [linkDetail]="getChapterDetailLink()" [upload]="currentChapter.chapter.upload" [title]="currentChapter.chapter.title"></app-audio-player>
   </div>
   <button class="btn border-0 btn-outline-danger text-white my-2 my-sm-0 " type="button" (click)="logout()">
     <span>{{getUser().username | uppercase}}</span>&nbsp;

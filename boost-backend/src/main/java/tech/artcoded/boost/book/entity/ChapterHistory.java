@@ -45,4 +45,7 @@ public class ChapterHistory extends Auditable<String> {
     }
 
 
+    @Column(name = "chapter_current_time")
+    private Double currentTime;
+
 }

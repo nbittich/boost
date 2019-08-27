@@ -14,7 +14,7 @@
         <div *ngFor="let history of histories" class="col-lg-4 ">
           <div class="card bg-light" >
             <div class="card-body border-0 bg-transparent ">
-              <app-audio-player [updateCurrentTimeUrl]="getUpdateCurrentTimeUrl(history.chapter)" [currentTime]="history.chapter.currentTime" [title]="history.chapter.title" [upload]="history.chapter.upload"></app-audio-player>
+              <app-audio-player [linkDetail]="getChapterDetailLink(history.chapter)" [updateCurrentTimeUrl]="getUpdateCurrentTimeUrl(history.chapter)" [currentTime]="history.currentTime" [title]="history.chapter.title" [upload]="history.chapter.upload"></app-audio-player>
             </div>
           </div>
         </div>

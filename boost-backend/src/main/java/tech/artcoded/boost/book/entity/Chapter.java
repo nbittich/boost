@@ -19,11 +19,7 @@ public class Chapter extends Auditable<String> {
     @Id
     @GeneratedValue
     @Column(name = "chapter_id")
-    private Long id;
-
-
-    @Column(name = "chapter_current_time")
-    private Double currentTime;
+    private Long id;;
 
     @Version
     private Long version;

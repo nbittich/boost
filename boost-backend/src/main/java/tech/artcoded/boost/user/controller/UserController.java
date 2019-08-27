@@ -67,7 +67,12 @@ public class UserController {
 
     }
 
-
+    @GetMapping("/chapter/current")
+    public ChapterHistory current(Principal principal){
+        User user = userService.principalToUser(principal);
+        Chapter currentChapter = user.getCurrentChapter();
+        return chapterHistoryService.findByChapterAndUser(currentChapter, user).orElse(null);
+    }
 
     @PostMapping("/rate")
     public Map.Entry<String, String> editStar(@RequestParam("bookId") Long bookId, @RequestParam("star") double star, Principal principal) {
@@ -100,7 +105,7 @@ public class UserController {
         chapterService.findById(chapterId).ifPresent(chapter -> {
             Optional<ChapterHistory> history = chapterHistoryService.findByChapterAndUser(chapter, userService.principalToUser(principal));
             history.ifPresent(h -> {
-                chapterService.save(chapter.toBuilder().currentTime(time).build());
+                chapterHistoryService.save(h.toBuilder().currentTime(time).build());
             });
         });
         return ResponseEntity.ok("received");

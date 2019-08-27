@@ -81,10 +81,8 @@ export class AudioPlayerComponent implements OnInit {
       if (this.updateCurrentTimeUrl) {
         this.http.post<any[]>(environment.backendUrl + this.updateCurrentTimeUrl + currentT, {}).subscribe(
           (datas) => {
-            console.log(datas);
           },
           (err) => {
-            console.log(err);
           },
           () => {
           },
