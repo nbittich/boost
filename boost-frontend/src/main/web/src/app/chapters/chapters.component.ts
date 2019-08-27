@@ -26,7 +26,7 @@ export class ChaptersComponent implements OnInit {
   public bookId:number;
 
 
-  public chapters:Array<Chapterentity>;
+  public chapters:any;
 
   constructor(private http: HttpClient, private router: Router, private authenticationService: AuthenticationService) {
   }
@@ -39,8 +39,8 @@ export class ChaptersComponent implements OnInit {
 
 
 
-  getChapters() {
-    this.http.get<any[]>(environment.backendUrl + '/book/'+this.bookId+'/chapters', {}).subscribe(
+  getChapters(event=1) {
+    this.http.get<any[]>(environment.backendUrl + '/book/'+this.bookId+'/chapters'+ '?size=3&page=' + (event - 1), {}).subscribe(
       (datas) => {
         this.chapters = datas;
       },

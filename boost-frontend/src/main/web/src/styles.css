@@ -33,3 +33,12 @@
   height: 18vw;
   object-fit: cover;
 }
+
+.my-pagination /deep/ .ngx-pagination {
+  margin: 0;
+  padding: 0;
+}
+
+.my-pagination /deep/ .ngx-pagination .current {
+  margin: 0;
+}

@@ -2,6 +2,8 @@ package tech.artcoded.boost.book.service;
 
 import lombok.SneakyThrows;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import tech.artcoded.boost.book.dto.ChapterDto;
 import tech.artcoded.boost.book.entity.Book;
 import tech.artcoded.boost.book.entity.Chapter;
@@ -11,8 +13,6 @@ import tech.artcoded.boost.upload.entity.Upload;
 import tech.artcoded.boost.upload.service.UploadService;
 
 import javax.transaction.Transactional;
-import java.util.Collections;
-import java.util.List;
 import java.util.Optional;
 
 public interface ChapterService extends CrudService<Long, Chapter> {
@@ -23,10 +23,10 @@ public interface ChapterService extends CrudService<Long, Chapter> {
     BookService getBookService();
 
     @Transactional()
-    default List<Chapter> findByBookId(Long bookId) {
+    default Page<Chapter> findByBookId(Long bookId, Pageable pageable) {
         produceEvent("_FIND_BY_BOOK_ID_AND_CHAPTE_NAME", "BookId: " + bookId);
         Optional<Book> book = getBookService().findById(bookId);
-        return book.map(b -> getRepository().findByBookOrderByOrderAsc(b)).orElseGet(Collections::emptyList);
+        return book.map(b -> getRepository().findByBookOrderByOrderAsc(b, pageable)).orElseGet(Page::empty);
     }
 
     default long getTotalDuration(Book book) {

@@ -1,15 +1,16 @@
+<div *ngIf="!bookFormVisible &&(!books || books.empty)" class="mt-lg-5 pt-lg-5 "></div>
+<div *ngIf="!bookFormVisible &&(!books || books.empty)" class="mt-lg-5 pt-lg-5 "></div>
+<app-logo [headerClass]="'text-center  mt-5  pt-5 '"></app-logo>
 <div class="container mt-5">
-  <div *ngIf="!books || books.empty" class="mt-lg-5 pt-lg-5 "></div>
-  <div *ngIf="!books || books.empty" class="mt-lg-5 pt-lg-5"></div>
   <datalist id="listTitles"  *ngIf="titles">
     <select class="form-control" >
       <option *ngFor="let title of titles" [value]="title.title"></option>
     </select>
   </datalist>
   <div [class]="bookFormVisible?'container':'input-group text-center '">
-      <input  list="listTitles" [(ngModel)]="searchText" *ngIf="!bookFormVisible" (ngModelChange)="searchBookByTitle(searchText)" type="text"  [class]="'col-lg-5 ml-auto form-control border-right-0 '" placeholder="Search...">
+      <input  list="listTitles" [(ngModel)]="searchText" *ngIf="!bookFormVisible" (ngModelChange)="searchBookByTitle(searchText)" type="text"  [class]="'col-lg-5 ml-auto form-control border-right-0 border-secondary'" placeholder="Search...">
 
-      <button *ngIf="!bookFormVisible"  [disabled]="loading || !searchText" (click)="searchBookByTitle(searchText)" class="btn no-focus btn-outline-success  mb-2 border-radius-0"><fa-icon [icon]="['fas','search']" ></fa-icon></button>
+      <button *ngIf="!bookFormVisible"  [disabled]="loading || !searchText" (click)="searchBookByTitle(searchText)" class="btn no-focus btn-outline-secondary   text-center mb-2 border-radius-0"><fa-icon [icon]="['fas','search']" ></fa-icon>{{books ? ' ('+books.content.length+')' : ''}}</button>
 
     <div  [ngClass]="bookFormVisible ? '':'btn-group mr-auto'">
       <button *ngIf="!bookFormVisible && isLoggedIn()"  [disabled]="loading" (click)="getBooks(1)" class="btn border-radius-0 no-focus btn-outline-secondary border-left-0  mb-2  "><fa-icon [icon]="faSync" ></fa-icon></button>

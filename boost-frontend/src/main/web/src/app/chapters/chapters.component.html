@@ -3,10 +3,10 @@
   </div>
     <ul class="list-group" *ngIf="chapters">
       <li class="list-group-item d-flex justify-content-between align-items-center text-uppercase disabled border-right-0  border-left-0" aria-disabled="true">
-        Track{{chapters.length > 1 ? 's':''}}
-        <h3><span class="badge badge-secondary badge-pill lead">{{chapters.length}}</span></h3>
+        Track{{chapters.totalElements > 1 ? 's':''}}
+        <h3><span class="badge badge-secondary badge-pill lead">{{chapters.totalElements}}</span></h3>
       </li>
-      <li *ngFor="let ch of chapters" class="list-group-item border-0">
+      <li *ngFor="let ch of chapters.content | paginate: { itemsPerPage: chapters.size, currentPage: chapters.number+1, totalItems: chapters.totalElements}"  class="list-group-item border-0">
         <app-chapter-detail [editMode]="editMode" [id]="ch.id" [chapter]="ch"></app-chapter-detail>
         <div class="clearfix"></div>
         <div class="col-12 mt-2">
@@ -16,3 +16,16 @@
         </div>
       </li>
     </ul>
+
+
+  <div *ngIf="chapters && !chapters.empty && chapters.totalPages  > 1"
+       class="text-center container mt-2 mr-1 mb-3 pb-1 ">
+    <div class="text-wrap">
+      <pagination-controls (pageChange)="getChapters($event)"
+                           previousLabel=""
+                           autoHide="true"
+                           class="my-pagination "
+                           nextLabel="">
+      </pagination-controls>
+    </div>
+  </div>

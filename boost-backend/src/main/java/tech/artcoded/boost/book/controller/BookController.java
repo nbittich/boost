@@ -3,6 +3,7 @@ package tech.artcoded.boost.book.controller;
 import com.github.slugify.Slugify;
 import com.google.common.collect.Maps;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -92,14 +93,18 @@ public class BookController {
 
     @GetMapping("/search/title")
     public Page<Book> books(@RequestParam("title") String title) {
+        if (StringUtils.isBlank(title)){
+            return Page.empty();
+        }
         return bookService.findByTitleLike(title);
+
     }
 
     @DeleteMapping
     @Transactional
     public Map.Entry<String, String> deleteBook(@RequestBody Book book, Principal principal) {
         User user = userService.principalToUser(principal);
-        List<Chapter> chapters = chapterService.findByBookId(book.getId());
+        Page<Chapter> chapters = chapterService.findByBookId(book.getId(), Pageable.unpaged());
 
 
         chapters.forEach(chapter -> {
@@ -127,8 +132,8 @@ public class BookController {
     }
 
     @GetMapping("/{bookId}/chapters")
-    public List<Chapter> getChaptersForBook(@PathVariable("bookId") Long bookId) {
-        return chapterService.findByBookId(bookId);
+    public Page<Chapter> getChaptersForBook(@PathVariable("bookId") Long bookId, Pageable pageable) {
+        return chapterService.findByBookId(bookId,pageable);
     }
 
     @DeleteMapping("/chapter/{chapterId}")
