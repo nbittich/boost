@@ -16,7 +16,6 @@ import tech.artcoded.boost.user.service.UserService;
 import javax.servlet.http.HttpServletResponse;
 
 import static tech.artcoded.boost.user.dto.Role.RoleType.ADMIN;
-import static tech.artcoded.boost.user.dto.Role.RoleType.USER;
 
 /**
  * @author Nordine Bittich
@@ -30,11 +29,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
                 .antMatchers(HttpMethod.GET, "/event/**").permitAll()
 
-                .antMatchers(HttpMethod.GET, "/user/**").hasAuthority(USER.name())
-                .antMatchers(HttpMethod.POST, "/user/**").hasAuthority(USER.name())
+                .antMatchers(HttpMethod.GET, "/user/**").authenticated()
+                .antMatchers(HttpMethod.POST, "/user/**").authenticated()
 
-                .antMatchers(HttpMethod.POST, "/book/rate/**").authenticated()
-                .antMatchers(HttpMethod.POST, "/book/chapter/update/current/**").authenticated()
+                //.antMatchers(HttpMethod.POST, "/book/rate/**").authenticated()
+               // .antMatchers(HttpMethod.POST, "/book/chapter/update/current/**").authenticated()
 
                 .antMatchers(HttpMethod.DELETE, "/book/**").hasAuthority(ADMIN.name())
                 .antMatchers(HttpMethod.PUT, "/book/**").hasAuthority(ADMIN.name())

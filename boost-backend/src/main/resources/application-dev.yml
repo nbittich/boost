@@ -35,9 +35,6 @@ spring:
     show-sql: true
   resources:
     add-mappings: true # remove in case the frontend is running separately
-jackson:
-  serialization:
-    FAIL_ON_EMPTY_BEANS: false
 application:
   title: Boost!
   version: v0.0.1-SNAPSHOT

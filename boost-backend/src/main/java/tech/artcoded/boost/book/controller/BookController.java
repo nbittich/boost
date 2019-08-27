@@ -11,9 +11,10 @@ import tech.artcoded.boost.book.dto.BookDto;
 import tech.artcoded.boost.book.dto.ChapterDto;
 import tech.artcoded.boost.book.entity.Book;
 import tech.artcoded.boost.book.entity.Chapter;
-import tech.artcoded.boost.book.entity.Star;
+import tech.artcoded.boost.book.entity.ChapterHistory;
 import tech.artcoded.boost.book.repository.BookRepository;
 import tech.artcoded.boost.book.service.BookService;
+import tech.artcoded.boost.book.service.ChapterHistoryService;
 import tech.artcoded.boost.book.service.ChapterService;
 import tech.artcoded.boost.book.service.StarService;
 import tech.artcoded.boost.user.entity.User;
@@ -23,7 +24,6 @@ import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 import java.security.Principal;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
@@ -38,13 +38,15 @@ public class BookController {
 
     private final BookService bookService;
     private final ChapterService chapterService;
+    private final ChapterHistoryService chapterHistoryService;
     private final StarService starsService;
     private final UserService userService;
 
     @Autowired
-    public BookController(BookService bookService, ChapterService chapterService, StarService starsService, UserService userService) {
+    public BookController(BookService bookService, ChapterService chapterService, ChapterHistoryService chapterHistoryService, StarService starsService, UserService userService) {
         this.bookService = bookService;
         this.chapterService = chapterService;
+        this.chapterHistoryService = chapterHistoryService;
         this.starsService = starsService;
         this.userService = userService;
     }
@@ -99,6 +101,12 @@ public class BookController {
         User user = userService.principalToUser(principal);
         List<Chapter> chapters = chapterService.findByBookId(book.getId());
 
+
+        chapters.forEach(chapter -> {
+            List<ChapterHistory> history = chapterHistoryService.findByChapter(chapter);
+            chapterHistoryService.deleteAll(history);
+        });
+
         chapters.stream().map(userService::findByCurrentChapter).flatMap(Collection::stream)
                 .forEach(usr -> userService.save(usr.toBuilder().currentChapter(null).build()));
 
@@ -126,10 +134,12 @@ public class BookController {
     @DeleteMapping("/chapter/{chapterId}")
     public Map.Entry<String, String> deleteChapter(@PathVariable("chapterId") Long chapterId, Principal principal) {
         User user = userService.principalToUser(principal);
+        Chapter chapter = chapterService.findById(chapterId).orElseThrow(EntityNotFoundException::new);
 
-        chapterService.findById(chapterId)
-                .map(userService::findByCurrentChapter)
-                .orElseGet(Collections::emptyList)
+        List<ChapterHistory> history = chapterHistoryService.findByChapter(chapter);
+        chapterHistoryService.deleteAll(history);
+
+        userService.findByCurrentChapter(chapter)
                 .forEach(usr -> userService.save(usr.toBuilder().currentChapter(null).build()));
 
         chapterService.deleteById(chapterId);
@@ -144,27 +154,6 @@ public class BookController {
 
     }
 
-    @PostMapping("/rate")
-    public Map.Entry<String, String> editStar(@RequestParam("bookId") Long bookId, @RequestParam("star") double star, Principal principal) {
-        User user = userService.principalToUser(principal);
-        Book book = bookService.findById(bookId).orElseThrow(() -> new RuntimeException("book not found"));
-        Star stars = starsService.findByBookAndUser(book,user).map(Star::toBuilder)
-                .orElseGet(Star::builder)
-                .user(user)
-                .book(book)
-                .star(star)
-                .build();
-        starsService.updateStar(stars);
-        return Maps.immutableEntry("message", String.format("star %s saved or edited", stars.getId()));
 
-    }
-
-    @PostMapping("/chapter/update/current")
-    public User updateCurrentChapter(@RequestParam("chapterId") Long chapterId, Principal principal) {
-        User user = userService.principalToUser(principal);
-        Chapter chapter = chapterService.findById(chapterId).orElseThrow(() -> new RuntimeException("chapter not found"));
-        return userService.save(user.toBuilder().currentChapter(chapter).build());
-
-    }
 
 }

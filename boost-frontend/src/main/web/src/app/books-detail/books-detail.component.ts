@@ -85,7 +85,7 @@ export class BooksDetailComponent implements OnInit {
     let params = new HttpParams()
       .set('bookId', this.book.id + '')
       .set('star', $event.star + '');
-    this.http.request<any>('post', environment.backendUrl + BooksDetailComponent.ENDPOINT+ '/rate', {
+    this.http.request<any>('post', environment.backendUrl +'/user/rate', {
       params:params
     }).subscribe(
       (datas) => {

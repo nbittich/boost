@@ -90,7 +90,7 @@ export class ChapterDetailComponent implements OnInit {
   }
 
   updateCurrentChapter($event: Event) {
-    this.http.request<any>('post', environment.backendUrl + '/book/chapter/update/current', {params: new HttpParams().set('chapterId',this.chapter.id)}).subscribe(
+    this.http.request<any>('post', environment.backendUrl + '/user/chapter/update/current', {params: new HttpParams().set('chapterId',this.chapter.id)}).subscribe(
       (datas) => {
           this.authenticationService.autoLogin();
           let currentChapterUploadId = (datas.currentChapter || {upload:{}}).upload.id;

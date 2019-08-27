@@ -23,8 +23,7 @@ public class Chapter extends Auditable<String> {
 
     @Version
     private Long version;
-    @Lob
-    @Column(name = "chapter_description")
+    @Column(name = "chapter_description",length = 1024)
     private String description;
     @Column(name = "chapter_title")
     private String title;

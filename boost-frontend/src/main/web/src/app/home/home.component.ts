@@ -12,8 +12,9 @@ import {Slugify} from "../common/slugify";
 })
 export class HomeComponent implements OnInit {
 
-  public loading:boolean;
-  public books:any;
+  public loading: boolean;
+  public books: any;
+  public histories: any;
   topBooks: any;
 
   constructor(private http: HttpClient, private router: Router, private authenticationService: AuthenticationService) {
@@ -27,17 +28,52 @@ export class HomeComponent implements OnInit {
     return this.authenticationService.getUser();
   }
 
-  getBookDetailLink(book){
+  getBookDetailLink(book) {
     let link = '/books/' + Slugify.slugify(book.title) + '/' + book.id + '/' + 'view';
     return link;
   }
+
   ngOnInit() {
-      this.loading = true;
-      this.books=null;
-      this.http.get<any[]>(environment.backendUrl +'/book/last', {}).subscribe(
+    this.loading = true;
+    this.books = null;
+    this.http.get<any[]>(environment.backendUrl + '/book/last', {}).subscribe(
+      (datas) => {
+        this.books = datas;
+        this.loading = false;
+      },
+      (err) => {
+        console.log(err);
+      },
+      () => {
+      },
+    );
+    this.http.get<any[]>(environment.backendUrl + '/book/top', {}).subscribe(
+      (datas) => {
+        this.topBooks = datas;
+        this.loading = false;
+      },
+      (err) => {
+        console.log(err);
+      },
+      () => {
+      },
+    );
+    this.fetchHistories();
+      this.authenticationService.userEvent.subscribe(event => {
+        console.log(event);
+        if (event === 'logout') {
+          this.histories = [];
+        } else {
+          this.fetchHistories();
+        }
+      });
+  }
+
+  fetchHistories() {
+    if (this.isLoggedIn()) {
+      this.http.get<any[]>(environment.backendUrl + '/user/chapter/history', {}).subscribe(
         (datas) => {
-          this.books = datas;
-            this.loading=false;
+          this.histories = datas;
         },
         (err) => {
           console.log(err);
@@ -45,17 +81,7 @@ export class HomeComponent implements OnInit {
         () => {
         },
       );
-      this.http.get<any[]>(environment.backendUrl +'/book/top', {}).subscribe(
-        (datas) => {
-          this.topBooks = datas;
-            this.loading=false;
-        },
-        (err) => {
-          console.log(err);
-        },
-        () => {
-        },
-      );
+    }
   }
 
 }

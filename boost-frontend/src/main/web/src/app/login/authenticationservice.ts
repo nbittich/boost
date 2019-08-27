@@ -2,19 +2,22 @@ import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {tap} from 'rxjs/operators';
 import {environment} from "../../environments/environment";
+import {Subject} from "rxjs";
 
 /**
  * @author Nordine Bittich
  */
 @Injectable({providedIn: 'root'})
 export class AuthenticationService {
+  public userEvent = new Subject<any>();
+
   constructor(private http: HttpClient) {
   }
 
   autoLogin() {
     this.http.request<any>('post', environment.backendUrl + '/user/info' , {}).subscribe(
       (datas) => {
-        localStorage.setItem('user', JSON.stringify(datas));
+        this.setUser(datas,false);
       },
       (err) => {
         console.log(err);
@@ -22,6 +25,12 @@ export class AuthenticationService {
       () => {
       });
 
+  }
+
+  setUser(datas, sendEvent=true){
+    localStorage.setItem('user', JSON.stringify(datas));
+    if (sendEvent)
+        this.userEvent.next("login");
   }
 
   login(username: string, password: string, callBackNext?: any, callbackError?: any, callbackComplete?: any) {
@@ -39,7 +48,7 @@ export class AuthenticationService {
         console.log(token);
         if (token && token.length) {
           localStorage.setItem('xAuthToken', token);
-          localStorage.setItem('user', JSON.stringify(resp.body));
+          this.setUser(resp.body);
         }
 
         return resp;
@@ -54,7 +63,6 @@ export class AuthenticationService {
           if (callbackComplete) callbackComplete();
         },
       );
-    ;
   }
 
   getUser() {
@@ -71,5 +79,6 @@ export class AuthenticationService {
   logout() {
     localStorage.removeItem('xAuthToken');
     localStorage.removeItem('user');
+    this.userEvent.next("logout");
   }
 }

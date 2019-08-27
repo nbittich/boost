@@ -7,6 +7,21 @@
       <p>Your access roles are: <span class="badge badge-info mr-1" *ngFor="let role of getUser().authorities">{{role.authority}}</span></p>
     </div>
 
+    <!-- history -->
+    <div *ngIf="isLoggedIn() && histories && histories.length" class="container text-center">
+      <h2 class="text-muted bg-light mt-2 text-uppercase">Your History</h2>
+      <div class="d-flex flex-row mb-2 p-2">
+        <div *ngFor="let history of histories" class="col-lg-4 ">
+          <div class="card bg-light" >
+            <div class="card-body border-0 bg-transparent ">
+              <app-audio-player [title]="history.chapter.title" [upload]="history.chapter.upload"></app-audio-player>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- last -->
     <div *ngIf="books" class="container text-center">
       <h2 class="text-muted bg-light mt-2 text-uppercase">Latest</h2>
       <div class="d-flex flex-row mb-2 p-2">
