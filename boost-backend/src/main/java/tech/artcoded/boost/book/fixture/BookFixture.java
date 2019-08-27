@@ -101,12 +101,15 @@ public class BookFixture implements CommandLineRunner {
         Long bookSize = env.getProperty("fixture.books.size", Long.class);
         byte[] defaultCoverStream = toByteArray(defaultCover.getInputStream());
         Upload upload = bookService.getUploadService().upload(Base64.getEncoder().encode(defaultCoverStream), MediaType.IMAGE_JPEG_VALUE, "cover.jpg");
+        List<String> lang = Arrays.<String>asList(Locale.getISOCountries());
+
         List<Book> books = LongStream.range(0L, bookSize)
                 .peek(i -> log.info("saving book #" + i + 1))
                 .mapToObj(i -> Book.builder())
                 .map(builder -> builder
                         .user(contr)
                         .cover(upload)
+                        .lang(shuffle(lang).get(0))
                         .category(faker.book().genre())
                         .title(faker.book().title())
                         .author(faker.book().author())
@@ -155,6 +158,11 @@ public class BookFixture implements CommandLineRunner {
 
     }
 
+    private <A> List<A> shuffle(Collection<A> a) {
+        ArrayList<A> as = new ArrayList<>(a);
+        Collections.shuffle(as);
+        return as;
+    }
     @SneakyThrows
     private byte[] readFileToByteArray(File file) {
         return FileUtils.readFileToByteArray(file);

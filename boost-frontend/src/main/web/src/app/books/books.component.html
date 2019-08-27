@@ -44,7 +44,7 @@
         <td>{{book.title}}</td>
         <td>{{book.category}}</td>
         <td>{{getTotalDuration(book)}}</td>
-        <td class="tex"><span class="flag-icon flag-icon-fr"></span></td>
+        <td><span [ngClass]="'flag-icon flag-icon-'+ (book.lang ? book.lang.toLowerCase() : 'us')"></span></td>
         <td colspan="3">
           <div class="btn-group">
 <!--            <button [id]="book.id + 'viewaction'" (click)="navigate(book,'view')" class="btn btn-sm btn-primary" aria-label="View"><fa-icon [icon]="faEye"></fa-icon></button>-->
