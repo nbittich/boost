@@ -5,6 +5,7 @@ export class Book extends Auditable{
   public id:number;
   public stars:Array<Star>;
   public title:string;
+  public lang:string;
   public author:string;
   public description:string;
   public totalDuration:number;
@@ -16,6 +17,7 @@ export class BookDto {
   public author:string;
   public description:string;
   public totalDuration:number;
+  public lang:string;
   public category:string;
   public cover:any;
   public fileName:string;

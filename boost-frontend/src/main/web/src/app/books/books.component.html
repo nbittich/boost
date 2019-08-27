@@ -31,6 +31,9 @@
         <th scope="col">
           <small>{{'Duration' | uppercase }}</small>
         </th>
+        <th scope="col">
+          <small>{{'Lang' | uppercase }}</small>
+        </th>
         <th scope="col" colspan="3" *ngIf="hasRole('ADMIN')">
           <small>{{'action' | uppercase }}</small>
         </th>
@@ -41,6 +44,7 @@
         <td>{{book.title}}</td>
         <td>{{book.category}}</td>
         <td>{{getTotalDuration(book)}}</td>
+        <td class="tex"><span class="flag-icon flag-icon-fr"></span></td>
         <td colspan="3">
           <div class="btn-group">
 <!--            <button [id]="book.id + 'viewaction'" (click)="navigate(book,'view')" class="btn btn-sm btn-primary" aria-label="View"><fa-icon [icon]="faEye"></fa-icon></button>-->
