@@ -98,12 +98,13 @@ export class AudioPlayerComponent implements OnInit {
     return environment.backendUrl + '/upload/' + id;
   }
 
-  static reloadCurrentPlayer(newId) {
+  static reloadCurrentPlayer(newId,title) {
     let currentPlayerMgmt = AudioPlayerComponent.currentPlayerMgmt;
     if (currentPlayerMgmt) {
       try {
         if (newId) {
           let audioSource = currentPlayerMgmt.audioSource;
+          currentPlayerMgmt.title = title;
           audioSource.nativeElement.src = AudioPlayerComponent.getSourceById(newId);
           audioSource.nativeElement.pause();
         } else {

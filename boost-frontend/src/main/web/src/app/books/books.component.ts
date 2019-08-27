@@ -59,7 +59,7 @@ export class BooksComponent implements OnInit {
         this.authenticationService.autoLogin();
         let currentChapterUploadId = (datas.currentChapter || {upload:{}}).upload.id;
 
-        AudioPlayerComponent.reloadCurrentPlayer(currentChapterUploadId);
+        AudioPlayerComponent.reloadCurrentPlayer(currentChapterUploadId, (datas.currentChapter||{}).title);
       },
       (err) => {
         console.log(err);

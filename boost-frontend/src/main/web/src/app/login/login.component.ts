@@ -29,7 +29,9 @@ export class LoginComponent implements OnInit {
     this.actRoute.queryParams.subscribe(params => {
       this.returnUrl = params['returnUrl'] || '';
     });
-    this.currentChapter = this.getUser().currentChapter;
+    if(this.isLoggedIn()) {
+      this.currentChapter = this.getUser().currentChapter;
+    }
     this.authenticationService.userEvent.subscribe(event => {
       console.log(event);
       if (event === 'login') {
