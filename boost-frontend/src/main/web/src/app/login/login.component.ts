@@ -19,6 +19,7 @@ export class LoginComponent implements OnInit {
   public password: string;
   faSignInAlt=faSignInAlt;
   faSignOutAlt=faSignOutAlt;
+  private currentChapter: any;
 
   constructor(private router: Router, private actRoute: ActivatedRoute, private authenticationService: AuthenticationService) {
   }
@@ -28,20 +29,32 @@ export class LoginComponent implements OnInit {
     this.actRoute.queryParams.subscribe(params => {
       this.returnUrl = params['returnUrl'] || '';
     });
+    this.currentChapter = this.getUser().currentChapter;
+    this.authenticationService.userEvent.subscribe(event => {
+      console.log(event);
+      if (event === 'login') {
+       this.currentChapter=this.getUser().currentChapter;
+      }
+    });
   }
 
   isLoggedIn() {
     return this.getUser() !== null;
   }
 
+
+  getUpdateCurrentTimeUrl(){
+    if (this.currentChapter)
+      return`/user/chapter/${this.currentChapter.id}/current-time?time=`;
+    else
+      return null;
+  }
+
   getUser() {
+
     return this.authenticationService.getUser();
   }
 
-  getCurrentChapter(){
-    let currentChapter = this.getUser().currentChapter;
-    return currentChapter;
-  }
 
   logout() {
     this.authenticationService.logout();
@@ -60,7 +73,7 @@ export class LoginComponent implements OnInit {
   }
 
   getChapterDetailLink() {
-    let link = '/books/' + Slugify.slugify(this.getCurrentChapter().title) + '/' + this.getCurrentChapter().bookId + '/' + 'view';
+    let link = '/books/' + Slugify.slugify(this.currentChapter.title) + '/' + this.currentChapter.bookId + '/' + 'view';
     return link;
   }
 }

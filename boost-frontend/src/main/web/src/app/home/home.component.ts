@@ -69,6 +69,10 @@ export class HomeComponent implements OnInit {
       });
   }
 
+  getUpdateCurrentTimeUrl(currentChapter){
+      return`/user/chapter/${currentChapter.id}/current-time?time=`;
+  }
+
   fetchHistories() {
     if (this.isLoggedIn()) {
       this.http.get<any[]>(environment.backendUrl + '/user/chapter/history', {}).subscribe(

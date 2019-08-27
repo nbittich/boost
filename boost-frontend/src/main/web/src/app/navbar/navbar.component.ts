@@ -51,7 +51,6 @@ export class NavbarComponent implements OnInit {
     });
   }
 
-
   click(item: MenuLink) {
     this.menu.forEach(x => x.selected = false);
     this.currentMenu = item;

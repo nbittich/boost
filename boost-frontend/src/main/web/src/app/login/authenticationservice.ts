@@ -14,10 +14,10 @@ export class AuthenticationService {
   constructor(private http: HttpClient) {
   }
 
-  autoLogin() {
+  autoLogin(sendEvent=false) {
     this.http.request<any>('post', environment.backendUrl + '/user/info' , {}).subscribe(
       (datas) => {
-        this.setUser(datas,false);
+        this.setUser(datas,sendEvent);
       },
       (err) => {
         console.log(err);

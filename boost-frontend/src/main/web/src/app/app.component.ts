@@ -25,7 +25,7 @@ export class AppComponent {
           // it can also be done using a timeout that we store in the localstorage as well
           // this is necessary for the authentication part
           console.log('browser refresh, check authentication (disabled...');
-          //authService.autoLogin();
+          authService.autoLogin(true);
         }
       }
     });

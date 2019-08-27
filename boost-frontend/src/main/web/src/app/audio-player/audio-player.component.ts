@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, OnInit, ViewChild} from '@angular/core';
+import {ChangeDetectorRef, Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Router} from "@angular/router";
 import {AuthenticationService} from "../login/authenticationservice";
@@ -13,13 +13,14 @@ export class AudioPlayerComponent implements OnInit {
 
   @ViewChild('audioSource', {static: false}) audioSource: ElementRef;
 
-  private static emitter: EventEmitter<any> = new EventEmitter();
   private static audioSources = []; // todo use redux like solution
   private static currentPlayerMgmt: AudioPlayerComponent; // todo use redux like solution
 
   constructor(private http: HttpClient, private router: Router, private cd: ChangeDetectorRef, private authenticationService: AuthenticationService) {
 
   }
+
+  public updateCurrentTimeInterval;
 
   @Input()
   public updateCurrentTimeUrl: string = null;
@@ -55,6 +56,7 @@ export class AudioPlayerComponent implements OnInit {
   }
 
   ngAfterViewInit() {
+    this.setCurrentTime(this.currentTime);
     if (this.currentPlayer) {
       AudioPlayerComponent.currentPlayerMgmt = this;
     }
@@ -62,7 +64,6 @@ export class AudioPlayerComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log(this.upload);
     AudioPlayerComponent.audioSources.push(this);
   }
 
@@ -73,13 +74,23 @@ export class AudioPlayerComponent implements OnInit {
       .filter(a => a.audioSource.nativeElement.id !== this.audioSource.nativeElement.id)
       .forEach(a => {
         a.audioSource.nativeElement.pause();
-      });
 
-    AudioPlayerComponent.emitter.emit({
-      event: event,
-      audioSource: this.audioSource,
-      pause: false
-    });
+      });
+    this.updateCurrentTimeInterval = setInterval(()=>{
+      let currentT = this.audioSource.nativeElement.currentTime;
+      if (this.updateCurrentTimeUrl) {
+        this.http.post<any[]>(environment.backendUrl + this.updateCurrentTimeUrl + currentT, {}).subscribe(
+          (datas) => {
+            console.log(datas);
+          },
+          (err) => {
+            console.log(err);
+          },
+          () => {
+          },
+        );
+      }
+    },10000);
 
   }
 
@@ -107,12 +118,11 @@ export class AudioPlayerComponent implements OnInit {
 
   propagatePauseEvent($event: Event) {
     console.log('paused');
+    if(this.updateCurrentTimeInterval) {
+      clearInterval(this.updateCurrentTimeInterval);
+      this.updateCurrentTimeInterval = null;
+    }
 
-    AudioPlayerComponent.emitter.emit({
-      event: $event,
-      audioSource: this.audioSource,
-      pause: true
-    });
   }
 
   setCurrentTime(time: number) {
