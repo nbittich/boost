@@ -2,6 +2,8 @@ package tech.artcoded.boost.user.controller;
 
 import com.google.common.collect.Maps;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import tech.artcoded.boost.book.entity.Book;
 import tech.artcoded.boost.book.entity.Chapter;
@@ -58,7 +60,7 @@ public class UserController {
         Optional<ChapterHistory> history = chapterHistoryService.findByChapterAndUser(chapter, user);
 
         if (!history.isPresent()){
-            chapterHistoryService.save(ChapterHistory.builder().chapter(chapter).user(user).currentTime(0d).build());
+            chapterHistoryService.save(ChapterHistory.builder().chapter(chapter).user(user).build());
         }
 
         return userService.save(user.toBuilder().currentChapter(chapter).build());
@@ -90,6 +92,18 @@ public class UserController {
         List<ChapterHistory> histories = chapterHistoryService.findTop3ByUserOrderbyIdDesc(userService.principalToUser(principal));
         //return histories.stream().map(h -> h.toBuilder().book(chapterService.findById(h.getChapterId()).orElseThrow(EntityNotFoundException::new).getBook()).build()).collect(Collectors.toList());
         return histories;
+    }
+
+    @PostMapping("/chapter/{id}/current-time")
+    @CacheEvict("uploads")
+    public ResponseEntity<String> updateCurrentTime(@PathVariable("id") Long chapterId,@RequestParam("time") Double time, Principal principal) throws Exception {
+        chapterService.findById(chapterId).ifPresent(chapter -> {
+            Optional<ChapterHistory> history = chapterHistoryService.findByChapterAndUser(chapter, userService.principalToUser(principal));
+            history.ifPresent(h -> {
+                chapterService.save(chapter.toBuilder().currentTime(time).build());
+            });
+        });
+        return ResponseEntity.ok("received");
     }
 
 }

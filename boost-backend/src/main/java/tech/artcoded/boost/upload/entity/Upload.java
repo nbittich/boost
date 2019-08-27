@@ -42,4 +42,6 @@ public class Upload extends Auditable<String> {
     @OneToOne
     @JoinColumn(referencedColumnName = "book_id")
     private Book book;
+
+
 }

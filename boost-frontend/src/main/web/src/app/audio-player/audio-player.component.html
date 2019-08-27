@@ -1,6 +1,6 @@
 <div  class="form-group mr-2" *ngIf="showPlayer && upload">
   <a [routerLink]="linkDetail"  *ngIf="showTitle" class="badge label text-link text-muted text-warning text-uppercase mr-2 ">{{title}}</a>
-  <audio  #audioSource [id]="upload.id" (playing)="propagatePlayingEvent($event)"(pause)="propagatePauseEvent($event)" controls [ngClass]="'bg-transparent pr-3  text-muted' + width? 'w-'+width : ''">
+  <audio  #audioSource [id]="upload.id+currentPlayer" (playing)="propagatePlayingEvent($event)"(pause)="propagatePauseEvent($event)" controls [ngClass]="'bg-transparent pr-3  text-muted' + width? 'w-'+width : ''">
     <source [src]="getSource()"  >
   </audio>
 </div>

@@ -24,8 +24,6 @@ public class ChapterHistory extends Auditable<String> {
     @Version
     private Long version;
 
-    @Column(name = "chapter_history_current_time")
-    private Double currentTime;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "chapter_history_chapter_id", referencedColumnName = "chapter_id")

@@ -21,6 +21,10 @@ public class Chapter extends Auditable<String> {
     @Column(name = "chapter_id")
     private Long id;
 
+
+    @Column(name = "chapter_current_time")
+    private Double currentTime;
+
     @Version
     private Long version;
     @Column(name = "chapter_description",length = 1024)

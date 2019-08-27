@@ -38,12 +38,12 @@ public class UploadController {
                 .body(new ByteArrayResource(upload.getFile()));
     }
 
-    @DeleteMapping
-    public Map.Entry<String,String> delete(@RequestParam("id") String id){
-         uploadService.deleteById(id);
-         return Maps.immutableEntry("message", id + " will be removed");
-    }
 
+    @DeleteMapping
+    public Map.Entry<String, String> delete(@RequestParam("id") String id) {
+        uploadService.deleteById(id);
+        return Maps.immutableEntry("message", id + " will be removed");
+    }
 
 
 }

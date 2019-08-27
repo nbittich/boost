@@ -15,31 +15,34 @@ export class AudioPlayerComponent implements OnInit {
 
   private static emitter: EventEmitter<any> = new EventEmitter();
   private static audioSources = []; // todo use redux like solution
-  private static currentPlayerMgmt:AudioPlayerComponent; // todo use redux like solution
+  private static currentPlayerMgmt: AudioPlayerComponent; // todo use redux like solution
 
-  constructor(private http: HttpClient, private router: Router, private cd:ChangeDetectorRef, private authenticationService: AuthenticationService) {
+  constructor(private http: HttpClient, private router: Router, private cd: ChangeDetectorRef, private authenticationService: AuthenticationService) {
 
   }
 
   @Input()
-  public currentTime:number=0;
+  public updateCurrentTimeUrl: string = null;
 
   @Input()
-  public width:number;
+  public currentTime: number = 0;
 
   @Input()
-  public currentPlayer:boolean;
+  public width: number;
 
   @Input()
-  public linkDetail:string;
+  public currentPlayer: boolean;
 
   @Input()
-  public upload:any;
+  public linkDetail: string;
+
+  @Input()
+  public upload: any;
   @Input()
   title: string;
   @Input()
-  showTitle: boolean=true;
-  showPlayer: boolean=true;
+  showTitle: boolean = true;
+  showPlayer: boolean = true;
 
 
   isLoggedIn() {
@@ -51,29 +54,31 @@ export class AudioPlayerComponent implements OnInit {
     return AudioPlayerComponent.getSourceById(this.upload.id);
   }
 
-  ngAfterViewInit(){
-    if(this.currentPlayer) {
-      AudioPlayerComponent.currentPlayerMgmt=this;
+  ngAfterViewInit() {
+    if (this.currentPlayer) {
+      AudioPlayerComponent.currentPlayerMgmt = this;
     }
 
   }
+
   ngOnInit() {
     console.log(this.upload);
-    AudioPlayerComponent.emitter.subscribe((e)=>{
-      AudioPlayerComponent.audioSources.filter(a=> a.audioSource !== e.audioSource).forEach(a=> {
-        a.audioSource.nativeElement.pause();
-      });
-      AudioPlayerComponent.audioSources.push(e);
-    })
+    AudioPlayerComponent.audioSources.push(this);
   }
 
 
-
-  propagatePlayingEvent(event:Event) {
+  propagatePlayingEvent(event: Event) {
     console.log('playing:', event);
+    AudioPlayerComponent.audioSources
+      .filter(a => a.audioSource.nativeElement.id !== this.audioSource.nativeElement.id)
+      .forEach(a => {
+        a.audioSource.nativeElement.pause();
+      });
+
     AudioPlayerComponent.emitter.emit({
       event: event,
-      audioSource: this.audioSource
+      audioSource: this.audioSource,
+      pause: false
     });
 
   }
@@ -81,18 +86,19 @@ export class AudioPlayerComponent implements OnInit {
   static getSourceById(id) {
     return environment.backendUrl + '/upload/' + id;
   }
+
   static reloadCurrentPlayer(newId) {
     let currentPlayerMgmt = AudioPlayerComponent.currentPlayerMgmt;
-    if(currentPlayerMgmt) {
-      try{
-        if (newId){
+    if (currentPlayerMgmt) {
+      try {
+        if (newId) {
           let audioSource = currentPlayerMgmt.audioSource;
-          audioSource.nativeElement.src=AudioPlayerComponent.getSourceById(newId);
+          audioSource.nativeElement.src = AudioPlayerComponent.getSourceById(newId);
           audioSource.nativeElement.pause();
-        }else {
+        } else {
           AudioPlayerComponent.currentPlayerMgmt.upload = null;
         }
-      }catch (e) {
+      } catch (e) {
         console.log("error handled ", e);
         AudioPlayerComponent.currentPlayerMgmt.upload = null;
       }
@@ -101,9 +107,15 @@ export class AudioPlayerComponent implements OnInit {
 
   propagatePauseEvent($event: Event) {
     console.log('paused');
+
+    AudioPlayerComponent.emitter.emit({
+      event: $event,
+      audioSource: this.audioSource,
+      pause: true
+    });
   }
 
-  setCurrentTime(time:number){
+  setCurrentTime(time: number) {
     this.audioSource.nativeElement.currentTime = time;
   }
 }
