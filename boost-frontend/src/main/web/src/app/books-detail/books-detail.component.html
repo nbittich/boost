@@ -20,6 +20,7 @@
           </div>
           <div class="col-lg-8">
           <span class="lead" >
+            <span [ngClass]="'flag-icon flag-icon-'+ book.lang" *ngIf="book.lang"></span>
             {{book.title}}<small class="text-muted"> by {{book.author}}</small>
           </span>
             <p>{{book.description}}</p>

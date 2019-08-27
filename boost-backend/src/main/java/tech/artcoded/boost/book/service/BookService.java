@@ -6,7 +6,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import tech.artcoded.boost.book.dto.BookDto;
 import tech.artcoded.boost.book.entity.Book;
@@ -50,10 +49,9 @@ public interface BookService extends CrudService<Long, Book> {
     }
 
     @Cacheable(cacheNames = "book",key = "#title")
-    default Page<Book> findByTitleLike(String title) {
+    default Page<Book> findByTitleLike(String title, Pageable page) {
         System.out.println("from method");
-        Pageable pr = PageRequest.of(0, 5);
-        return getRepository().findByTitleContainingIgnoreCase(StringUtils.trimToEmpty(title),pr);
+        return getRepository().findByTitleContainingIgnoreCase(StringUtils.trimToEmpty(title),page);
     }
 
     @SneakyThrows
@@ -81,6 +79,7 @@ public interface BookService extends CrudService<Long, Book> {
                 bookE.author(book.getAuthor())
                         .title(book.getTitle())
                         .user(user)
+                        .lang(book.getLang())
                         .category(book.getCategory())
                         .description(book.getDescription())
                         .build()

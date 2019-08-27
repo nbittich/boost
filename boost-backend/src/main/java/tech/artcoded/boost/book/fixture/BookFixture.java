@@ -101,7 +101,7 @@ public class BookFixture implements CommandLineRunner {
         Long bookSize = env.getProperty("fixture.books.size", Long.class);
         byte[] defaultCoverStream = toByteArray(defaultCover.getInputStream());
         Upload upload = bookService.getUploadService().upload(Base64.getEncoder().encode(defaultCoverStream), MediaType.IMAGE_JPEG_VALUE, "cover.jpg");
-        List<String> lang = Arrays.<String>asList(Locale.getISOCountries());
+        List<String> lang = Arrays.asList(Locale.getISOCountries());
 
         List<Book> books = LongStream.range(0L, bookSize)
                 .peek(i -> log.info("saving book #" + i + 1))
@@ -109,7 +109,7 @@ public class BookFixture implements CommandLineRunner {
                 .map(builder -> builder
                         .user(contr)
                         .cover(upload)
-                        .lang(shuffle(lang).get(0))
+                        .lang(shuffle(lang).get(0).toLowerCase())
                         .category(faker.book().genre())
                         .title(faker.book().title())
                         .author(faker.book().author())

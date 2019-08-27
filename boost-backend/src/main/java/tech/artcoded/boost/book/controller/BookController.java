@@ -24,10 +24,9 @@ import tech.artcoded.boost.user.service.UserService;
 import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 import java.security.Principal;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.CompletableFuture;
+import java.util.stream.Collectors;
 
 @RestController
 @CrossOrigin(value = "*", allowedHeaders = "*", exposedHeaders = "x-auth-token")
@@ -86,6 +85,11 @@ public class BookController {
     public List<Book> lastBooks( ) {
         return bookService.findTop3OrOrderByCreatedDateDesc();
     }
+    @GetMapping("/country-code")
+    public List<String> countryCode( ) {
+        return Arrays.asList(Locale.getISOCountries()).stream().map(String::toLowerCase).collect(Collectors.toList());
+
+    }
 
     @GetMapping
     public Page<Book> books(Pageable pageable) {
@@ -93,11 +97,11 @@ public class BookController {
     }
 
     @GetMapping("/search/title")
-    public Page<Book> books(@RequestParam("title") String title) {
+    public Page<Book> books(@RequestParam("title") String title, Pageable page) {
         if (StringUtils.isBlank(title)){
             return Page.empty();
         }
-        return bookService.findByTitleLike(title);
+        return bookService.findByTitleLike(title, page);
 
     }
 

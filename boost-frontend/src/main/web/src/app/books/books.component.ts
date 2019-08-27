@@ -72,7 +72,7 @@ export class BooksComponent implements OnInit {
   getBooks(event: number) {
     this.loading = true;
     this.books=[];
-    this.http.get<any[]>(environment.backendUrl + BooksComponent.ENDPOINT + '?page=' + (event - 1), {}).subscribe(
+    this.http.get<any[]>(environment.backendUrl + BooksComponent.ENDPOINT + '?size=10&page=' + (event - 1), {}).subscribe(
       (datas) => {
         this.books = datas;
         setTimeout(()=>{
@@ -102,7 +102,7 @@ export class BooksComponent implements OnInit {
   }
 
   searchBookByTitle(title) {
-    this.http.get<any[]>(environment.backendUrl + BooksComponent.ENDPOINT + '/search/title', {params:{
+    this.http.get<any[]>(environment.backendUrl + BooksComponent.ENDPOINT + '/search/title' +'?page=0&size=10', {params:{
       'title':title
       }}).subscribe(
       (datas) => {

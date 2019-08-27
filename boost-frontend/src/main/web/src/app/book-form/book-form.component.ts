@@ -18,6 +18,7 @@ export class BookFormComponent implements OnInit {
   faPlus=faPlus;
   faTimes=faTimes;
   faSave=faSave;
+  countryCode:any;
   public loadingCover:boolean;
 
   @Input()
@@ -48,6 +49,7 @@ export class BookFormComponent implements OnInit {
 
   ngOnInit() {
     this.bookCopy = JSON.parse(JSON.stringify(this.book));
+    this.fetchCountryCode();
   }
 
   isLoggedIn() {
@@ -56,6 +58,20 @@ export class BookFormComponent implements OnInit {
 
   getUser() {
     return this.authenticationService.getUser();
+  }
+
+  fetchCountryCode(){
+    this.http.request<any>('get', environment.backendUrl + '/book/country-code', {}).subscribe(
+      (datas) => {
+          this.countryCode = datas;
+      },
+      (err) => {
+        console.log(err);
+      },
+      () => {
+      },
+    );
+
   }
   public setCover($imagePreview: ImagePreview) {
       this.coverChanged = true;
@@ -76,6 +92,7 @@ export class BookFormComponent implements OnInit {
       this.saving = true;
       let b = {
         id: this.bookCopy.id,
+        lang: this.bookCopy.lang,
         title: this.bookCopy.title,
         description: this.bookCopy.description,
         author: this.bookCopy.author,

@@ -32,6 +32,18 @@
                 <label for="bookDescription">Description</label>
                 <textarea [disabled]="saving" autosize class="form-control " id="bookDescription" [(ngModel)]="bookCopy.description"></textarea>
               </div>
+              <div class="form-group">
+                <datalist id="listCc"  *ngIf="countryCode">
+                  <select class="form-control" >
+                    <option *ngFor="let cc of countryCode" [value]="cc"></option>
+                  </select>
+                </datalist>
+                <label for="bookLang">lang</label>
+                <div class="ingput-gtoup">
+                  <input list="listCc" id="bookLang" [disabled]="saving" type="text" class="form-control form-inline" [(ngModel)]="bookCopy.lang">
+                  <span   [ngClass]="'col-1 flag-icon flag-icon-'+bookCopy.lang"></span>
+                </div>
+              </div>
 
               <button [disabled]="!bookCopy.title || !bookCopy.author || !bookCopy.category || saving" (click)="saveBookToDB($event)" class="btn btn-outline-primary btn-sm float-right text-uppercase"><fa-icon [icon]="faSave"></fa-icon>&nbsp;{{savingButton}}</button>
             </div>
