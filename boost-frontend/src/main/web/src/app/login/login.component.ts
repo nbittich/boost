@@ -31,6 +31,16 @@ export class LoginComponent implements OnInit {
     this.actRoute.queryParams.subscribe(params => {
       this.returnUrl = params['returnUrl'] || '';
     });
+    this.fetchCurrentChap();
+    this.authenticationService.userEvent.subscribe(value => {
+      if(value === 'login') {
+        this.fetchCurrentChap();
+      }
+    })
+  }
+
+  public fetchCurrentChap(){
+
     if(this.isLoggedIn()) {
       this.http.get<any[]>(environment.backendUrl + '/user/chapter/current', {}).subscribe(
         (datas) => {

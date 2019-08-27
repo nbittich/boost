@@ -101,6 +101,7 @@ export class AudioPlayerComponent implements OnInit {
     if (currentPlayerMgmt) {
       try {
         if (newId) {
+          console.log("new"+newId)
           let audioSource = currentPlayerMgmt.audioSource;
           currentPlayerMgmt.title = title;
           audioSource.nativeElement.src = AudioPlayerComponent.getSourceById(newId);

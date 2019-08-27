@@ -70,7 +70,7 @@ export class HomeComponent implements OnInit {
   }
 
   getUpdateCurrentTimeUrl(currentChapter){
-      return`/user/chapter/${currentChapter.id}/current-time?time=`;
+      return`/user/chapter/${currentChapter.chapter.id}/current-time?time=`;
   }
 
   fetchHistories() {

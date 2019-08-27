@@ -54,6 +54,7 @@ public class UserController {
 
 
     @PostMapping("/chapter/update/current")
+    @Transactional
     public User updateCurrentChapter(@RequestParam("chapterId") Long chapterId, Principal principal) {
         User user = userService.principalToUser(principal);
         Chapter chapter = chapterService.findById(chapterId).orElseThrow(() -> new RuntimeException("chapter not found"));

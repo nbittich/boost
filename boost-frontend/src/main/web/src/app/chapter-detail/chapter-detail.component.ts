@@ -92,8 +92,9 @@ export class ChapterDetailComponent implements OnInit {
   updateCurrentChapter($event: Event) {
     this.http.request<any>('post', environment.backendUrl + '/user/chapter/update/current', {params: new HttpParams().set('chapterId',this.chapter.id)}).subscribe(
       (datas) => {
-          this.authenticationService.autoLogin();
+          this.authenticationService.autoLogin(true);
           let currentChapterUploadId = (datas.currentChapter || {upload:{}}).upload.id;
+          console.log("ger"+currentChapterUploadId);
           AudioPlayerComponent.reloadCurrentPlayer(currentChapterUploadId, (datas.currentChapter||{}).title);
 
       },
