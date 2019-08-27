@@ -5,6 +5,7 @@ import com.google.common.collect.Maps;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
@@ -85,7 +86,10 @@ public class BookController {
     public List<Book> lastBooks( ) {
         return bookService.findTop3OrOrderByCreatedDateDesc();
     }
+
+
     @GetMapping("/country-code")
+    @Cacheable("countryCode")
     public List<String> countryCode( ) {
         return Arrays.asList(Locale.getISOCountries()).stream().map(String::toLowerCase).collect(Collectors.toList());
 

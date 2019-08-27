@@ -7,7 +7,7 @@ spring:
     type: caffeine
     caffeine:
       spec: maximumSize=500, expireAfterAccess=30s
-    cache-names: bookTop3Stars, book, uploads
+    cache-names: bookTop3Stars, book, uploads, countryCode
   servlet:
     multipart:
       max-file-size: 1GB
@@ -32,7 +32,7 @@ spring:
         dialect: tech.artcoded.boost.common.config.CustomPostgreSqlDialect
         temp:
           use_jdbc_metadata_defaults: false
-    show-sql: true
+    show-sql: false
   resources:
     add-mappings: true # remove in case the frontend is running separately
 application:
