@@ -79,6 +79,9 @@ export class AudioPlayerComponent implements OnInit {
     this.updateCurrentTimeInterval = setInterval(()=>{
       let currentT = this.audioSource.nativeElement.currentTime;
       if (this.updateCurrentTimeUrl) {
+        if (!this.isLoggedIn()){
+          clearInterval(this.updateCurrentTimeInterval);
+        }
         this.http.post<any[]>(environment.backendUrl + this.updateCurrentTimeUrl + currentT, {}).subscribe(
           (datas) => {
           },
@@ -95,6 +98,7 @@ export class AudioPlayerComponent implements OnInit {
   static getSourceById(id) {
     return environment.backendUrl + '/upload/' + id;
   }
+
 
   static reloadCurrentPlayer(newId,title) {
     let currentPlayerMgmt = AudioPlayerComponent.currentPlayerMgmt;
