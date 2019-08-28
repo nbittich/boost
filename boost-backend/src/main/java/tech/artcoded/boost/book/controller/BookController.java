@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.*;
 import tech.artcoded.boost.book.dto.BookDto;
 import tech.artcoded.boost.book.dto.ChapterDto;
@@ -66,20 +67,102 @@ public class BookController {
 
 
     @PutMapping("/chapter/publish")
-    public Map.Entry<String, String> publishChapter(@RequestBody ChapterDto chapter) {
-        CompletableFuture.runAsync(() -> {
-            Chapter chap = chapterService.saveChapterAndUpload(chapter);
-            Book bookUpdated = chap.getBook().toBuilder().totalDuration(chapterService.getTotalDuration(chap.getBook())).build();
-            bookService.save(bookUpdated);
+    public Map.Entry<String, String> publishChapter(@RequestBody ChapterDto chapter, Principal principal) {
+        User user = userService.principalToUser(principal);
+        if(chapter.getId() != null){
+            Chapter chap = this.chapterService.findById(chapter.getId()).orElseThrow(() -> new RuntimeException("chapter not found"));
+            Optional<Book> book = this.bookService.findByIdAndUser(chap.getBookId(), user);
+
+            if (!book.isPresent()){
+                throw new AccessDeniedException("Forbidden");
+            }
+
+        }
+
+         CompletableFuture.runAsync(()->{
+            chapterService.publish(chapter,user);
         });
         return Maps.immutableEntry("message", String.format("Chapter will be added"));
+
 
     }
 
     @PutMapping
     @Transactional
     public Book addBook(@RequestBody BookDto bookDto, Principal principal) {
-        return bookService.saveBookWithCover(bookDto, userService.principalToUser(principal));
+
+        User user = userService.principalToUser(principal);
+        if(bookDto.getId()!= null){
+            Optional<Book> optionalBook = Optional.ofNullable(bookDto.getId()).flatMap(id-> this.bookService.findByIdAndUser(id,user));
+            if (!optionalBook.isPresent()){
+                throw new AccessDeniedException("Forbidden");
+            }
+        }
+        return bookService.saveBookWithCover(bookDto, user);
+
+    }
+
+    @DeleteMapping
+    @Transactional
+    public Map.Entry<String, String> deleteBook(@RequestBody Book book, Principal principal) {
+        User user = userService.principalToUser(principal);
+        Page<Chapter> chapters = chapterService.findByBookIdAndUser(book.getId(), user, Pageable.unpaged());
+
+        if (chapters.isEmpty()){
+            throw new AccessDeniedException("Forbidden");
+        }
+
+        chapters.forEach(chapter -> {
+            List<ChapterHistory> history = chapterHistoryService.findByChapter(chapter);
+            chapterHistoryService.deleteAll(history);
+        });
+
+        chapters.stream().map(userService::findByCurrentChapter).flatMap(Collection::stream)
+                .forEach(usr -> userService.save(usr.toBuilder().currentChapter(null).build()));
+
+        starsService.deleteAll(starsService.findByBook(book));
+        chapterService.deleteAll(chapters);
+        bookService.deleteById(book.getId());
+        return Maps.immutableEntry("message", String.format("Book %s removed", book.getId()));
+    }
+
+
+    @DeleteMapping("/chapter/{chapterId}")
+    @Transactional
+    public Map.Entry<String, String> deleteChapter(@PathVariable("chapterId") Long chapterId, Principal principal) {
+        User user = userService.principalToUser(principal);
+        Chapter chapter = chapterService.findById(chapterId).orElseThrow(EntityNotFoundException::new);
+        Optional<Book> book = bookService.findByIdAndUser(chapter.getBookId(), user);
+
+        if (!book.isPresent()){
+            throw new AccessDeniedException("Forbidden");
+        }
+
+        List<ChapterHistory> history = chapterHistoryService.findByChapter(chapter);
+        chapterHistoryService.deleteAll(history);
+
+        userService.findByCurrentChapter(chapter)
+                .forEach(usr -> userService.save(usr.toBuilder().currentChapter(null).build()));
+
+        chapterService.deleteById(chapterId);
+        return Maps.immutableEntry("message", String.format("Chapter %s removed", chapterId));
+
+    }
+
+    @PostMapping("/chapter/edit")
+    @Transactional
+    public Map.Entry<String, String> editChapter(@RequestBody ChapterDto chapterDto, Principal principal) {
+        User user = userService.principalToUser(principal);
+        Chapter chap = this.chapterService.findById(chapterDto.getId()).orElseThrow(() -> new RuntimeException("chapter not found"));
+
+        Optional<Book> book = bookService.findByIdAndUser(chap.getBookId(), user);
+
+        if (!book.isPresent()){
+            throw new AccessDeniedException("Forbidden");
+        }
+
+        chapterService.updateFields(chapterDto);
+        return Maps.immutableEntry("message", String.format("Chapter %s edited", chapterDto.getId()));
 
     }
 
@@ -126,27 +209,6 @@ public class BookController {
 
     }
 
-    @DeleteMapping
-    @Transactional
-    public Map.Entry<String, String> deleteBook(@RequestBody Book book, Principal principal) {
-        User user = userService.principalToUser(principal);
-        Page<Chapter> chapters = chapterService.findByBookId(book.getId(), Pageable.unpaged());
-
-
-        chapters.forEach(chapter -> {
-            List<ChapterHistory> history = chapterHistoryService.findByChapter(chapter);
-            chapterHistoryService.deleteAll(history);
-        });
-
-        chapters.stream().map(userService::findByCurrentChapter).flatMap(Collection::stream)
-                .forEach(usr -> userService.save(usr.toBuilder().currentChapter(null).build()));
-
-        starsService.deleteAll(starsService.findByBook(book));
-        chapterService.deleteAll(chapters);
-        bookService.deleteById(book.getId());
-        return Maps.immutableEntry("message", String.format("Book %s removed", book.getId()));
-    }
-
     @GetMapping("/{title}/{bookId}")
     public Book getOne(@PathVariable("bookId") Long bookId,@PathVariable("title") String title){
 
@@ -162,28 +224,6 @@ public class BookController {
         return chapterService.findByBookId(bookId,pageable);
     }
 
-    @DeleteMapping("/chapter/{chapterId}")
-    public Map.Entry<String, String> deleteChapter(@PathVariable("chapterId") Long chapterId, Principal principal) {
-        User user = userService.principalToUser(principal);
-        Chapter chapter = chapterService.findById(chapterId).orElseThrow(EntityNotFoundException::new);
-
-        List<ChapterHistory> history = chapterHistoryService.findByChapter(chapter);
-        chapterHistoryService.deleteAll(history);
-
-        userService.findByCurrentChapter(chapter)
-                .forEach(usr -> userService.save(usr.toBuilder().currentChapter(null).build()));
-
-        chapterService.deleteById(chapterId);
-        return Maps.immutableEntry("message", String.format("Chapter %s removed", chapterId));
-
-    }
-
-    @PostMapping("/chapter/edit")
-    public Map.Entry<String, String> editChapter(@RequestBody ChapterDto chapterDto) {
-        chapterService.updateFields(chapterDto);
-        return Maps.immutableEntry("message", String.format("Chapter %s edited", chapterDto.getId()));
-
-    }
 
 
 

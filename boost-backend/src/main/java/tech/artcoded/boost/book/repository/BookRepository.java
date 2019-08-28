@@ -17,6 +17,8 @@ public interface BookRepository extends JpaRepository<Book, Long> {
 
     Page<Book> findAllByUser(User user, Pageable pageable);
 
+    Optional<Book> findByIdAndUser(Long bookId, User user);
+
     interface BookTitle{
         String getTitle();
         Long getId();

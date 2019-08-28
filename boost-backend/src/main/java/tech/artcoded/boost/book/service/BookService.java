@@ -58,7 +58,7 @@ public interface BookService extends CrudService<Long, Book> {
     @CacheEvict(cacheNames = "book")
     default Book saveBookWithCover(BookDto book, User user) {
         produceEvent("_SAVE_WITH_COVER", "Title: " + book.getTitle() + ", ContentType: " + book.getContentType());
-        Optional<Book> optionalBook = Optional.ofNullable(book.getId()).flatMap(this::findById);
+        Optional<Book> optionalBook = Optional.ofNullable(book.getId()).flatMap(id-> this.findByIdAndUser(id,user));
 
         final Book.BookBuilder bookE = optionalBook.
                 map(Book::toBuilder)
@@ -96,5 +96,9 @@ public interface BookService extends CrudService<Long, Book> {
     }
     default Page<Book> findAllByUser(User user, Pageable pageable){
         return getRepository().findAllByUser(user, pageable);
+    }
+
+    default Optional<Book> findByIdAndUser(Long bookId, User user){
+        return getRepository().findByIdAndUser(bookId,user);
     }
 }

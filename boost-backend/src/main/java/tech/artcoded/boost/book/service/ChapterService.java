@@ -11,6 +11,7 @@ import tech.artcoded.boost.book.repository.ChapterRepository;
 import tech.artcoded.boost.common.service.CrudService;
 import tech.artcoded.boost.upload.entity.Upload;
 import tech.artcoded.boost.upload.service.UploadService;
+import tech.artcoded.boost.user.entity.User;
 
 import javax.transaction.Transactional;
 import java.util.Optional;
@@ -24,7 +25,7 @@ public interface ChapterService extends CrudService<Long, Chapter> {
 
     @Transactional()
     default Page<Chapter> findByBookId(Long bookId, Pageable pageable) {
-        produceEvent("_FIND_BY_BOOK_ID_AND_CHAPTE_NAME", "BookId: " + bookId);
+        produceEvent("_FIND_BY_BOOK_ID", "BookId: " + bookId);
         Optional<Book> book = getBookService().findById(bookId);
         return book.map(b -> getRepository().findByBookOrderByOrderAsc(b, pageable)).orElseGet(Page::empty);
     }
@@ -63,5 +64,20 @@ public interface ChapterService extends CrudService<Long, Chapter> {
             builder.description(chapterDto.getDescription());
         }
         this.save(builder.build());
+    }
+
+    default Page<Chapter> findByBookIdAndUser(Long id, User user, Pageable pageable){
+        produceEvent("_FIND_BY_BOOK_ID_AND_USER", "BookId: " + id);
+        Optional<Book> book = getBookService().findByIdAndUser(id,user);
+        return book.map(b -> getRepository().findByBookOrderByOrderAsc(b, pageable)).orElseGet(Page::empty);
+
+    }
+
+    @Transactional
+    default void publish(ChapterDto chapter, User user){
+
+        Chapter chap = this.saveChapterAndUpload(chapter);
+        Book bookUpdated = chap.getBook().toBuilder().totalDuration(this.getTotalDuration(chap.getBook())).build();
+        getBookService().save(bookUpdated);
     }
 }
