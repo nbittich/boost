@@ -93,6 +93,7 @@ export class BookFormComponent implements OnInit {
       let b = {
         id: this.bookCopy.id,
         lang: this.bookCopy.lang,
+        published: this.bookCopy.published,
         title: this.bookCopy.title,
         description: this.bookCopy.description,
         author: this.bookCopy.author,
