@@ -51,6 +51,7 @@ export class BooksDetailComponent implements OnInit {
     this.http.request<any>('get', environment.backendUrl + BooksDetailComponent.ENDPOINT+ '/' + title+'/'+id, {}).subscribe(
       (datas) => {
         this.book = datas;
+        this.checkRights();
       },
       (err) => {
         console.log(err);
@@ -69,6 +70,7 @@ export class BooksDetailComponent implements OnInit {
       const editMode = params.editMode;
       this.fetchBook(id,title);
       this.editMode = editMode === 'edit';
+
     });
   }
 
@@ -106,6 +108,18 @@ export class BooksDetailComponent implements OnInit {
 
   navigate(book, editMode) {
     this.router.navigateByUrl('/books/' + Slugify.slugify(book.title) + '/' + book.id + '/' + editMode);
+  }
+
+  private checkRights() {
+    if (this.editMode){
+      if(!this.hasRight()){
+        this.navigate(this.book,"view");
+      }
+    }
+  }
+
+  public hasRight() {
+    return (this.book || {username:'ERROR'}).username === (this.getUser() ||{username:'ANONYMOUS'}).username;
   }
 }
 

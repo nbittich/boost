@@ -60,6 +60,11 @@ public class Book extends Auditable<String> {
     @JsonIgnore
     private User user;
 
+    @Transient
+    public String getUsername(){
+        return user.getUsername();
+    }
+
 
     @OneToMany(mappedBy = "book",fetch = FetchType.LAZY)
     private List<Star> stars;
