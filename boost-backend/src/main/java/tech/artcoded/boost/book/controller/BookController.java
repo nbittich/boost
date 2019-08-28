@@ -114,7 +114,7 @@ public class BookController {
 
     @GetMapping
     public Page<Book> books(Pageable pageable) {
-        return bookService.findAll(pageable);
+        return bookService.findAllByPublishedIsTrue(pageable);
     }
 
     @GetMapping("/search/title")
