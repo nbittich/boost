@@ -48,10 +48,10 @@ public interface BookService extends CrudService<Long, Book> {
         return getRepository().findByIdAndTitle(id,title);
     }
 
-    @Cacheable(cacheNames = "book",key = "#title")
-    default Page<Book> findByTitleLike(String title, Pageable page) {
+    @Cacheable(cacheNames = "book",key = "#title + #page.pageNumber")
+    default Page<Book> findByPublishedIsTrueAndByTitleContainingIgnoreCase(String title, Pageable page) {
         System.out.println("from method");
-        return getRepository().findByTitleContainingIgnoreCase(StringUtils.trimToEmpty(title),page);
+        return getRepository().findByPublishedIsTrueAndTitleContainingIgnoreCase(StringUtils.trimToEmpty(title),page);
     }
 
     @SneakyThrows

@@ -108,6 +108,7 @@ public class BookFixture implements CommandLineRunner {
                 .mapToObj(i -> Book.builder())
                 .map(builder -> builder
                         .user(contr)
+                        .published(true)
                         .cover(upload)
                         .lang(shuffle(lang).get(0).toLowerCase())
                         .category(faker.book().genre())

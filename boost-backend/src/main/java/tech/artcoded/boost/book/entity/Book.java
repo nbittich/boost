@@ -21,6 +21,9 @@ public class Book extends Auditable<String> {
     @Version
     private Long version;
 
+    @Column(name = "book_published")
+    private boolean published;
+
     @Id
     @Column(name = "book_id")
     @GeneratedValue

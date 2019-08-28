@@ -70,23 +70,27 @@ export class BooksComponent implements OnInit {
   }
 
   getBooks(event: number) {
-    this.loading = true;
-    this.books=[];
-    this.http.get<any[]>(environment.backendUrl + BooksComponent.ENDPOINT + '?size=10&page=' + (event - 1), {}).subscribe(
-      (datas) => {
-        this.books = datas;
-        setTimeout(()=>{
-          this.loading=false;
+    if(this.searchText && this.searchText.length > 0) {
+      this.searchBookByTitle(this.searchText, event);
+    }else{
+      this.loading = true;
+      this.books=[];
+      this.http.get<any[]>(environment.backendUrl + BooksComponent.ENDPOINT + '?size=10&page=' + (event - 1), {}).subscribe(
+        (datas) => {
+          this.books = datas;
+          setTimeout(()=>{
+            this.loading=false;
 
-        }, 1000);
+          }, 1000);
 
-      },
-      (err) => {
-        console.log(err);
-      },
-      () => {
-      },
-    );
+        },
+        (err) => {
+          console.log(err);
+        },
+        () => {
+        },
+      );
+    }
   }
 
   isLoggedIn() {
@@ -101,12 +105,15 @@ export class BooksComponent implements OnInit {
     return Math.round(book.totalDuration/1000 / 60 ) + ' minutes';
   }
 
-  searchBookByTitle(title) {
-    this.http.get<any[]>(environment.backendUrl + BooksComponent.ENDPOINT + '/search/title' +'?page=0&size=10', {params:{
+  searchBookByTitle(title,page=1) {
+    this.loading = true;
+    this.books = [];
+    this.http.get<any[]>(environment.backendUrl + BooksComponent.ENDPOINT + '/search/title' +'?size=10&page='+ (page-1), {params:{
       'title':title
       }}).subscribe(
       (datas) => {
         this.books = datas;
+        this.loading = false;
       },
       (err) => {
         console.log(err);

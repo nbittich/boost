@@ -122,7 +122,7 @@ public class BookController {
         if (StringUtils.isBlank(title)){
             return Page.empty();
         }
-        return bookService.findByTitleLike(title, page);
+        return bookService.findByPublishedIsTrueAndByTitleContainingIgnoreCase(title, page);
 
     }
 
