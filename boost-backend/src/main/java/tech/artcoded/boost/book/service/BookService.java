@@ -33,7 +33,7 @@ public interface BookService extends CrudService<Long, Book> {
 
     @Cacheable(cacheNames = "bookTop3Stars")
     default List<Book> findTop3ByStars(){
-        return getRepository().findAll()
+        return getRepository().findAllByPublishedIsTrue()
                 .stream()
                 .map(book -> book.toBuilder().totalStar(book.getStars().stream().mapToDouble(Star::getStar).average().orElse(0d)).build())
                 .sorted(Comparator.comparing(Book::getTotalStar).reversed())
@@ -41,7 +41,7 @@ public interface BookService extends CrudService<Long, Book> {
                 .collect(Collectors.toList());
     }
     default List<Book> findTop3OrOrderByCreatedDateDesc(){
-        return getRepository().findTop3ByOrderByCreatedDateDesc();
+        return getRepository().findTop3ByPublishedIsTrueOrderByCreatedDateDesc();
     }
 
     default Optional<Book> findByIdAndTitle(Long id, String title) {

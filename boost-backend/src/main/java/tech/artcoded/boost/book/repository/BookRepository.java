@@ -14,6 +14,7 @@ import java.util.Optional;
 public interface BookRepository extends JpaRepository<Book, Long> {
 
     Page<Book> findAllByPublishedIsTrue(Pageable pageable);
+    List<Book> findAllByPublishedIsTrue();
 
     Page<Book> findAllByUser(User user, Pageable pageable);
 
@@ -28,7 +29,7 @@ public interface BookRepository extends JpaRepository<Book, Long> {
 
     Optional<Book> findByIdAndTitle(Long id, String title);
 
-    List<Book> findTop3ByOrderByCreatedDateDesc();
+    List<Book> findTop3ByPublishedIsTrueOrderByCreatedDateDesc();
 
     List<BookTitle> findByTitleNotNull();
 
