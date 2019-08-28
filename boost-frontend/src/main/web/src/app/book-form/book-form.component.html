@@ -39,10 +39,14 @@
                   </select>
                 </datalist>
                 <label for="bookLang">lang</label>
-                <div class="ingput-gtoup">
+                <div class="ingput-group">
                   <input list="listCc" id="bookLang" [disabled]="saving" type="text" class="form-control form-inline" [(ngModel)]="bookCopy.lang">
                   <span  [ngClass]="'col-1 flag-icon flag-icon-'+bookCopy.lang"></span>
                 </div>
+              </div>
+              <div class="form-group">
+                <label for="bookPublished">Published</label>
+                <input type="checkbox"  class="form-check" id="bookPublished" [disabled]="saving" [(ngModel)]="bookCopy.published">
               </div>
 
               <button [disabled]="!bookCopy.title || !bookCopy.author || !bookCopy.category || saving" (click)="saveBookToDB($event)" class="btn btn-outline-primary btn-sm float-right text-uppercase"><fa-icon [icon]="faSave"></fa-icon>&nbsp;{{savingButton}}</button>

@@ -82,6 +82,7 @@ public interface BookService extends CrudService<Long, Book> {
                         .lang(book.getLang())
                         .category(book.getCategory())
                         .description(book.getDescription())
+                        .published(book.isPublished())
                         .build()
         );
 

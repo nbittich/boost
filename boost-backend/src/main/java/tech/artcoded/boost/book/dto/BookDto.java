@@ -14,6 +14,7 @@ public class BookDto {
     private String title;
     private String author;
     private String lang;
+    private boolean published;
     private String category;
     private String description;
     private byte[] cover;
