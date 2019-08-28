@@ -2,6 +2,9 @@ package tech.artcoded.boost.book.controller;
 
 import com.github.slugify.Slugify;
 import com.google.common.collect.Maps;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +37,15 @@ import java.util.stream.Collectors;
 @RequestMapping("/book")
 @Slf4j
 public class BookController {
+
+    @Data
+    @EqualsAndHashCode(of = "key")
+    @AllArgsConstructor
+    class CountryCode {
+        private String key;
+        private String value;
+
+    }
 
     private static final Slugify SLUGIFY = new Slugify();
 
@@ -90,8 +102,13 @@ public class BookController {
 
     @GetMapping("/country-code")
     @Cacheable("countryCode")
-    public List<String> countryCode( ) {
-        return Arrays.asList(Locale.getISOCountries()).stream().map(String::toLowerCase).collect(Collectors.toList());
+    public List<CountryCode> countryCode( ) {
+        List<CountryCode> locales = Arrays.stream(Locale.getAvailableLocales())
+                .map(locale -> new CountryCode(locale.getLanguage().toLowerCase(), locale.getDisplayLanguage()))
+                .distinct()
+                .filter(cc -> StringUtils.isNotEmpty(cc.key) && StringUtils.isNotEmpty(cc.value))
+                .collect(Collectors.toList());
+        return locales;
 
     }
 

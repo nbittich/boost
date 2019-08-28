@@ -35,13 +35,13 @@
               <div class="form-group">
                 <datalist id="listCc"  *ngIf="countryCode">
                   <select class="form-control" >
-                    <option *ngFor="let cc of countryCode" [value]="cc"></option>
+                    <option *ngFor="let cc of countryCode" [value]="cc.key">{{cc.value}}</option>
                   </select>
                 </datalist>
                 <label for="bookLang">lang</label>
                 <div class="ingput-gtoup">
                   <input list="listCc" id="bookLang" [disabled]="saving" type="text" class="form-control form-inline" [(ngModel)]="bookCopy.lang">
-                  <span   [ngClass]="'col-1 flag-icon flag-icon-'+bookCopy.lang"></span>
+                  <span  [ngClass]="'col-1 flag-icon flag-icon-'+bookCopy.lang"></span>
                 </div>
               </div>
 
