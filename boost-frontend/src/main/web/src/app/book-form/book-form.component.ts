@@ -106,9 +106,9 @@ export class BookFormComponent implements OnInit {
           this.savingButton='Saved';
           this.bookCreatedCallback.emit(datas.message);
           setTimeout(()=> {
-            this.savingButton='Save';
-            this.saving = false;
-            this.navigate(datas,'edit');
+            //this.savingButton='Save';
+            //this.saving = false;
+            this.navigate(datas,'view');
 
           },1000);
         },

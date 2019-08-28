@@ -8,7 +8,7 @@
     </select>
   </datalist>
   <div [class]="bookFormVisible?'container':'input-group text-center '">
-      <input  list="listTitles" [(ngModel)]="searchText" *ngIf="!bookFormVisible" (ngModelChange)="searchBookByTitle(searchText,page)" type="text"  [class]="'col-lg-5 ml-auto form-control border-right-0 border-secondary'" placeholder="Search...">
+      <input  list="listTitles" [(ngModel)]="searchText" *ngIf="!bookFormVisible" (ngModelChange)="searchBookByTitle(searchText,1)" type="text"  [class]="'col-lg-5 ml-auto form-control border-right-0 border-secondary'" placeholder="Search...">
 
       <button *ngIf="!bookFormVisible"  [disabled]="loading || !searchText" (click)="searchBookByTitle(searchText)" class="btn no-focus btn-outline-secondary   text-center mb-2 border-radius-0"><fa-icon [icon]="['fas','search']" ></fa-icon>{{books && books.content ? ' ('+books.totalElements+')' : ''}}</button>
 
@@ -18,7 +18,7 @@
     </div>
 
   </div>
-  <div class=" table-responsive mt-2 " *ngIf="books &&!books.empty">
+  <div class=" table-responsive mt-2 " *ngIf="!bookFormVisible && books &&!books.empty">
     <table class="table table-hover table-light table-sm">
       <thead>
       <tr class="bg-light">
