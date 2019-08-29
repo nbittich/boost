@@ -5,7 +5,9 @@
   <input (keydown.enter)="login()" [(ngModel)]="password" name="password" class="form-control mr-sm-2 border-radius-0 "
          type="password" placeholder="Password"
          aria-label="Password">
-  <button class="btn  border-0 btn-outline-secondary text-white text-uppercase" type="button" (click)="login()"><fa-icon [icon]="faSignInAlt" ></fa-icon>&nbsp;Sign in
+  <button class="btn  border-0 btn-outline-secondary text-white text-uppercase" type="button" (click)="login()">
+    <span class="text-uppercase">Sign in&nbsp;</span>
+    <fa-icon [icon]="faSignInAlt" ></fa-icon>
   </button>
 </div>
 <div *ngIf="isLoggedIn()" class="form-inline my-2 my-lg-0">

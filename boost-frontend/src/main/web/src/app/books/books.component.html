@@ -34,9 +34,6 @@
         <th scope="col">
           <small>{{'Lang' | uppercase }}</small>
         </th>
-        <th scope="col" colspan="3" >
-          <small>{{'action' | uppercase }}</small>
-        </th>
       </tr>
       </thead>
       <tbody *ngIf="books && !books.empty">
@@ -45,15 +42,7 @@
         <td>{{book.category}}</td>
         <td>{{getTotalDuration(book)}}</td>
         <td><span [ngClass]="'flag-icon flag-icon-'+ (book.lang ? book.lang.toLowerCase() : 'us')"></span></td>
-        <td colspan="3">
-          <div class="btn-group">
-           <button *ngIf="!hasRight(book)" [id]="book.id + 'viewaction'" (click)="navigate(book,'view')" class="btn btn-sm btn-primary" aria-label="View"><fa-icon [icon]="faEye"></fa-icon></button>
-            <button [id]="book.id + 'editaction'" *ngIf="hasRight(book)" (click)="navigate(book,'edit')" class="btn btn-sm btn-warning"
-                    aria-label="Edit"><fa-icon [icon]="faEdit"></fa-icon></button>
 
-            <button [id]="book.id+'delaction'" *ngIf="hasRight(book)" (click)="delete(book,$event)" class="btn btn-sm btn-danger" aria-label="Delete"><fa-icon [icon]="faTrash"></fa-icon> </button>
-          </div>
-        </td>
       </tr>
       </tbody>
       <tbody *ngIf="!books || books.empty ">

@@ -20,6 +20,8 @@ public interface BookRepository extends JpaRepository<Book, Long> {
 
     Optional<Book> findByIdAndUser(Long bookId, User user);
 
+    Page<Book> findAllByUserOrderByCreatedDateDesc(User user, Pageable pageable);
+
     interface BookTitle{
         String getTitle();
         Long getId();

@@ -210,12 +210,11 @@ public class BookController {
     }
 
     @GetMapping("/{title}/{bookId}")
-    public Book getOne(@PathVariable("bookId") Long bookId,@PathVariable("title") String title){
+    public Book getOne(@PathVariable("bookId") Long bookId,@PathVariable("title") String title, Principal principal){
 
         Book book = bookService.findById(bookId)
-                    .filter(b -> b.getTitle() != null)
-                    //.filter(b->SLUGIFY.slugify(b.getTitle()).equalsIgnoreCase(title)) not working cuz two implementations differ pff
-                .orElseThrow(EntityNotFoundException::new);
+                    .filter(b -> b.isPublished() || userService.principalToUser(principal).getUsername().equalsIgnoreCase(b.getUsername()))
+                .orElseThrow(()-> new AccessDeniedException("either the book is not published, in that case only the created user can interact with it"));
         return book;
     }
 

@@ -96,7 +96,7 @@ public interface BookService extends CrudService<Long, Book> {
         return getRepository().findAllByPublishedIsTrue(pageable);
     }
     default Page<Book> findAllByUser(User user, Pageable pageable){
-        return getRepository().findAllByUser(user, pageable);
+        return getRepository().findAllByUserOrderByCreatedDateDesc(user, pageable);
     }
 
     default Optional<Book> findByIdAndUser(Long bookId, User user){

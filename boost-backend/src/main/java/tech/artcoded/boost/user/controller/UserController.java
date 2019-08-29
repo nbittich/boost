@@ -3,6 +3,8 @@ package tech.artcoded.boost.user.controller;
 import com.google.common.collect.Maps;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import tech.artcoded.boost.book.entity.Book;
@@ -90,6 +92,12 @@ public class UserController {
 
     }
 
+
+
+    @GetMapping("/books")
+    public Page<Book> myBooks(Principal principal, Pageable pageable){
+        return bookService.findAllByUser(userService.principalToUser(principal), pageable);
+    }
 
     @GetMapping("/chapter/history")
     @Transactional

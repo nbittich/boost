@@ -2,8 +2,7 @@
 
 <div class="container mb-4">
   <div class="text-center mb-2">
-
-    <div class=" btn-group mt-2  ">
+    <div class=" btn-group mt-5  ">
       <button class="btn  btn-outline-info  text-uppercase" (click)="back()"><fa-icon [icon]="faArrowLeft"></fa-icon></button>
       <button [id]="book && book.id + 'editaction'" *ngIf="hasAnyRole('USER','CONTRIBUTOR','ADMIN') && hasRight() && !editMode" (click)="navigate(book,'edit')" class="btn  btn-outline-success"
               aria-label="Edit"><fa-icon [icon]="['fas','edit']"></fa-icon></button>

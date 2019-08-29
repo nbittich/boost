@@ -6,7 +6,6 @@ import {AuthenticationService} from "../login/authenticationservice";
 import {environment} from "../../environments/environment";
 import {Slugify} from "../common/slugify";
 import {faEdit, faEye, faSync, faTrash} from "@fortawesome/free-solid-svg-icons";
-import {AudioPlayerComponent} from "../audio-player/audio-player.component";
 
 @Component({
   selector: 'app-books',
@@ -51,23 +50,6 @@ export class BooksComponent implements OnInit {
     this.router.navigateByUrl('/books/' + Slugify.slugify(book.title) + '/' + book.id + '/' + editMode);
   }
 
-  delete(book,e) {
-    e.stopPropagation();
-    this.http.request<any>('delete', environment.backendUrl + BooksComponent.ENDPOINT, {body: book}).subscribe(
-      (datas) => {
-        this.getBooks(1);
-        this.authenticationService.autoLogin();
-        let currentChapterUploadId = (datas.currentChapter || {upload:{}}).upload.id;
-
-        AudioPlayerComponent.reloadCurrentPlayer(currentChapterUploadId, (datas.currentChapter||{}).title);
-      },
-      (err) => {
-        console.log(err);
-      },
-      () => {
-      },
-    );
-  }
 
   getBooks(event: number) {
     if(this.searchText && this.searchText.length > 0) {
