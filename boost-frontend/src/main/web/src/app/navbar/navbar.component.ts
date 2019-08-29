@@ -31,7 +31,7 @@ export class NavbarComponent implements OnInit {
     this.menu = [
       {role: ['ANONYMOUS', 'USER', 'ADMIN','CONTRIBUTOR'], route: '/', label: 'Home', selected: false, icon:this.faHome},
       {role: ['ADMIN', 'USER', 'ANONYMOUS','CONTRIBUTOR'], route: '/books', label: 'Discover', selected: false,icon:faVolumeUp},
-      {role: ['ADMIN', 'USER','CONTRIBUTOR'], route: '/my-books', label: 'My Books', selected: false,icon:faBook}
+      {role: ['ADMIN', 'USER','CONTRIBUTOR'], route: '/my-books', label: 'My Content', selected: false,icon:faBook}
     ];
   }
 
