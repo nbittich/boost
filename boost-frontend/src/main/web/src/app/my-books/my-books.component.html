@@ -1,8 +1,10 @@
 <app-logo [headerClass]="'text-center  mt-5  pt-5 '"></app-logo>
-<div class="container mt-5" *ngIf="books &&!books.empty">
+<div class="container mt-5">
   <div [ngClass]="!bookFormVisible? 'text-right':'col-12'">
     <app-book-form  (emitter)="bookFormVisible = $event" [editMode]="false" [book]="newBook()"></app-book-form>
   </div>
+</div>
+<div class="container" *ngIf="books &&!books.empty">
 
   <div *ngIf="!bookFormVisible">
     <div  class="card mb-2" *ngFor="let book of books.content | paginate: { itemsPerPage: books.size, currentPage: books.number+1, totalItems: books.totalElements}">
@@ -44,7 +46,7 @@
   </div>
 </div>
 
-<div *ngIf="!books || books.empty" class="mt-5 container alert alert-danger">
+<div *ngIf="!bookFormVisible && (!books || books.empty)" class="mt-5 container alert alert-danger">
   <fa-icon [icon]="['fas','exclamation']" class="fa-4x"></fa-icon>
   <p>You have no content yet</p>
 </div>

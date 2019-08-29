@@ -106,11 +106,14 @@ public class BookController {
     @Transactional
     public Map.Entry<String, String> deleteBook(@RequestBody Book book, Principal principal) {
         User user = userService.principalToUser(principal);
-        Page<Chapter> chapters = chapterService.findByBookIdAndUser(book.getId(), user, Pageable.unpaged());
+        Optional<Book> bookFromDb = bookService.findByIdAndUser(book.getId(), user);
 
-        if (chapters.isEmpty()){
+        if (!bookFromDb.isPresent()){
             throw new AccessDeniedException("Forbidden");
         }
+
+        Page<Chapter> chapters = chapterService.findByBookIdAndUser(book.getId(), user, Pageable.unpaged());
+
 
         chapters.forEach(chapter -> {
             List<ChapterHistory> history = chapterHistoryService.findByChapter(chapter);
