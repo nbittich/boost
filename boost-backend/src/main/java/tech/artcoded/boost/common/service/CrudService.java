@@ -84,17 +84,14 @@ public interface CrudService<K, V> {
     }
 
     default void deleteById(K var1) {
-        produceEvent("_DELETE_BY_ID", "id: " + var1);
         getRepository().deleteById(var1);
     }
 
     default void delete(V var1) {
-        produceEvent("_DELETE", "id: " + var1);
         getRepository().delete(var1);
     }
 
     default void deleteAll(Iterable<V> var1) {
-        produceEvent("_DELETE_ALL", "ids: " + var1);
         getRepository().deleteAll(var1);
     }
 

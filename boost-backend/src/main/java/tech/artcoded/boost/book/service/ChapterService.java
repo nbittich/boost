@@ -25,7 +25,6 @@ public interface ChapterService extends CrudService<Long, Chapter> {
 
     @Transactional()
     default Page<Chapter> findByBookId(Long bookId, Pageable pageable) {
-        produceEvent("_FIND_BY_BOOK_ID", "BookId: " + bookId);
         Optional<Book> book = getBookService().findById(bookId);
         return book.map(b -> getRepository().findByBookOrderByOrderAsc(b, pageable)).orElseGet(Page::empty);
     }
@@ -36,7 +35,6 @@ public interface ChapterService extends CrudService<Long, Chapter> {
 
     @SneakyThrows
     default Chapter saveChapterAndUpload(ChapterDto chapter) {
-        produceEvent("_SAVE_AND_UPLOAD", "BookId: " + chapter.getBookId() + ", Title: " + chapter.getTitle() + ", ContentType: " + chapter.getContentType());
         Upload upload = getUploadService().upload(chapter.getFile(), chapter.getContentType(), chapter.getFileName());
         Optional<Book> optionalBook = getBookService().findById(chapter.getBookId());
         Book book = optionalBook.orElseThrow(() -> new RuntimeException("cannot save chapter; book not found"));
@@ -54,7 +52,6 @@ public interface ChapterService extends CrudService<Long, Chapter> {
     }
 
     default void updateFields(ChapterDto chapterDto) {
-        produceEvent("_UPDATE_FIELDS", "BookId: " + chapterDto.getBookId() + ", Title: " + chapterDto.getTitle() + ", Description: " + chapterDto.getDescription());
         Chapter chap = this.findById(chapterDto.getId()).orElseThrow(() -> new RuntimeException("chapter not found"));
         Chapter.ChapterBuilder builder = chap.toBuilder();
         if (StringUtils.isNotBlank(chapterDto.getTitle())) {
@@ -67,7 +64,6 @@ public interface ChapterService extends CrudService<Long, Chapter> {
     }
 
     default Page<Chapter> findByBookIdAndUser(Long id, User user, Pageable pageable){
-        produceEvent("_FIND_BY_BOOK_ID_AND_USER", "BookId: " + id);
         Optional<Book> book = getBookService().findByIdAndUser(id,user);
         return book.map(b -> getRepository().findByBookOrderByOrderAsc(b, pageable)).orElseGet(Page::empty);
 

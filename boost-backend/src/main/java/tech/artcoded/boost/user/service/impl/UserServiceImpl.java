@@ -32,14 +32,12 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
-        produceEvent("_LOAD_BY_USERNAME", "Username: " + s);
         return this.findByUsername(s).orElseThrow(() -> new UsernameNotFoundException(s + " not found"));
     }
 
     @Override
     @Transactional
     public User principalToUser(Principal p) {
-        produceEvent("_PRINCIPAL_TO_USER", p.getName());
         return repository.findOneByUsername(p.getName()).orElseThrow(() ->
                 new RuntimeException(String.format("Principal %s not found", StringUtils.defaultIfEmpty(p.getName(), "USERNAME_NULL")))
         );

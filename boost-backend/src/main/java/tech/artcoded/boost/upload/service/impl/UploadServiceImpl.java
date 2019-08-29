@@ -19,7 +19,6 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.time.Instant;
 import java.util.Base64;
 import java.util.Map;
 import java.util.Optional;
@@ -65,7 +64,6 @@ public class UploadServiceImpl implements UploadService {
 
     @Override
     public Upload get(String id) throws Exception {
-        produceEvent("_GET_FILE","id: " + id);
         byte[] file = FileUtils.readFileToByteArray(idToFile(id));
         return this.findById(id)
                 .map(u -> u.toBuilder().file(file).build())
@@ -80,7 +78,6 @@ public class UploadServiceImpl implements UploadService {
             FileUtils.forceDelete(idToFile(id));
             repository.delete(u);
             log.info("upload with id {} removed"+id);
-            produceEvent("_DELETE","upload & file with id "+id +" removed");
 
         }
         throw new RuntimeException("unexpected error when deleting" + id);
@@ -95,13 +92,11 @@ public class UploadServiceImpl implements UploadService {
                 String key = "duration";
                 Long microseconds = (Long) properties.get(key);
                 long millis = Math.round(microseconds / 1000.00d);
-                produceEvent("_GET_AUDIO_DURATION_MP3","id: " + id + ", millis: "+ millis);
                 return millis;
             }else {
                 long frames = audioFileFormat.getFrameLength();
                 double durationInSeconds = (frames + 0.0) / audioFileFormat.getFormat().getFrameRate();
                 long millis = Math.round(durationInSeconds * 1000.00d);
-                produceEvent("_GET_AUDIO_DURATION_NOT_MP3","id: " + id + ", millis: "+ millis);
                 return millis;
             }
 
@@ -118,7 +113,6 @@ public class UploadServiceImpl implements UploadService {
     @SneakyThrows
     public void deleteAllUploadFiles() {
         log.warn("this action will delete all the files but won't affect the database, use it carefully ");
-        produceEvent("_DELETE_ALL_FILE", Instant.now().toEpochMilli()+"");
         String property = env.getProperty("boost.upload.dir");
         File directory = new File(requireNonNull(property));
         FileUtils.deleteDirectory(directory);
