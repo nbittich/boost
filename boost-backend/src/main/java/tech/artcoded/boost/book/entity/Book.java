@@ -16,7 +16,7 @@ import java.util.List;
 @Builder(toBuilder = true)
 @Entity
 @Table(name = "book")
-public class Book extends Auditable<String> {
+    public class Book extends Auditable<String> {
 
     @Version
     private Long version;

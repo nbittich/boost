@@ -62,6 +62,7 @@ export class ChapterFormComponent implements OnInit {
       this.http.request<any>('put', environment.backendUrl + '/book/chapter/publish', {body: this.newChapter}).subscribe(
         (datas) => {
           this.newChapter=new ChapterDto();
+          this.formVisible=false;
           this.loadingNewFile =false;
           this.fileRef.nativeElement.value='';
           this.emitter.emit(datas);

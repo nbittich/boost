@@ -2,6 +2,9 @@
 server:
   port: 8070
 spring:
+  jackson:
+    serialization:
+      fail-on-empty-beans: false
 
   cache:
     type: caffeine

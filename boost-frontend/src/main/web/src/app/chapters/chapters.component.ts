@@ -71,7 +71,8 @@ export class ChaptersComponent implements OnInit {
   }
 
   refreshChapterList($event: any) {
-    alert($event.message);
-    this.getChapters();
+    setTimeout(()=>{
+      this.getChapters();
+    }, 1000);
   }
 }

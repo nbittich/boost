@@ -4,7 +4,7 @@
 
   <div class="card mb-2" *ngFor="let book of books.content | paginate: { itemsPerPage: books.size, currentPage: books.number+1, totalItems: books.totalElements}">
     <div class="card-body">
-      <div class="text-muted text-dark ">
+      <div class="text-muted text-dark clickable" [routerLink]="linkToBook(book,'view')">
         <p class="ml-1 ">
           <app-image-loader *ngIf="book.cover" [imageId]="book.cover.id" customClass="img-fluid col-2 mt-2 mb-2  "></app-image-loader>
           {{book.title}}
