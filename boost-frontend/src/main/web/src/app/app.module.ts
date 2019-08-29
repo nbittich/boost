@@ -8,7 +8,7 @@ import {LoginComponent} from './login/login.component';
 import {FormsModule} from '@angular/forms';
 import {ErrorComponent} from './error/error.component';
 import {HomeComponent} from './home/home.component';
-import {AuthGuardService} from './login/authguardservice';
+import {AuthGuardService} from './service/authguardservice';
 import {AuthInterceptor} from './login/authinterceptor';
 import {ErrorInterceptor} from './login/errorinterceptor';
 import {NgxPaginationModule} from "ngx-pagination";

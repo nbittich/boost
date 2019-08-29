@@ -22,6 +22,8 @@ public interface BookRepository extends JpaRepository<Book, Long> {
 
     Page<Book> findAllByUserOrderByCreatedDateDesc(User user, Pageable pageable);
 
+    List<BookTitle> findByTitleNotNullAndPublishedIsTrue();
+
     interface BookTitle{
         String getTitle();
         Long getId();

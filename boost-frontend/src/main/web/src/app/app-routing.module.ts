@@ -1,7 +1,7 @@
 import {NgModule} from '@angular/core';
 import {Route, RouterModule} from '@angular/router';
 import {ErrorComponent} from './error/error.component';
-import {AuthGuardService} from './login/authguardservice';
+import {AuthGuardService} from './service/authguardservice';
 import {HomeComponent} from './home/home.component';
 import {BooksComponent} from "./books/books.component";
 import {MyBooksComponent} from "./my-books/my-books.component";

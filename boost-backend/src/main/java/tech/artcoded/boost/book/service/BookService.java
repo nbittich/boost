@@ -88,7 +88,7 @@ public interface BookService extends CrudService<Long, Book> {
     }
 
     default List<BookRepository.BookTitle> getTitles(){
-        return this.getRepository().findByTitleNotNull();
+        return this.getRepository().findByTitleNotNullAndPublishedIsTrue();
     }
 
     default Page<Book> findAllByPublishedIsTrue(Pageable pageable){
