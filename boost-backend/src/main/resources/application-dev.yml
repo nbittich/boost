@@ -46,7 +46,7 @@ boost:
 jwt:
   audience: authenticated-app
   expire:
-    after: 600000 # 10 min
+    after: 3600000 # 60 min
   header: Authorization
   issuer: authentication-server
   prefix: Bearer

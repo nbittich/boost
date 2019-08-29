@@ -36,7 +36,6 @@ export class BooksDetailComponent implements OnInit {
   save() {
     this.http.request<any>('post', environment.backendUrl + BooksDetailComponent.ENDPOINT, {body: this.book}).subscribe(
       (datas) => {
-        console.log(datas);
         alert(datas.message);
       },
       (err) => {
@@ -66,7 +65,6 @@ export class BooksDetailComponent implements OnInit {
       this.book = null;
       const id = params.id;
       const title = params.title;
-      console.log(id);
       const editMode = params.editMode;
       this.fetchBook(id,title);
       this.editMode = editMode === 'edit';
