@@ -94,7 +94,12 @@ export class BooksComponent implements OnInit {
   }
 
   isLoggedIn() {
-    return this.authenticationService.getUser() !== null;
+    return this.getUser() !== null;
+  }
+
+  getUser(){
+    return this.authenticationService.getUser();
+
   }
 
   newBook() {
@@ -105,6 +110,9 @@ export class BooksComponent implements OnInit {
     return Math.round(book.totalDuration/1000 / 60 ) + ' minutes';
   }
 
+  public hasRight(book) {
+    return (book || {username:'ERROR'}).username === (this.getUser() ||{username:'ANONYMOUS'}).username;
+  }
   searchBookByTitle(title,page=1) {
     this.loading = true;
     this.books = [];

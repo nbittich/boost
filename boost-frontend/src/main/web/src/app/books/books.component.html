@@ -14,7 +14,7 @@
 
     <div  [ngClass]="bookFormVisible ? '':'btn-group mr-auto'">
       <button *ngIf="!bookFormVisible && isLoggedIn()"  [disabled]="loading" (click)="getBooks(1)" class="btn border-radius-0 no-focus btn-outline-secondary border-left-0  mb-2  "><fa-icon [icon]="faSync" ></fa-icon></button>
-      <app-book-form (bookCreatedCallback)="getBooks(1)" (emitter)="bookFormVisible = $event" *ngIf="hasRole('ADMIN')" [editMode]="false" [book]="newBook()"></app-book-form>
+      <app-book-form  (emitter)="bookFormVisible = $event" *ngIf="hasRole('ADMIN') || hasRole('USER')" [editMode]="false" [book]="newBook()"></app-book-form>
     </div>
 
   </div>
@@ -34,7 +34,7 @@
         <th scope="col">
           <small>{{'Lang' | uppercase }}</small>
         </th>
-        <th scope="col" colspan="3" *ngIf="hasRole('ADMIN')">
+        <th scope="col" colspan="3" >
           <small>{{'action' | uppercase }}</small>
         </th>
       </tr>
@@ -47,11 +47,11 @@
         <td><span [ngClass]="'flag-icon flag-icon-'+ (book.lang ? book.lang.toLowerCase() : 'us')"></span></td>
         <td colspan="3">
           <div class="btn-group">
-<!--            <button [id]="book.id + 'viewaction'" (click)="navigate(book,'view')" class="btn btn-sm btn-primary" aria-label="View"><fa-icon [icon]="faEye"></fa-icon></button>-->
-            <button [id]="book.id + 'editaction'" *ngIf="hasRole('ADMIN')" (click)="navigate(book,'edit')" class="btn btn-sm btn-warning"
+           <button *ngIf="!hasRight(book)" [id]="book.id + 'viewaction'" (click)="navigate(book,'view')" class="btn btn-sm btn-primary" aria-label="View"><fa-icon [icon]="faEye"></fa-icon></button>
+            <button [id]="book.id + 'editaction'" *ngIf="hasRight(book)" (click)="navigate(book,'edit')" class="btn btn-sm btn-warning"
                     aria-label="Edit"><fa-icon [icon]="faEdit"></fa-icon></button>
 
-            <button [id]="book.id+'delaction'" *ngIf="hasRole('ADMIN')" (click)="delete(book,$event)" class="btn btn-sm btn-danger" aria-label="Delete"><fa-icon [icon]="faTrash"></fa-icon> </button>
+            <button [id]="book.id+'delaction'" *ngIf="hasRight(book)" (click)="delete(book,$event)" class="btn btn-sm btn-danger" aria-label="Delete"><fa-icon [icon]="faTrash"></fa-icon> </button>
           </div>
         </td>
       </tr>

@@ -55,14 +55,14 @@ public class Book extends Auditable<String> {
     @Transient
     private Double totalStar;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(referencedColumnName = "usr_id",name = "book_user_id")
     @JsonIgnore
     private User user;
 
     @Transient
     public String getUsername(){
-        return user.getUsername();
+        return user != null ? user.getUsername():this.getCreatedBy();
     }
 
 
