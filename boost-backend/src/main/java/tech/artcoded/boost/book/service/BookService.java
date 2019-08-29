@@ -55,7 +55,7 @@ public interface BookService extends CrudService<Long, Book> {
     }
 
     @SneakyThrows
-    @CacheEvict(cacheNames = "book")
+    @CacheEvict(cacheNames = {"bookTop3Stars","book"})
     default Book saveBookWithCover(BookDto book, User user) {
         produceEvent("_SAVE_WITH_COVER", "Title: " + book.getTitle() + ", ContentType: " + book.getContentType());
         Optional<Book> optionalBook = Optional.ofNullable(book.getId()).flatMap(id-> this.findByIdAndUser(id,user));

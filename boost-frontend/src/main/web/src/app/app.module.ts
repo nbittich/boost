@@ -29,6 +29,7 @@ import {fas} from '@fortawesome/free-solid-svg-icons';
 import {far} from '@fortawesome/free-regular-svg-icons';
 import {AudioPlayerComponent} from './audio-player/audio-player.component';
 import {LogoComponent} from './logo/logo.component';
+import {MyBooksComponent} from './my-books/my-books.component';
 
 @NgModule({
   declarations: [
@@ -48,6 +49,7 @@ import {LogoComponent} from './logo/logo.component';
     StarsComponent,
     AudioPlayerComponent,
     LogoComponent,
+    MyBooksComponent,
   ],
   imports: [
     BrowserModule,

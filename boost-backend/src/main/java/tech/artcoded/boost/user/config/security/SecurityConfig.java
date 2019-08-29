@@ -15,7 +15,7 @@ import tech.artcoded.boost.user.service.UserService;
 
 import javax.servlet.http.HttpServletResponse;
 
-import static tech.artcoded.boost.user.dto.Role.RoleType.ADMIN;
+import static tech.artcoded.boost.user.dto.Role.RoleType.*;
 
 /**
  * @author Nordine Bittich
@@ -35,16 +35,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 //.antMatchers(HttpMethod.POST, "/book/rate/**").authenticated()
                // .antMatchers(HttpMethod.POST, "/book/chapter/update/current/**").authenticated()
 
-                .antMatchers(HttpMethod.DELETE, "/book/**").hasAuthority(ADMIN.name())
-                .antMatchers(HttpMethod.PUT, "/book/**").hasAuthority(ADMIN.name())
-                .antMatchers(HttpMethod.POST, "/book/**").hasAuthority(ADMIN.name())
+                .antMatchers(HttpMethod.DELETE, "/book/**").hasAnyAuthority(CONTRIBUTOR.name(),ADMIN.name())
+                .antMatchers(HttpMethod.PUT, "/book/**").hasAnyAuthority(ADMIN.name(), USER.name(),CONTRIBUTOR.name())
+                .antMatchers(HttpMethod.POST, "/book/**").hasAnyAuthority(ADMIN.name(),CONTRIBUTOR.name(),USER.name())
                 .antMatchers(HttpMethod.GET, "/book/**").permitAll()
 
 
 
-                .antMatchers(HttpMethod.DELETE, "/upload/**").hasAuthority(ADMIN.name())
-                .antMatchers(HttpMethod.PUT, "/upload/**").hasAuthority(ADMIN.name())
-                .antMatchers(HttpMethod.POST, "/upload/**").hasAuthority(ADMIN.name())
+                .antMatchers(HttpMethod.DELETE, "/upload/**").hasAnyAuthority(CONTRIBUTOR.name(),ADMIN.name())
+                .antMatchers(HttpMethod.PUT, "/upload/**").hasAnyAuthority(ADMIN.name(), USER.name(),CONTRIBUTOR.name())
+                .antMatchers(HttpMethod.POST, "/upload/**").hasAnyAuthority(ADMIN.name(), USER.name(),CONTRIBUTOR.name())
                 .antMatchers(HttpMethod.GET, "/upload/**").permitAll()
 
                 .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()

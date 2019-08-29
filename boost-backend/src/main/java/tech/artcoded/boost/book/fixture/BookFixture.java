@@ -94,9 +94,9 @@ public class BookFixture implements CommandLineRunner {
         log.info("user saved : {}", user);
         Role.RoleBuilder contributor = Role.builder().role(CONTRIBUTOR);
         User contr = userService.save(User.builder()
-                .password("1234")
+                .password(passwordEncoder.encode("1234"))
                 .username("contributor")
-                .roles(Arrays.asList(contributor.build())).build());
+                .roles(Arrays.asList(contributor.build(),userRole.build())).build());
 
         Long bookSize = env.getProperty("fixture.books.size", Long.class);
         byte[] defaultCoverStream = toByteArray(defaultCover.getInputStream());

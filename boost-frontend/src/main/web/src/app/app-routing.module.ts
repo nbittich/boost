@@ -4,13 +4,14 @@ import {ErrorComponent} from './error/error.component';
 import {AuthGuardService} from './login/authguardservice';
 import {HomeComponent} from './home/home.component';
 import {BooksComponent} from "./books/books.component";
-import {BooksDetailComponent} from "./books-detail/books-detail.component";
+import {MyBooksComponent} from "./my-books/my-books.component";
 
 const routes: Route[] = [
   {path: '', component: HomeComponent},
   {path: 'error', component: ErrorComponent},
-  {path: 'books', component: BooksComponent, canActivate: [AuthGuardService], data: {expectedRole: ['USER','ANONYMOUS', 'ADMIN']}},
-  {path: 'books/:title/:id/:editMode', component: BooksDetailComponent, canActivate: [AuthGuardService], data: {expectedRole: ['USER','ANONYMOUS', 'ADMIN']}},
+  {path: 'books', component: BooksComponent, canActivate: [AuthGuardService], data: {expectedRole: ['USER','ANONYMOUS', 'ADMIN','CONTRIBUTOR']}},
+  {path: 'books/:title/:id/:editMode', component: MyBooksComponent, canActivate: [AuthGuardService], data: {expectedRole: ['USER','ANONYMOUS', 'ADMIN', 'CONTRIBUTOR']}},
+  {path: 'my-books', component: MyBooksComponent, canActivate: [AuthGuardService], data: {expectedRole: ['USER', 'ADMIN','CONTRIBUTOR']}},
   {path: '**', component: ErrorComponent}
 ];
 

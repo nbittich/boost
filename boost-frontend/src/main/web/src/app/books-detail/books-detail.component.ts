@@ -100,8 +100,11 @@ export class BooksDetailComponent implements OnInit {
     );
   }
 
+  hasAnyRole(...expected:string[]){
+    return expected.filter(e => this.authenticationService.hasRole([e])).length > 0;
+  }
   hasRole(expected) {
-    return this.authenticationService.hasRole([expected]);
+    return this.hasAnyRole(expected);
   }
 
   navigate(book, editMode) {
@@ -117,7 +120,8 @@ export class BooksDetailComponent implements OnInit {
   }
 
   public hasRight() {
-    return (this.book || {username:'ERROR'}).username === (this.getUser() ||{username:'ANONYMOUS'}).username;
+    let hasRight = (this.book || {username:'ERROR'}).username === (this.getUser() ||{username:'ANONYMOUS'}).username;
+    return hasRight;
   }
 }
 
