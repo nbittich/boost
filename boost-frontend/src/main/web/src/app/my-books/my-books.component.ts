@@ -5,6 +5,7 @@ import {AuthenticationService} from "../login/authenticationservice";
 import {environment} from "../../environments/environment";
 import {Slugify} from "../common/slugify";
 import {AudioPlayerComponent} from "../audio-player/audio-player.component";
+import {BookDto} from "../books/book";
 
 @Component({
   selector: 'app-my-books',
@@ -13,6 +14,8 @@ import {AudioPlayerComponent} from "../audio-player/audio-player.component";
 })
 export class MyBooksComponent implements OnInit {
   books: any;
+  bookFormVisible: boolean;
+
 
   constructor(private http: HttpClient, private router: Router, private authenticationService: AuthenticationService) {
 
@@ -23,6 +26,11 @@ export class MyBooksComponent implements OnInit {
 
   }
 
+
+
+  newBook() {
+    return new BookDto();
+  }
 
   delete(book,e) {
     e.stopPropagation();

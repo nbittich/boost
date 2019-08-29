@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {Book, BookDto} from "./book";
+import {Book} from "./book";
 import {HttpClient} from "@angular/common/http";
 import {Router} from "@angular/router";
 import {AuthenticationService} from "../login/authenticationservice";
@@ -19,7 +19,6 @@ export class BooksComponent implements OnInit {
   faEdit=faEdit;
   faTrash=faTrash;
   faEye=faEye;
-  bookFormVisible: boolean;
   loading: boolean;
   searchText: string;
   titles: any;
@@ -82,10 +81,6 @@ export class BooksComponent implements OnInit {
   getUser(){
     return this.authenticationService.getUser();
 
-  }
-
-  newBook() {
-    return new BookDto();
   }
 
   getTotalDuration(book: Book) {

@@ -1,5 +1,5 @@
-<div *ngIf="!bookFormVisible &&(!books || books.empty)" class="mt-lg-5 pt-lg-5 "></div>
-<div *ngIf="!bookFormVisible &&(!books || books.empty)" class="mt-lg-5 pt-lg-5 "></div>
+<div *ngIf="!books || books.empty" class="mt-lg-5 pt-lg-5 "></div>
+<div *ngIf="!books || books.empty" class="mt-lg-5 pt-lg-5 "></div>
 <app-logo [headerClass]="'text-center  mt-5  pt-5 '"></app-logo>
 <div class="container mt-5">
   <datalist id="listTitles"  *ngIf="titles">
@@ -7,18 +7,17 @@
       <option *ngFor="let title of titles" [value]="title.title"></option>
     </select>
   </datalist>
-  <div [class]="bookFormVisible?'container':'input-group text-center '">
-      <input  list="listTitles" [(ngModel)]="searchText" *ngIf="!bookFormVisible" (ngModelChange)="searchBookByTitle(searchText,1)" type="text"  [class]="'col-lg-5 ml-auto form-control border-right-0 border-secondary'" placeholder="Search...">
+  <div [class]="'input-group text-center '">
+      <input  list="listTitles" [(ngModel)]="searchText" (ngModelChange)="searchBookByTitle(searchText,1)" type="text"  [class]="'col-lg-5 ml-auto form-control border-right-0 border-secondary'" placeholder="Search...">
 
-      <button *ngIf="!bookFormVisible"  [disabled]="loading || !searchText" (click)="searchBookByTitle(searchText)" class="btn no-focus btn-outline-secondary   text-center mb-2 border-radius-0"><fa-icon [icon]="['fas','search']" ></fa-icon>{{books && books.content ? ' ('+books.totalElements+')' : ''}}</button>
+      <button [disabled]="loading || !searchText" (click)="searchBookByTitle(searchText)" class="btn no-focus btn-outline-secondary   text-center mb-2 border-radius-0"><fa-icon [icon]="['fas','search']" ></fa-icon>{{books && books.content ? ' ('+books.totalElements+')' : ''}}</button>
 
-    <div  [ngClass]="bookFormVisible ? '':'btn-group mr-auto'">
-      <button *ngIf="!bookFormVisible && isLoggedIn()"  [disabled]="loading" (click)="getBooks(1)" class="btn border-radius-0 no-focus btn-outline-secondary border-left-0  mb-2  "><fa-icon [icon]="faSync" ></fa-icon></button>
-      <app-book-form  (emitter)="bookFormVisible = $event" *ngIf="hasRole('ADMIN') || hasRole('USER')" [editMode]="false" [book]="newBook()"></app-book-form>
+    <div  [ngClass]="'btn-group mr-auto'">
+      <button *ngIf="isLoggedIn()"  [disabled]="loading" (click)="getBooks(1)" class="btn border-radius-0 no-focus btn-outline-secondary border-left-0  mb-2  "><fa-icon [icon]="faSync" ></fa-icon></button>
     </div>
 
   </div>
-  <div class=" table-responsive mt-2 " *ngIf="!bookFormVisible && books &&!books.empty">
+  <div class=" table-responsive mt-2 " *ngIf="books &&!books.empty">
     <table class="table table-hover table-light table-sm">
       <thead>
       <tr class="bg-light">
