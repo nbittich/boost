@@ -80,6 +80,10 @@ export class AuthenticationService {
     return (entityFromUser || {username: 'ERROR'}).username === (this.getUser() || {username: 'ANONYMOUS'}).username;
   }
 
+  public hasAnyRole(...expected:string[]){
+    return expected.filter(e => this.hasRole([e])).length > 0;
+  }
+
   logout() {
     localStorage.removeItem('xAuthToken');
     localStorage.removeItem('user');

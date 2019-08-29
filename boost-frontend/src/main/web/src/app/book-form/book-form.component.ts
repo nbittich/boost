@@ -1,12 +1,11 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {BookDto} from "../books/book";
 import {ImagePreview} from "../image-preview/image.preview";
-import {HttpClient} from "@angular/common/http";
 import {Router} from "@angular/router";
 import {AuthenticationService} from "../service/authenticationservice";
-import {environment} from "../../environments/environment";
 import {faPlus, faSave, faTimes} from "@fortawesome/free-solid-svg-icons";
 import {Slugify} from "../common/slugify";
+import {BookService} from "../service/book.service";
 
 @Component({
   selector: 'app-book-form',
@@ -44,7 +43,7 @@ export class BookFormComponent implements OnInit {
   saving: boolean;
   savingButton: string='Save';
 
-    constructor(private http: HttpClient, private router: Router, private authenticationService: AuthenticationService) {
+    constructor( private bookService: BookService,private router: Router, private authenticationService: AuthenticationService) {
     }
 
   ngOnInit() {
@@ -61,16 +60,9 @@ export class BookFormComponent implements OnInit {
   }
 
   fetchCountryCode(){
-    this.http.request<any>('get', environment.backendUrl + '/book/country-code', {}).subscribe(
-      (datas) => {
-          this.countryCode = datas;
-      },
-      (err) => {
-        console.log(err);
-      },
-      () => {
-      },
-    );
+    this.bookService.fetchCountryCode((datas) => {
+      this.countryCode = datas;
+    });
 
   }
   public setCover($imagePreview: ImagePreview) {
@@ -90,7 +82,8 @@ export class BookFormComponent implements OnInit {
       $e.stopPropagation();
       this.savingButton='Saving...';
       this.saving = true;
-      let b = {
+
+      let bookToSave = {
         id: this.bookCopy.id,
         lang: this.bookCopy.lang,
         published: this.bookCopy.published,
@@ -102,23 +95,12 @@ export class BookFormComponent implements OnInit {
         contentType: this.coverChanged ? this.bookCopy.contentType : null,
         category: this.bookCopy.category
       };
-      this.http.request<any>('put', environment.backendUrl + '/book', {body: b}).subscribe(
-        (datas) => {
-          this.savingButton='Saved';
-          this.bookCreatedCallback.emit(datas.message);
-          setTimeout(()=> {
-            //this.savingButton='Save';
-            //this.saving = false;
-            this.navigate(datas,'view');
 
-          },1000);
-        },
-        (err) => {
-          console.log(err);
-        },
-        () => {
-        },
-      );
+      this.bookService.saveBookToDb(bookToSave,(datas) => {
+        this.savingButton='Saved';
+        this.bookCreatedCallback.emit(datas.message);
+          this.navigate(datas,'view');
+      });
   }
 
   toggleFormVisible() {

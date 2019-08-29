@@ -1,10 +1,11 @@
 import {Injectable} from "@angular/core";
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpParams} from "@angular/common/http";
 import {AuthenticationService} from "./authenticationservice";
 import {environment} from "../../environments/environment";
 import {Slugify} from "../common/slugify";
 import {Router} from "@angular/router";
 import {Book} from "../books/book";
+import {Star} from "../stars/star";
 
 @Injectable({providedIn: 'root'})
 export class BookService {
@@ -47,6 +48,46 @@ export class BookService {
 
   bookDetailFor(book, editMode) {
     this.router.navigateByUrl('/books/' + Slugify.slugify(book.title) + '/' + book.id + '/' + editMode);
+  }
+
+
+  fetchCountryCode(next:any, e=err=>console.log(err)){
+    this.http.request<any>('get', `${environment.backendUrl}/book/country-code`, {}).subscribe(
+      next,
+      e,
+      () => {
+      },
+    );
+
+  }
+
+  saveBookToDb(book:any, next, error=e=>console.log(e)){
+    this.http.request<any>('put', `${environment.backendUrl}/book`, {body: book}).subscribe(
+      next,error,
+      () => {
+      },
+    );
+  }
+
+  fetchBook(id,title, next:any, err=e=> console.log(e)){
+    this.http.request<any>('get', `${environment.backendUrl}/book/${title}/${id}`, {}).subscribe(
+      next,err,
+      () => {
+      },
+    );
+  }
+  rateBook($event: Star, book:Book, next,err=e=> console.log(e)) {
+    console.log("from book detail " +$event.star);
+    let params = new HttpParams()
+      .set('bookId', book.id + '')
+      .set('star', $event.star + '');
+    this.http.request<any>('post', `${environment.backendUrl}/user/rate`, {
+      params:params
+    }).subscribe(
+      next,err,
+      () => {
+      },
+    );
   }
 
 }

@@ -1,6 +1,5 @@
 import {Component, OnInit} from '@angular/core';
 import {Book} from "./book";
-import {HttpClient} from "@angular/common/http";
 import {Router} from "@angular/router";
 import {AuthenticationService} from "../service/authenticationservice";
 import {faEdit, faEye, faSync, faTrash} from "@fortawesome/free-solid-svg-icons";
@@ -22,7 +21,7 @@ export class BooksComponent implements OnInit {
   searchText: string;
   titles: any;
 
-  constructor(private http: HttpClient, private router: Router, private authenticationService: AuthenticationService, private bookService: BookService) {
+  constructor( private router: Router, private authenticationService: AuthenticationService, private bookService: BookService) {
 
   }
 

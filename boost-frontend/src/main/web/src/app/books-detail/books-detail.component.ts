@@ -1,13 +1,12 @@
 import {Component, OnInit} from '@angular/core';
-import {environment} from "../../environments/environment";
 import {ActivatedRoute, Router} from "@angular/router";
 import {Book} from "../books/book";
 import {AuthenticationService} from "../service/authenticationservice";
-import {HttpClient, HttpParams} from "@angular/common/http";
 import {Location} from '@angular/common';
 import {faArrowLeft} from "@fortawesome/free-solid-svg-icons";
 import {Star} from "../stars/star";
 import {Slugify} from "../common/slugify";
+import {BookService} from "../service/book.service";
 
 @Component({
   selector: 'app-books-detail',
@@ -21,7 +20,7 @@ export class BooksDetailComponent implements OnInit {
   public editMode;
   faArrowLeft=faArrowLeft;
 
-  constructor(private http: HttpClient,
+  constructor(private bookService: BookService,
               private router: Router,
               private authenticationService: AuthenticationService,
               private location: Location,
@@ -33,31 +32,11 @@ export class BooksDetailComponent implements OnInit {
     this.location.back();
   }
 
-  save() {
-    this.http.request<any>('post', environment.backendUrl + BooksDetailComponent.ENDPOINT, {body: this.book}).subscribe(
-      (datas) => {
-        alert(datas.message);
-      },
-      (err) => {
-        console.log(err);
-      },
-      () => {
-      },
-    );
-  }
-
   fetchBook(id,title){
-    this.http.request<any>('get', environment.backendUrl + BooksDetailComponent.ENDPOINT+ '/' + title+'/'+id, {}).subscribe(
-      (datas) => {
-        this.book = datas;
-        this.checkRights();
-      },
-      (err) => {
-        console.log(err);
-      },
-      () => {
-      },
-    );
+    this.bookService.fetchBook(id, title,(datas) => {
+      this.book = datas;
+      this.checkRights();
+    });
   }
 
   ngOnInit() {
@@ -81,38 +60,26 @@ export class BooksDetailComponent implements OnInit {
   }
 
   rateBook($event: Star) {
-    console.log("from book detail " +$event.star);
-    let params = new HttpParams()
-      .set('bookId', this.book.id + '')
-      .set('star', $event.star + '');
-    this.http.request<any>('post', environment.backendUrl +'/user/rate', {
-      params:params
-    }).subscribe(
-      (datas) => {
-        this.fetchBook(this.book.id, Slugify.slugify(this.book.title));
-        alert(datas.message);
-      },
-      (err) => {
-        console.log(err);
-      },
-      () => {
-      },
-    );
+    this.bookService.rateBook($event, this.book, (datas) => {
+      this.fetchBook(this.book.id, Slugify.slugify(this.book.title));
+    });
   }
 
-  hasAnyRole(...expected:string[]){
-    return expected.filter(e => this.authenticationService.hasRole([e])).length > 0;
+  hasAnyRole(...expected){
+    return this.authenticationService.hasAnyRole(...expected);
   }
+
   hasRole(expected) {
     return this.hasAnyRole(expected);
   }
 
   navigate(book, editMode) {
-    this.router.navigateByUrl('/books/' + Slugify.slugify(book.title) + '/' + book.id + '/' + editMode);
+    this.bookService.bookDetailFor(book,editMode);
   }
 
   private checkRights() {
-    if (this.editMode){
+    if (this.editMode && !this.hasRight()){
+      this.bookService.bookDetailFor(this.book, 'view');
       if(!this.hasRight()){
         this.navigate(this.book,"view");
       }
@@ -120,8 +87,7 @@ export class BooksDetailComponent implements OnInit {
   }
 
   public hasRight() {
-    let hasRight = (this.book || {username:'ERROR'}).username === (this.getUser() ||{username:'ANONYMOUS'}).username;
-    return hasRight;
+    return this.authenticationService.hasRight(this.book);
   }
 }
 
