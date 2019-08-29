@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {environment} from "../../environments/environment";
 import {ActivatedRoute, Router} from "@angular/router";
 import {Book} from "../books/book";
-import {AuthenticationService} from "../login/authenticationservice";
+import {AuthenticationService} from "../service/authenticationservice";
 import {HttpClient, HttpParams} from "@angular/common/http";
 import {Location} from '@angular/common';
 import {faArrowLeft} from "@fortawesome/free-solid-svg-icons";

@@ -2,7 +2,7 @@ import {ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, OnInit, O
 import {ChapterDto} from "../chapters/chapterdto";
 import {HttpClient} from "@angular/common/http";
 import {Router} from "@angular/router";
-import {AuthenticationService} from "../login/authenticationservice";
+import {AuthenticationService} from "../service/authenticationservice";
 import {environment} from "../../environments/environment";
 import {faPlus, faSave, faTimes} from "@fortawesome/free-solid-svg-icons";
 

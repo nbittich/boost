@@ -1,7 +1,7 @@
 import {Component, isDevMode} from '@angular/core';
 import {NavigationStart, Router} from "@angular/router";
 import {Subscription} from "rxjs";
-import {AuthenticationService} from "./login/authenticationservice";
+import {AuthenticationService} from "./service/authenticationservice";
 import {environment} from "../environments/environment";
 
 @Component({

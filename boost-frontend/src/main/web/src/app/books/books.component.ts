@@ -2,10 +2,9 @@ import {Component, OnInit} from '@angular/core';
 import {Book} from "./book";
 import {HttpClient} from "@angular/common/http";
 import {Router} from "@angular/router";
-import {AuthenticationService} from "../login/authenticationservice";
-import {environment} from "../../environments/environment";
-import {Slugify} from "../common/slugify";
+import {AuthenticationService} from "../service/authenticationservice";
 import {faEdit, faEye, faSync, faTrash} from "@fortawesome/free-solid-svg-icons";
+import {BookService} from "../service/book.service";
 
 @Component({
   selector: 'app-books',
@@ -15,29 +14,22 @@ import {faEdit, faEye, faSync, faTrash} from "@fortawesome/free-solid-svg-icons"
 export class BooksComponent implements OnInit {
   public books: any;
   static ENDPOINT = '/book';
-  faSync=faSync;
-  faEdit=faEdit;
-  faTrash=faTrash;
-  faEye=faEye;
+  faSync = faSync;
+  faEdit = faEdit;
+  faTrash = faTrash;
+  faEye = faEye;
   loading: boolean;
   searchText: string;
   titles: any;
-  constructor(private http: HttpClient, private router: Router, private authenticationService: AuthenticationService) {
+
+  constructor(private http: HttpClient, private router: Router, private authenticationService: AuthenticationService, private bookService: BookService) {
 
   }
 
   ngOnInit() {
-    //this.getBooks(1);
-    this.http.get<any[]>(environment.backendUrl + BooksComponent.ENDPOINT + '/titles', {}).subscribe(
-      (datas) => {
-        this.titles = datas;
-      },
-      (err) => {
-        console.log(err);
-      },
-      () => {
-      },
-    );
+    this.bookService.fetchTitles((datas) => {
+      this.titles = datas;
+    });
   }
 
 
@@ -46,65 +38,54 @@ export class BooksComponent implements OnInit {
   }
 
   navigate(book, editMode) {
-    this.router.navigateByUrl('/books/' + Slugify.slugify(book.title) + '/' + book.id + '/' + editMode);
+    this.bookService.bookDetailFor(book,editMode);
   }
 
 
   getBooks(event: number) {
-    if(this.searchText && this.searchText.length > 0) {
+
+    const next = (datas) => {
+      this.books = datas;
+      setTimeout(() => {
+        this.loading = false;
+      }, 1000);
+
+    };
+
+    if (this.searchText && this.searchText.length > 0) {
       this.searchBookByTitle(this.searchText, event);
-    }else{
+    } else {
       this.loading = true;
-      this.books=[];
-      this.http.get<any[]>(environment.backendUrl + BooksComponent.ENDPOINT + '?size=10&page=' + (event - 1), {}).subscribe(
-        (datas) => {
-          this.books = datas;
-          setTimeout(()=>{
-            this.loading=false;
-
-          }, 1000);
-
-        },
-        (err) => {
-          console.log(err);
-        },
-        () => {
-        },
-      );
+      this.books = [];
+      this.bookService.getBooks(next,event);
     }
   }
 
   isLoggedIn() {
-    return this.getUser() !== null;
+    return this.authenticationService.isLoggedIn();
   }
 
-  getUser(){
+  getUser() {
     return this.authenticationService.getUser();
 
   }
 
   getTotalDuration(book: Book) {
-    return Math.round(book.totalDuration/1000 / 60 ) + ' minutes';
+    return this.bookService.getTotalDuration(book);
   }
 
   public hasRight(book) {
-    return (book || {username:'ERROR'}).username === (this.getUser() ||{username:'ANONYMOUS'}).username;
+    return this.authenticationService.hasRight(book);
   }
-  searchBookByTitle(title,page=1) {
+
+  searchBookByTitle(title, page = 1) {
     this.loading = true;
     this.books = [];
-    this.http.get<any[]>(environment.backendUrl + BooksComponent.ENDPOINT + '/search/title' +'?size=10&page='+ (page-1), {params:{
-      'title':title
-      }}).subscribe(
-      (datas) => {
-        this.books = datas;
-        this.loading = false;
-      },
-      (err) => {
-        console.log(err);
-      },
-      () => {
-      },
-    );
+
+    this.bookService.searchBookByTitle(title, (datas) => {
+      this.books = datas;
+      this.loading = false;
+    },page);
+
   }
 }

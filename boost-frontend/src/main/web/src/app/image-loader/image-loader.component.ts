@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {AuthenticationService} from "../login/authenticationservice";
+import {AuthenticationService} from "../service/authenticationservice";
 import {Location} from "@angular/common";
 import {ActivatedRoute} from "@angular/router";
 import {environment} from "../../environments/environment";

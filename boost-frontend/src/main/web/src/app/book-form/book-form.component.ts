@@ -3,7 +3,7 @@ import {BookDto} from "../books/book";
 import {ImagePreview} from "../image-preview/image.preview";
 import {HttpClient} from "@angular/common/http";
 import {Router} from "@angular/router";
-import {AuthenticationService} from "../login/authenticationservice";
+import {AuthenticationService} from "../service/authenticationservice";
 import {environment} from "../../environments/environment";
 import {faPlus, faSave, faTimes} from "@fortawesome/free-solid-svg-icons";
 import {Slugify} from "../common/slugify";

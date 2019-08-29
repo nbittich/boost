@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Router} from "@angular/router";
-import {AuthenticationService} from "../login/authenticationservice";
+import {AuthenticationService} from "../service/authenticationservice";
 import {environment} from "../../environments/environment";
 import {Slugify} from "../common/slugify";
 import {AudioPlayerComponent} from "../audio-player/audio-player.component";

@@ -56,7 +56,7 @@
                             </execution>
 
                             <execution>
-                                <id>npm run build</id>
+                                <id>npm run build --prod</id>
                                 <goals>
                                     <goal>npm</goal>
                                 </goals>

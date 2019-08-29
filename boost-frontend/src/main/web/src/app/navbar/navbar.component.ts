@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import MenuLink from './menulink';
-import {AuthenticationService} from '../login/authenticationservice';
+import {AuthenticationService} from '../service/authenticationservice';
 import {ActivatedRoute, NavigationEnd, Router} from '@angular/router';
 import {faBook, faFileAudio, faHome, faVolumeUp} from "@fortawesome/free-solid-svg-icons";
 

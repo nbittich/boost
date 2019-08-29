@@ -76,9 +76,18 @@ export class AuthenticationService {
     return expectedRole.some(r => authorities.map(a => a.authority.toLowerCase()).includes(r.toLowerCase()));
   }
 
+  public hasRight(entityFromUser) {
+    return (entityFromUser || {username: 'ERROR'}).username === (this.getUser() || {username: 'ANONYMOUS'}).username;
+  }
+
   logout() {
     localStorage.removeItem('xAuthToken');
     localStorage.removeItem('user');
     this.userEvent.next("logout");
   }
+
+  isLoggedIn(){
+      return this.getUser() !== null;
+  }
+
 }
