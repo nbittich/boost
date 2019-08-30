@@ -11,10 +11,8 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.core.env.Environment;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.MediaType;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import tech.artcoded.boost.book.dto.ChapterDto;
 import tech.artcoded.boost.book.entity.Book;
 import tech.artcoded.boost.book.entity.Star;
 import tech.artcoded.boost.book.service.BookService;
@@ -27,6 +25,7 @@ import tech.artcoded.boost.user.entity.User;
 import tech.artcoded.boost.user.service.UserService;
 
 import java.io.File;
+import java.io.InputStream;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.LongStream;
@@ -67,7 +66,7 @@ public class BookFixture implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         Faker faker = Faker.instance(Locale.getDefault());
-        ClassPathResource defaultCover = new ClassPathResource("fixture/" + "/cover.jpg");
+        InputStream defaultCover = getClass().getClassLoader().getResourceAsStream("cover.jpg");
 
         if (Boolean.TRUE.equals(env.getProperty("fixture.books.delete-at-start", Boolean.class))) {
             log.info("deleting books");
@@ -99,7 +98,7 @@ public class BookFixture implements CommandLineRunner {
                 .roles(Arrays.asList(contributor.build(),userRole.build())).build());
 
         Long bookSize = env.getProperty("fixture.books.size", Long.class);
-        byte[] defaultCoverStream = toByteArray(defaultCover.getInputStream());
+        byte[] defaultCoverStream = toByteArray(defaultCover);
         Upload upload = bookService.getUploadService().upload(Base64.getEncoder().encode(defaultCoverStream), MediaType.IMAGE_JPEG_VALUE, "cover.jpg");
         List<String> lang = Arrays.asList(Locale.getISOCountries());
 
@@ -127,35 +126,7 @@ public class BookFixture implements CommandLineRunner {
 
         });
 
-        if (books.size() >= 4) {
-            Collections.reverse(books); // shown in the top 3 homepage
-            for (int i = 0; i < 4; i++) {
-                final int idx = i;
-                String pathChap = "fixture/chapters/" + (i + 1);
-                ClassPathResource cover = new ClassPathResource(pathChap + "/cover.jpg");
 
-                Collection<File> files = FileUtils.listFiles(new ClassPathResource(pathChap).getFile(), new String[]{"mp3"}, true);
-                files.stream()
-                        .map(audio -> ChapterDto.builder()
-                                .contentType("audio/mpeg")
-                                .order(Integer.valueOf(Integer.valueOf(audio.getName().charAt(0))))
-                                .file(Base64.getEncoder().encode(readFileToByteArray(audio)))
-                                .bookId(books.get(idx).getId())
-                                .description(faker.lorem()
-                                        .paragraph(3))
-                                .fileName(audio.getName())
-                                .title(faker.book().title())
-                                .build()
-                        ).forEach(chapterService::saveChapterAndUpload);
-                chapterService.flush();
-
-                byte[] input = toByteArray(cover.getInputStream());
-                Book bookWCover = books.get(i).toBuilder().cover(bookService.getUploadService().upload(Base64.getEncoder().encode(input), MediaType.IMAGE_JPEG_VALUE, "cover.jpg")).build();
-                Book bookUpdated = bookWCover.toBuilder().totalDuration(chapterService.getTotalDuration(bookWCover)).build();
-                Book bookSavedWithChapter = bookService.save(bookUpdated);
-
-            }
-        }
 
     }
 
