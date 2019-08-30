@@ -1,7 +1,7 @@
 <app-logo [headerClass]="'text-center  mt-5  pt-5 '"></app-logo>
 
 <div class="container" >
-  <form *ngIf="user && profile" class="">
+  <div *ngIf="user && profile" class="">
     <div class="container col-4">
       <app-image-preview  [defaultImage]="user.profile && user.profile.profilePicture ? user.profile.profilePicture.id : null" (emitter)="updateProfilePicture($event)"></app-image-preview>
     </div>
@@ -16,6 +16,6 @@
       </div>
       <button type="submit" class="btn btn-primary" (click)="saveProfile()">Submit</button>
     </div>
-  </form>
+  </div>
 </div>
 

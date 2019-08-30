@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {ImagePreview} from "../image-preview/image.preview";
 import {AuthenticationService} from "../service/authenticationservice";
+import {ProfileService} from "../service/profile.service";
 
 @Component({
   selector: 'app-user-profile',
@@ -13,7 +14,7 @@ export class UserProfileComponent implements OnInit {
   profile: any;
   private profilePictureChanged: boolean;
 
-  constructor(private authenticationService: AuthenticationService) { }
+  constructor(private authenticationService: AuthenticationService, private profileService:ProfileService) { }
 
   ngOnInit() {
     this.user = this.authenticationService.getUser();
@@ -22,6 +23,13 @@ export class UserProfileComponent implements OnInit {
       firstName: profileCopy.firstName,
       lastName: profileCopy.lastName
     };
+    this.authenticationService.userEvent.subscribe(event => {
+      if (event === 'logout') {
+        this.user = null;
+      } else {
+        this.user=this.authenticationService.getUser();
+      }
+    });
   }
 
   updateProfilePicture($event: ImagePreview) {
@@ -33,6 +41,9 @@ export class UserProfileComponent implements OnInit {
   }
 
   saveProfile() {
-    console.log("save profile...", this.profile)
+    console.log("save profile...", this.profile);
+    this.profileService.updateProfile(this.profile, (datas)=>{
+      this.authenticationService.autoLogin();
+    })
   }
 }
