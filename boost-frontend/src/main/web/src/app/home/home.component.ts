@@ -1,9 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {AuthenticationService} from '../service/authenticationservice';
-import {HttpClient} from "@angular/common/http";
 import {Router} from "@angular/router";
-import {environment} from "../../environments/environment";
 import {Slugify} from "../common/slugify";
+import {ChapterService} from "../service/chapter.service";
+import {BookService} from "../service/book.service";
 
 @Component({
   selector: 'app-home',
@@ -17,7 +17,7 @@ export class HomeComponent implements OnInit {
   public histories: any;
   topBooks: any;
 
-  constructor(private http: HttpClient, private router: Router, private authenticationService: AuthenticationService) {
+  constructor(private bookService: BookService, private chapterService:ChapterService,private router: Router, private authenticationService: AuthenticationService) {
   }
 
   isLoggedIn() {
@@ -36,28 +36,15 @@ export class HomeComponent implements OnInit {
   ngOnInit() {
     this.loading = true;
     this.books = null;
-    this.http.get<any[]>(environment.backendUrl + '/book/last', {}).subscribe(
-      (datas) => {
-        this.books = datas;
-        this.loading = false;
-      },
-      (err) => {
-        console.log(err);
-      },
-      () => {
-      },
-    );
-    this.http.get<any[]>(environment.backendUrl + '/book/top', {}).subscribe(
-      (datas) => {
-        this.topBooks = datas;
-        this.loading = false;
-      },
-      (err) => {
-        console.log(err);
-      },
-      () => {
-      },
-    );
+    this.bookService.getLast3Books((datas) => {
+      this.books = datas;
+      this.loading = false;
+    });
+    this.bookService.getTop3Books((datas) => {
+      this.topBooks = datas;
+      this.loading = false;
+    });
+
     this.fetchHistories();
       this.authenticationService.userEvent.subscribe(event => {
         console.log(event);
@@ -75,16 +62,9 @@ export class HomeComponent implements OnInit {
 
   fetchHistories() {
     if (this.isLoggedIn()) {
-      this.http.get<any[]>(environment.backendUrl + '/user/chapter/history', {}).subscribe(
-        (datas) => {
-          this.histories = datas;
-        },
-        (err) => {
-          console.log(err);
-        },
-        () => {
-        },
-      );
+      this.chapterService.userHistory((datas) => {
+        this.histories = datas;
+      });
     }
   }
 

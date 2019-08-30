@@ -33,9 +33,9 @@ export class BookService {
     );
   }
 
-  fetchTitles(next:any, err = e => console.log(e)){
+  fetchTitles(next: any, err = e => console.log(e)) {
     this.http.get<any[]>(`${environment.backendUrl}/book/titles`, {}).subscribe(
-      next,err,
+      next, err,
       () => {
       },
     );
@@ -51,7 +51,7 @@ export class BookService {
   }
 
 
-  fetchCountryCode(next:any, e=err=>console.log(err)){
+  fetchCountryCode(next: any, e = err => console.log(err)) {
     this.http.request<any>('get', `${environment.backendUrl}/book/country-code`, {}).subscribe(
       next,
       e,
@@ -61,33 +61,55 @@ export class BookService {
 
   }
 
-  saveBookToDb(book:any, next, error=e=>console.log(e)){
+  saveBookToDb(book: any, next, error = e => console.log(e)) {
     this.http.request<any>('put', `${environment.backendUrl}/book`, {body: book}).subscribe(
-      next,error,
+      next, error,
       () => {
       },
     );
   }
 
-  fetchBook(id,title, next:any, err=e=> console.log(e)){
+  fetchBook(id, title, next: any, err = e => console.log(e)) {
     this.http.request<any>('get', `${environment.backendUrl}/book/${title}/${id}`, {}).subscribe(
-      next,err,
+      next, err,
       () => {
       },
     );
   }
-  rateBook($event: Star, book:Book, next,err=e=> console.log(e)) {
-    console.log("from book detail " +$event.star);
+
+  rateBook($event: Star, book: Book, next, err = e => console.log(e)) {
+    console.log("from book detail " + $event.star);
     let params = new HttpParams()
       .set('bookId', book.id + '')
       .set('star', $event.star + '');
     this.http.request<any>('post', `${environment.backendUrl}/user/rate`, {
-      params:params
+      params: params
     }).subscribe(
-      next,err,
+      next, err,
       () => {
       },
     );
   }
 
+  getLast3Books(next: (datas) => void) {
+    this.http.get<any[]>(environment.backendUrl + '/book/last', {}).subscribe(
+      next,
+      (err) => {
+        console.log(err);
+      },
+      () => {
+      },
+    );
+  }
+
+  getTop3Books(next: (datas) => void) {
+    this.http.get<any[]>(environment.backendUrl + '/book/top', {}).subscribe(
+      next,
+      (err) => {
+        console.log(err);
+      },
+      () => {
+      }
+    );
+  }
 }

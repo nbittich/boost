@@ -71,4 +71,15 @@ export class ChapterService {
       },
     );
   }
+
+  userHistory(next: (datas) => void) {
+    this.http.get<any[]>(environment.backendUrl + '/user/chapter/history', {}).subscribe(
+      next,
+      (err) => {
+        console.log(err);
+      },
+      () => {
+      },
+    );
+  }
 }
