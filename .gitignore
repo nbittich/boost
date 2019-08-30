@@ -4,7 +4,6 @@ target/
 !**/src/main/**
 !**/src/test/**
 node/
-dist/
 node_modules/
 *.exe
 mvn*

@@ -17,9 +17,10 @@
         <profile>
             <id>boost-build</id>
             <activation>
-                <file>
-                    <missing>${project.basedir}/src/main/web/dist/boost-portal</missing>
-                </file>
+                <property>
+                    <name>build</name>
+                    <value>angular</value>
+                </property>
             </activation>
             <build>
                 <plugins>
