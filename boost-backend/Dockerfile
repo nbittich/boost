@@ -1,4 +1,4 @@
-FROM maven
+FROM maven:slim
 WORKDIR /tmp
 COPY . .
 RUN mvn clean install -DskipTests
