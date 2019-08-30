@@ -1,12 +1,11 @@
 import {ChangeDetectorRef, Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
 import {Chapterentity} from "../chapters/chapterentity";
-import {environment} from "../../environments/environment";
-import {HttpClient, HttpParams} from "@angular/common/http";
 import {Router} from "@angular/router";
 import {AuthenticationService} from "../service/authenticationservice";
 import {ChapterDto} from "../chapters/chapterdto";
 import {faPlus, faSave, faTimes} from "@fortawesome/free-solid-svg-icons";
 import {AudioPlayerComponent} from "../audio-player/audio-player.component";
+import {ChapterService} from "../service/chapter.service";
 
 @Component({
   selector: 'app-chapter-detail',
@@ -15,7 +14,7 @@ import {AudioPlayerComponent} from "../audio-player/audio-player.component";
 })
 export class ChapterDetailComponent implements OnInit {
 
-  constructor(private http: HttpClient, private router: Router, private cd: ChangeDetectorRef,private authenticationService: AuthenticationService) {
+  constructor(private chapterService:ChapterService, private router: Router, private cd: ChangeDetectorRef,private authenticationService: AuthenticationService) {
   }
 
   faPlus=faPlus;
@@ -45,21 +44,12 @@ export class ChapterDetailComponent implements OnInit {
     chap.title = this.chapter.title;
     chap.description = this.chapter.description;
 
-    this.http.request<any>('post', environment.backendUrl + '/book/chapter/edit', {body: chap}).subscribe(
-      (datas) => {
-        switch (updateType) {
-          case 'editTitle': this.toggleTitle();break;
-          case 'editDescription': this.toggleDescription();break;
-        }
-        alert(datas.message);
-
-      },
-      (err) => {
-        console.log(err);
-      },
-      () => {
-      },
-    );
+    this.chapterService.updateChapter(chap,  (datas) => {
+      switch (updateType) {
+        case 'editTitle': this.toggleTitle();break;
+        case 'editDescription': this.toggleDescription();break;
+      }
+    });
   }
   public toggleTitle() {
     this.editTitle= this.editMode && !this.editTitle;
@@ -90,20 +80,15 @@ export class ChapterDetailComponent implements OnInit {
   }
 
   updateCurrentChapter($event: Event) {
-    this.http.request<any>('post', environment.backendUrl + '/user/chapter/update/current', {params: new HttpParams().set('chapterId',this.chapter.id)}).subscribe(
-      (datas) => {
-          this.authenticationService.autoLogin(true);
-          let currentChapterUploadId = (datas.currentChapter || {upload:{}}).upload.id;
-          console.log("ger"+currentChapterUploadId);
-          AudioPlayerComponent.reloadCurrentPlayer(currentChapterUploadId, (datas.currentChapter||{}).title);
+    let next = (datas) => {
+      this.authenticationService.autoLogin(true);
+      let currentChapterUploadId = (datas.currentChapter || {upload:{}}).upload.id;
+      AudioPlayerComponent.reloadCurrentPlayer(currentChapterUploadId, (datas.currentChapter||{}).title);
 
-      },
-      (err) => {
-        console.log(err);
-      },
-      () => {
-      },
-    );
+    };
+    console.log(this.chapterService);
+
+    this.chapterService.updateCurrentChapter(this.chapter, next);
 
   }
 

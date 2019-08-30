@@ -1,8 +1,8 @@
 import {ChangeDetectorRef, Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
-import {HttpClient} from "@angular/common/http";
 import {Router} from "@angular/router";
 import {AuthenticationService} from "../service/authenticationservice";
 import {environment} from "../../environments/environment";
+import {UpdateCurrentTimeService} from "../service/updatecurrenttimeservice";
 
 @Component({
   selector: 'app-audio-player',
@@ -16,7 +16,7 @@ export class AudioPlayerComponent implements OnInit {
   private static audioSources = []; // todo use redux like solution
   private static currentPlayerMgmt: AudioPlayerComponent; // todo use redux like solution
 
-  constructor(private http: HttpClient, private router: Router, private cd: ChangeDetectorRef, private authenticationService: AuthenticationService) {
+  constructor(private updateCurrentTimeService:UpdateCurrentTimeService, private router: Router, private cd: ChangeDetectorRef, private authenticationService: AuthenticationService) {
 
   }
 
@@ -83,14 +83,7 @@ export class AudioPlayerComponent implements OnInit {
         if (!this.isLoggedIn()){
           clearInterval(this.updateCurrentTimeInterval);
         }
-        this.http.post<any[]>(environment.backendUrl + this.updateCurrentTimeUrl + currentT, {}).subscribe(
-          (datas) => {
-          },
-          (err) => {
-          },
-          () => {
-          },
-        );
+        this.updateCurrentTimeService.updateTime(this.updateCurrentTimeUrl,currentT);
       }else{
         clearInterval(this.updateCurrentTimeInterval);
       }

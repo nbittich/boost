@@ -1,10 +1,9 @@
 import {ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {ChapterDto} from "../chapters/chapterdto";
-import {HttpClient} from "@angular/common/http";
 import {Router} from "@angular/router";
 import {AuthenticationService} from "../service/authenticationservice";
-import {environment} from "../../environments/environment";
 import {faPlus, faSave, faTimes} from "@fortawesome/free-solid-svg-icons";
+import {ChapterService} from "../service/chapter.service";
 
 @Component({
   selector: 'app-chapter-form',
@@ -31,7 +30,7 @@ export class ChapterFormComponent implements OnInit {
   public formVisible: boolean;
 
 
-  constructor(private http: HttpClient, private cd:ChangeDetectorRef,private router: Router, private authenticationService: AuthenticationService) {}
+  constructor(private chapterService:ChapterService, private cd:ChangeDetectorRef,private router: Router, private authenticationService: AuthenticationService) {}
 
   ngOnInit() {
   }
@@ -59,20 +58,13 @@ export class ChapterFormComponent implements OnInit {
       this.setFile(reader.result);
       this.newChapter.file = btoa(this.newChapter.file);
 
-      this.http.request<any>('put', environment.backendUrl + '/book/chapter/publish', {body: this.newChapter}).subscribe(
-        (datas) => {
-          this.newChapter=new ChapterDto();
-          this.formVisible=false;
-          this.loadingNewFile =false;
-          this.fileRef.nativeElement.value='';
-          this.emitter.emit(datas);
-        },
-        (err) => {
-          console.log(err);
-        },
-        () => {
-        },
-      );
+      this.chapterService.publish(this.newChapter, (datas) => {
+        this.newChapter=new ChapterDto();
+        this.formVisible=false;
+        this.loadingNewFile =false;
+        this.fileRef.nativeElement.value='';
+        this.emitter.emit(datas);
+      });
     };
 
 

@@ -3,8 +3,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {AuthenticationService} from '../service/authenticationservice';
 import {faSignInAlt, faSignOutAlt} from "@fortawesome/free-solid-svg-icons";
 import {Slugify} from "../common/slugify";
-import {environment} from "../../environments/environment";
-import {HttpClient} from "@angular/common/http";
+import {ChapterService} from "../service/chapter.service";
 
 /**
  * @author Nordine Bittich
@@ -22,7 +21,7 @@ export class LoginComponent implements OnInit {
   faSignInAlt=faSignInAlt;
   faSignOutAlt=faSignOutAlt;
   private currentChapter: any;
-  constructor(private http: HttpClient, private actRoute: ActivatedRoute, private router: Router, private authenticationService: AuthenticationService) {
+  constructor(private chapterService: ChapterService, private actRoute: ActivatedRoute, private router: Router, private authenticationService: AuthenticationService) {
 
   }
 
@@ -42,16 +41,9 @@ export class LoginComponent implements OnInit {
   public fetchCurrentChap(){
 
     if(this.isLoggedIn()) {
-      this.http.get<any[]>(environment.backendUrl + '/user/chapter/current', {}).subscribe(
-        (datas) => {
-          this.currentChapter = datas;
-        },
-        (err) => {
-          console.log(err);
-        },
-        () => {
-        },
-      );
+      this.chapterService.getCurrentChapter((datas)=>{
+        this.currentChapter = datas;
+      });
     }
   }
 

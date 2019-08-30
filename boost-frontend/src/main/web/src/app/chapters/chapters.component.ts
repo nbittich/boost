@@ -1,11 +1,10 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {HttpClient} from "@angular/common/http";
 import {Router} from "@angular/router";
 import {AuthenticationService} from "../service/authenticationservice";
-import {environment} from "../../environments/environment";
 import {Chapterentity} from "./chapterentity";
 import {faPlus, faSave, faTimes, faTrash} from "@fortawesome/free-solid-svg-icons";
 import {AudioPlayerComponent} from "../audio-player/audio-player.component";
+import {ChapterService} from "../service/chapter.service";
 
 
 @Component({
@@ -28,7 +27,7 @@ export class ChaptersComponent implements OnInit {
 
   public chapters:any;
 
-  constructor(private http: HttpClient, private router: Router, private authenticationService: AuthenticationService) {
+  constructor(private chapterService: ChapterService, private router: Router, private authenticationService: AuthenticationService) {
   }
 
   ngOnInit() {
@@ -40,34 +39,21 @@ export class ChaptersComponent implements OnInit {
 
 
   getChapters(event=1) {
-    this.http.get<any[]>(environment.backendUrl + '/book/'+this.bookId+'/chapters'+ '?size=3&page=' + (event - 1), {}).subscribe(
-      (datas) => {
-        this.chapters = datas;
-      },
-      (err) => {
-        console.log(err);
-      },
-      () => {
-      },
-    );
+    this.chapterService.getChapters(event, this.bookId,(datas) => {
+      this.chapters = datas;
+    });
   }
 
   deleteChapter(ch: Chapterentity) {
-    this.http.request<any>('delete', environment.backendUrl + '/book/chapter/'+ch.id, {}).subscribe(
-      (datas) => {
-        this.authenticationService.autoLogin();
-        let currentChapterUploadId = (datas.currentChapter || {upload:{}}).upload.id;
-        AudioPlayerComponent.reloadCurrentPlayer(currentChapterUploadId, (datas.currentChapter||{}).title);
-        this.chapters = this.chapters.content.filter(c => c.id !== ch.id);
-        alert(datas.message);
-        this.getChapters();
-      },
-      (err) => {
-        console.log(err);
-      },
-      () => {
-      },
-    );
+    let next =  (datas) => {
+      this.authenticationService.autoLogin();
+      let currentChapterUploadId = (datas.currentChapter || {upload:{}}).upload.id;
+      AudioPlayerComponent.reloadCurrentPlayer(currentChapterUploadId, (datas.currentChapter||{}).title);
+      this.chapters = this.chapters.content.filter(c => c.id !== ch.id);
+      alert(datas.message);
+      this.getChapters();
+    };
+    this.chapterService.deleteChapter(ch, next);
   }
 
   refreshChapterList($event: any) {
