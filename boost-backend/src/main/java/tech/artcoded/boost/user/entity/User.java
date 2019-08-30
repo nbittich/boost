@@ -20,7 +20,7 @@ import java.util.Collection;
 @Builder(toBuilder = true)
 @Entity
 @Table(name = "usr")
-public class User implements UserDetails {
+public class User implements UserDetails{
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -71,5 +71,10 @@ public class User implements UserDetails {
     @ManyToOne
     @JoinColumn(name = "usr_chapter_id", referencedColumnName = "chapter_id")
     private Chapter currentChapter;
+
+
+    @OneToOne
+    @JoinColumn(referencedColumnName = "user_profile_id")
+    private Profile profile;
 
 }

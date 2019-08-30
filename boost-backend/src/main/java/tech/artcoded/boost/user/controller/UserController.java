@@ -15,7 +15,12 @@ import tech.artcoded.boost.book.service.BookService;
 import tech.artcoded.boost.book.service.ChapterHistoryService;
 import tech.artcoded.boost.book.service.ChapterService;
 import tech.artcoded.boost.book.service.StarService;
+import tech.artcoded.boost.upload.entity.Upload;
+import tech.artcoded.boost.upload.service.UploadService;
+import tech.artcoded.boost.user.dto.ProfileDto;
+import tech.artcoded.boost.user.entity.Profile;
 import tech.artcoded.boost.user.entity.User;
+import tech.artcoded.boost.user.service.ProfileService;
 import tech.artcoded.boost.user.service.UserService;
 
 import javax.transaction.Transactional;
@@ -36,16 +41,19 @@ public class UserController {
     private final ChapterHistoryService chapterHistoryService;
     private final StarService starsService;
     private final BookService bookService;
-
+    private final ProfileService profileService;
+    private final UploadService uploadService;
 
 
     @Autowired
-    public UserController(UserService userService, ChapterService chapterService, ChapterHistoryService chapterHistoryService, StarService starsService, BookService bookService) {
+    public UserController(UserService userService, ChapterService chapterService, ChapterHistoryService chapterHistoryService, StarService starsService, BookService bookService, ProfileService profileService, UploadService uploadService) {
         this.userService = userService;
         this.chapterService = chapterService;
         this.chapterHistoryService = chapterHistoryService;
         this.starsService = starsService;
         this.bookService = bookService;
+        this.profileService = profileService;
+        this.uploadService = uploadService;
     }
 
 
@@ -75,6 +83,27 @@ public class UserController {
         User user = userService.principalToUser(principal);
         Chapter currentChapter = user.getCurrentChapter();
         return chapterHistoryService.findByChapterAndUser(currentChapter, user).orElse(null);
+    }
+
+    @PostMapping("/profile")
+    public Profile updateProfile(Principal principal, @RequestBody ProfileDto profileDto){
+        User user = userService.principalToUser(principal);
+        Profile.ProfileBuilder profileBuilder = Optional.ofNullable(user.getProfile())
+                .map(Profile::toBuilder)
+                .orElseGet(Profile::builder)
+                .firstName(profileDto.getFirstName())
+                .lastName(profileDto.getLastName());
+        Optional.ofNullable(profileDto.getFile()).ifPresent(c -> {
+            try {
+                if (c.length > 0) {
+                    Upload upload = uploadService.upload(c, profileDto.getContentType(), profileDto.getFileName());
+                    profileBuilder.profilePicture(upload);
+                }
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        });
+        return profileService.save(profileBuilder.build());
     }
 
     @PostMapping("/rate")
