@@ -86,7 +86,7 @@ public class UserController {
     }
 
     @PostMapping("/profile")
-    public Profile updateProfile(Principal principal, @RequestBody ProfileDto profileDto){
+    public User updateProfile(Principal principal, @RequestBody ProfileDto profileDto){
         User user = userService.principalToUser(principal);
         Profile.ProfileBuilder profileBuilder = Optional.ofNullable(user.getProfile())
                 .map(Profile::toBuilder)
@@ -103,7 +103,8 @@ public class UserController {
                 throw new RuntimeException(e);
             }
         });
-        return profileService.save(profileBuilder.build());
+        Profile profile = profileService.save(profileBuilder.build());
+        return userService.save(user.toBuilder().profile(profile).build());
     }
 
     @PostMapping("/rate")

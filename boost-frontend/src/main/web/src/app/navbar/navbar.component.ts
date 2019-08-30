@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import MenuLink from './menulink';
 import {AuthenticationService} from '../service/authenticationservice';
 import {ActivatedRoute, NavigationEnd, Router} from '@angular/router';
-import {faBook, faFileAudio, faHome, faVolumeUp} from "@fortawesome/free-solid-svg-icons";
+import {faBook, faFileAudio, faHome, faUser, faVolumeUp} from "@fortawesome/free-solid-svg-icons";
 
 @Component({
   selector: 'app-navbar',
@@ -31,7 +31,8 @@ export class NavbarComponent implements OnInit {
     this.menu = [
       {role: ['ANONYMOUS', 'USER', 'ADMIN','CONTRIBUTOR'], route: '/', label: 'Home', selected: false, icon:this.faHome},
       {role: ['ADMIN', 'USER', 'ANONYMOUS','CONTRIBUTOR'], route: '/books', label: 'Discover', selected: false,icon:faVolumeUp},
-      {role: ['ADMIN', 'USER','CONTRIBUTOR'], route: '/my-books', label: 'My Content', selected: false,icon:faBook}
+      {role: ['ADMIN', 'USER','CONTRIBUTOR'], route: '/my-books', label: 'My Content', selected: false,icon:faBook},
+      {role: ['ADMIN', 'USER','CONTRIBUTOR'], route: '/user-profile', label: 'Profile', selected: false,icon:faUser}
     ];
   }
 

@@ -1,0 +1,21 @@
+<app-logo [headerClass]="'text-center  mt-5  pt-5 '"></app-logo>
+
+<div class="container" >
+  <form *ngIf="user && profile" class="">
+    <div class="container col-4">
+      <app-image-preview  [defaultImage]="user.profile && user.profile.profilePicture ? user.profile.profilePicture.id : null" (emitter)="updateProfilePicture($event)"></app-image-preview>
+    </div>
+    <div class="container col-12">
+      <div class="form-group">
+        <label for="firstName">First name</label>
+        <input type="text" class="form-control" id="firstName"  name="firstName" aria-describedby="firstName" placeholder="first name" [(ngModel)]="profile.firstName">
+      </div>
+      <div class="form-group">
+        <label for="lastName">Last name</label>
+        <input type="text" class="form-control" id="lastName" name="lastName" aria-describedby="lastName" placeholder="last name" [(ngModel)]="profile.lastName">
+      </div>
+      <button type="submit" class="btn btn-primary" (click)="saveProfile()">Submit</button>
+    </div>
+  </form>
+</div>
+
