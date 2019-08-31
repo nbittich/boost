@@ -13,7 +13,7 @@ export class ProfileService {
   constructor(private http: HttpClient) {
   }
 
-  countFollowers(next:any){
+  countFollowing(next:any){
     return this.http.get<any>(environment.backendUrl + '/subscription/following-count', {})
       .subscribe(
         next,
@@ -24,7 +24,7 @@ export class ProfileService {
         },
       );
   }
-  countFollowing(next:any){
+  countFollowers(next:any){
     return this.http.get<any>(environment.backendUrl + '/subscription/followers-count', {})
       .subscribe(
         next,
