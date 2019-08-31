@@ -31,6 +31,7 @@ import {AudioPlayerComponent} from './audio-player/audio-player.component';
 import {LogoComponent} from './logo/logo.component';
 import {MyBooksComponent} from './my-books/my-books.component';
 import {UserProfileComponent} from './user-profile/user-profile.component';
+import {NotificationComponent} from './notification/notification.component';
 
 @NgModule({
   declarations: [
@@ -52,6 +53,7 @@ import {UserProfileComponent} from './user-profile/user-profile.component';
     LogoComponent,
     MyBooksComponent,
     UserProfileComponent,
+    NotificationComponent,
   ],
   imports: [
     BrowserModule,

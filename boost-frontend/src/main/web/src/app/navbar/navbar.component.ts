@@ -81,4 +81,8 @@ export class NavbarComponent implements OnInit {
       //{role: ['ADMIN'], route: '/proxy/robot/', label: 'Robot'}
     ];
   }
+
+  isLoggedIn() {
+    return this.authenticationService.isLoggedIn();
+  }
 }
