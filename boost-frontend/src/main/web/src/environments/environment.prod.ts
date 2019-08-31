@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  backendUrl: '/'
+  backendUrl: location.protocol + '://' + location.host + ':' + location.port
 };

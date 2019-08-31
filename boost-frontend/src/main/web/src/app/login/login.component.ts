@@ -20,7 +20,7 @@ export class LoginComponent implements OnInit {
   public password: string;
   faSignInAlt=faSignInAlt;
   faSignOutAlt=faSignOutAlt;
-  private currentChapter: any;
+  public currentChapter: any;
   constructor(private chapterService: ChapterService, private actRoute: ActivatedRoute, private router: Router, private authenticationService: AuthenticationService) {
 
   }

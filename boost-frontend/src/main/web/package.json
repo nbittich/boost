@@ -5,6 +5,7 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
+    "build-prod": "ng build --prod",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
@@ -25,6 +26,7 @@
     "@fortawesome/free-solid-svg-icons": "^5.10.1",
     "angular-autofocus-fix": "^0.1.0",
     "bootstrap": "^4.3.1",
+    "event-source-polyfill": "^1.0.8",
     "flag-icon-css": "^3.3.0",
     "jquery": "^3.4.1",
     "ngx-autosize": "^1.6.3",

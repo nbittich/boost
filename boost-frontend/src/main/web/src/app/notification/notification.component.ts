@@ -1,4 +1,6 @@
 import {Component, OnInit} from '@angular/core';
+import {AuthenticationService} from "../service/authenticationservice";
+
 
 @Component({
   selector: 'app-notification',
@@ -6,10 +8,15 @@ import {Component, OnInit} from '@angular/core';
   styleUrls: ['./notification.component.css']
 })
 export class NotificationComponent implements OnInit {
+  private notification: any;
 
-  constructor() { }
+  constructor(private authenticationService:AuthenticationService) { }
 
   ngOnInit() {
+    this.authenticationService.notificationConnect(message => {
+      this.notification = JSON.parse(message.data);
+      console.log(this.notification);
+    });
   }
 
 }

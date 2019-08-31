@@ -3,6 +3,7 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {tap} from 'rxjs/operators';
 import {environment} from "../../environments/environment";
 import {Subject} from "rxjs";
+import {EventSourcePolyfill} from 'event-source-polyfill';
 
 /**
  * @author Nordine Bittich
@@ -14,12 +15,27 @@ export class AuthenticationService {
   constructor(private http: HttpClient) {
   }
 
+
+  notificationConnect(callback): void {
+    let source = new EventSourcePolyfill(environment.backendUrl+'/subscription/notify',{
+      headers: this.getTokenHeader()
+    });
+    source.addEventListener('message', message => {
+      this.autoLogin();
+      if(!this.isLoggedIn()){
+        source.close();
+      }
+      callback(message);
+    });
+  }
+
   autoLogin(sendEvent=false) {
     this.http.request<any>('post', environment.backendUrl + '/user/info' , {}).subscribe(
       (datas) => {
         this.setUser(datas,sendEvent);
       },
       (err) => {
+        this.logout();
         console.log(err);
       },
       () => {
@@ -94,4 +110,14 @@ export class AuthenticationService {
       return this.getUser() !== null;
   }
 
+  getTokenHeader() {
+    const xAuthToken = localStorage.getItem('xAuthToken');
+    if (xAuthToken && xAuthToken.length) {
+          return {'x-auth-token': `${xAuthToken}`};
+    }else {
+      console.log('not authenticated');
+      this.logout();
+      return null;
+    }
+  }
 }

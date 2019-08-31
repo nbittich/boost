@@ -23,7 +23,7 @@ export class BookFormComponent implements OnInit {
   @Input()
   public book: BookDto;
 
-  private bookCopy:BookDto;
+  public bookCopy:BookDto;
 
   @Input()
   public editMode: boolean;
