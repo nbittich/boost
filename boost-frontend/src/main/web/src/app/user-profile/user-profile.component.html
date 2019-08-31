@@ -5,6 +5,13 @@
     <div class="container col-4">
       <app-image-preview  [defaultImage]="user.profile && user.profile.profilePicture ? user.profile.profilePicture.id : null" (emitter)="updateProfilePicture($event)"></app-image-preview>
     </div>
+    <div class="container ">
+      <div class="text-center">
+        <span>{{followingCount}} following{{followingCount > 1 ? 's':''}}</span>
+        <span>&nbsp;-&nbsp;</span>
+        <span>{{followerCount}} follower{{followerCount > 1 ? 's':''}}</span>
+      </div>
+    </div>
     <div class="container col-12">
       <div class="form-group">
         <label for="firstName">First name</label>

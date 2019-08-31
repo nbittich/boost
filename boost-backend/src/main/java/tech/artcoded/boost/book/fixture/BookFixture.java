@@ -18,6 +18,8 @@ import tech.artcoded.boost.book.entity.Star;
 import tech.artcoded.boost.book.service.BookService;
 import tech.artcoded.boost.book.service.ChapterService;
 import tech.artcoded.boost.book.service.StarService;
+import tech.artcoded.boost.subscription.entity.Subscription;
+import tech.artcoded.boost.subscription.service.SubscriptionService;
 import tech.artcoded.boost.upload.entity.Upload;
 import tech.artcoded.boost.upload.service.UploadService;
 import tech.artcoded.boost.user.dto.Role;
@@ -48,10 +50,11 @@ public class BookFixture implements CommandLineRunner {
     private final BCryptPasswordEncoder passwordEncoder;
     private final Environment env;
     private final StarService starsService;
+    private final SubscriptionService subscriptionService;
     private final ObjectMapper objectMapper;
 
     @Autowired
-    public BookFixture(UserService userService, UploadService uploadService, BookService bookService, ChapterService chapterService, BCryptPasswordEncoder passwordEncoder, Environment env, StarService starsService, ObjectMapper objectMapper) {
+    public BookFixture(UserService userService, UploadService uploadService, BookService bookService, ChapterService chapterService, BCryptPasswordEncoder passwordEncoder, Environment env, StarService starsService, SubscriptionService subscriptionService, ObjectMapper objectMapper) {
         this.userService = userService;
         this.uploadService = uploadService;
         this.bookService = bookService;
@@ -59,6 +62,7 @@ public class BookFixture implements CommandLineRunner {
         this.passwordEncoder = passwordEncoder;
         this.env = env;
         this.starsService = starsService;
+        this.subscriptionService = subscriptionService;
         this.objectMapper = objectMapper;
     }
 
@@ -96,6 +100,10 @@ public class BookFixture implements CommandLineRunner {
                 .password(passwordEncoder.encode("1234"))
                 .username("contributor")
                 .roles(Arrays.asList(contributor.build(),userRole.build())).build());
+
+        subscriptionService.save(Subscription.builder().following(contr).subscriber(admin).build());
+        subscriptionService.save(Subscription.builder().following(user).subscriber(admin).build());
+        subscriptionService.save(Subscription.builder().following(admin).subscriber(contr).build());
 
         Long bookSize = env.getProperty("fixture.books.size", Long.class);
         byte[] defaultCoverStream = toByteArray(defaultCover);

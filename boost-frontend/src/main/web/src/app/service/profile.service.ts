@@ -13,6 +13,29 @@ export class ProfileService {
   constructor(private http: HttpClient) {
   }
 
+  countFollowers(next:any){
+    return this.http.get<any>(environment.backendUrl + '/subscription/following-count', {})
+      .subscribe(
+        next,
+        (err) => {
+          console.log(err);
+        },
+        () => {
+        },
+      );
+  }
+  countFollowing(next:any){
+    return this.http.get<any>(environment.backendUrl + '/subscription/followers-count', {})
+      .subscribe(
+        next,
+        (err) => {
+          console.log(err);
+        },
+        () => {
+        },
+      );
+  }
+
   updateProfile(profile: any, callBackNext?: any, callbackError?: any, callbackComplete?: any) {
     return this.http.post<any>(environment.backendUrl + '/user/profile', profile)
       .subscribe(

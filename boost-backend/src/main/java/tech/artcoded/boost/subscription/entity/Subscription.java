@@ -22,7 +22,8 @@ public class Subscription extends Auditable<String> {
 
     @Id
     @Column(name = "subscription_id")
-    private String id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
 
 
     @ManyToOne

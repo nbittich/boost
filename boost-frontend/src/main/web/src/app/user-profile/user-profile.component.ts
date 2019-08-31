@@ -14,6 +14,8 @@ export class UserProfileComponent implements OnInit {
   loading: boolean;
   profile: any;
   private profilePictureChanged: boolean;
+  followingCount: number=0;
+  followerCount: number=0;
 
   constructor(private authenticationService: AuthenticationService, private profileService:ProfileService) { }
 
@@ -32,6 +34,12 @@ export class UserProfileComponent implements OnInit {
       } else {
         this.user=this.authenticationService.getUser();
       }
+    });
+    this.profileService.countFollowers((datas)=>{
+      this.followerCount=datas;
+    });
+    this.profileService.countFollowing((datas)=>{
+      this.followingCount=datas;
     });
   }
 
