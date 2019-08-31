@@ -92,10 +92,13 @@ public class UserController {
                 .map(Profile::toBuilder)
                 .orElseGet(Profile::builder)
                 .firstName(profileDto.getFirstName())
+                .birthdate(profileDto.getBirthdate())
+                .bio(profileDto.getBio())
+
                 .lastName(profileDto.getLastName());
         Optional.ofNullable(profileDto.getFile()).ifPresent(c -> {
             try {
-                if (c.length > 0) {
+                if (c.length > 0 && profileDto.getContentType() != null) {
                     Upload upload = uploadService.upload(c, profileDto.getContentType(), profileDto.getFileName());
                     profileBuilder.profilePicture(upload);
                 }

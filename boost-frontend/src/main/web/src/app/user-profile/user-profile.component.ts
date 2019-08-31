@@ -21,7 +21,9 @@ export class UserProfileComponent implements OnInit {
     let profileCopy = this.user.profile || {};
     this.profile = {
       firstName: profileCopy.firstName,
-      lastName: profileCopy.lastName
+      lastName: profileCopy.lastName,
+      birthdate: profileCopy.birthdate,
+      bio: profileCopy.bio
     };
     this.authenticationService.userEvent.subscribe(event => {
       if (event === 'logout') {
@@ -42,6 +44,7 @@ export class UserProfileComponent implements OnInit {
 
   saveProfile() {
     console.log("save profile...", this.profile);
+    let birthdate = this.profile.birthdate;
     this.profileService.updateProfile(this.profile, (datas)=>{
       this.authenticationService.autoLogin();
     })

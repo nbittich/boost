@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import tech.artcoded.boost.upload.entity.Upload;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Data
 @NoArgsConstructor
@@ -31,4 +32,11 @@ public class Profile  {
 
     @Column(name = "user_profile_lastname")
     private String lastName;
+
+    @Column(name = "user_profile_birthdate")
+    @Temporal(TemporalType.DATE)
+    private Date birthdate;
+
+    @Column(name = "user_profile_bio", length = 2048)
+    private String bio;
 }

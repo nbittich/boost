@@ -5,6 +5,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -17,4 +19,6 @@ public class ProfileDto {
     private byte[] file;
     private String fileName;
     private String contentType;
+    private Date birthdate;
+    private String bio;
 }
