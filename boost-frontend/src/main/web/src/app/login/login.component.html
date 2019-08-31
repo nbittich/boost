@@ -5,7 +5,7 @@
   <input (keydown.enter)="login()" [(ngModel)]="password" name="password" class="form-control mr-sm-2 border-radius-0 "
          type="password" placeholder="Password"
          aria-label="Password">
-  <button class="btn  border-0 btn-outline-secondary text-white text-uppercase" type="button" (click)="login()">
+  <button class="btn  border-0 btn-outline-secondary  text-uppercase" type="button" (click)="login()">
     <span class="text-uppercase">Sign in&nbsp;</span>
     <fa-icon [icon]="faSignInAlt" ></fa-icon>
   </button>
@@ -14,7 +14,7 @@
   <div *ngIf="currentChapter" >
     <app-audio-player [currentTime]="currentChapter.currentTime || 0.0" [updateCurrentTimeUrl]="getUpdateCurrentTimeUrl()" [currentPlayer]="true" [linkDetail]="getChapterDetailLink()" [upload]="currentChapter.chapter.upload" [title]="currentChapter.chapter.title"></app-audio-player>
   </div>
-  <button class="btn border-0 btn-outline-info text-white my-2 my-sm-0 " type="button" (click)="logout()">
+  <button class="btn border-0 btn-outline-info my-2 my-sm-0 " type="button" (click)="logout()">
     <span>{{getUser().username | uppercase}}</span>&nbsp;
     <fa-icon [icon]="faSignOutAlt"></fa-icon>
   </button>
