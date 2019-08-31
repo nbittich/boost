@@ -11,6 +11,7 @@ import {ProfileService} from "../service/profile.service";
 export class UserProfileComponent implements OnInit {
 
   user: any;
+  loading: boolean;
   profile: any;
   private profilePictureChanged: boolean;
 
@@ -45,8 +46,12 @@ export class UserProfileComponent implements OnInit {
   saveProfile() {
     console.log("save profile...", this.profile);
     let birthdate = this.profile.birthdate;
+    this.loading = true;
     this.profileService.updateProfile(this.profile, (datas)=>{
       this.authenticationService.autoLogin();
+      setTimeout(()=>{
+        this.loading = false;
+      },1000);
     })
   }
 }
