@@ -80,7 +80,7 @@ public class SubscriptionController {
 
                         emitter.send(event.build());
                     }
-                    Thread.sleep(1000);
+                    Thread.sleep(10000);
                 }
             } catch (Exception ex) {
                 emitter.completeWithError(ex);

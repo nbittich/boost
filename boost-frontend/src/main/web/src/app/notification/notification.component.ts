@@ -8,14 +8,13 @@ import {AuthenticationService} from "../service/authenticationservice";
   styleUrls: ['./notification.component.css']
 })
 export class NotificationComponent implements OnInit {
-  private notification: any;
+  private notifications:any= [];
 
   constructor(private authenticationService:AuthenticationService) { }
 
   ngOnInit() {
     this.authenticationService.notificationConnect(message => {
-      this.notification = JSON.parse(message.data);
-      console.log(this.notification);
+      this.notifications.push(JSON.parse(message.data));
     });
   }
 

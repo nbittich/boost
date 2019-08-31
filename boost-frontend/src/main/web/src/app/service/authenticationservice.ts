@@ -21,8 +21,8 @@ export class AuthenticationService {
       headers: this.getTokenHeader()
     });
     source.addEventListener('message', message => {
-      this.autoLogin();
       if(!this.isLoggedIn()){
+        console.log('logged out')
         source.close();
       }
       callback(message);
@@ -35,7 +35,6 @@ export class AuthenticationService {
         this.setUser(datas,sendEvent);
       },
       (err) => {
-        this.logout();
         console.log(err);
       },
       () => {

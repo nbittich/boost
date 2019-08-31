@@ -14,9 +14,9 @@
   <div *ngIf="currentChapter" >
     <app-audio-player [currentTime]="currentChapter.currentTime || 0.0" [updateCurrentTimeUrl]="getUpdateCurrentTimeUrl()" [currentPlayer]="true" [linkDetail]="getChapterDetailLink()" [upload]="currentChapter.chapter.upload" [title]="currentChapter.chapter.title"></app-audio-player>
   </div>
-  <app-notification ></app-notification>
   <button class="btn border-0 btn-outline-info text-white my-2 my-sm-0 " type="button" (click)="logout()">
     <span>{{getUser().username | uppercase}}</span>&nbsp;
     <fa-icon [icon]="faSignOutAlt"></fa-icon>
   </button>
+  <app-notification ></app-notification>
 </div>
