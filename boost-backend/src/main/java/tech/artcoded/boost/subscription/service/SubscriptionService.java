@@ -22,4 +22,12 @@ public interface SubscriptionService extends CrudService<Long, Subscription> {
     default Optional<Subscription> findBySubscriberAndFollowing( User subscriber, User following){
         return getRepository().findBySubscriberAndFollowing(subscriber,following);
     }
+
+    default Long countBySubscriber(User principalToUser){
+        return getRepository().countBySubscriber(principalToUser);
+    }
+
+    default Long countByFollowing(User principalToUser){
+        return getRepository().countByFollowing(principalToUser);
+    }
 }

@@ -35,4 +35,14 @@ public class SubscriptionController {
     public List<Subscription> findByFollowing(Principal principal){
         return subscriptionService.findAllByFollowing(userService.principalToUser(principal));
     }
+
+    @GetMapping("/following-count")
+    public Long countBySubscriber(Principal principal){
+        return subscriptionService.countBySubscriber(userService.principalToUser(principal));
+    }
+
+    @GetMapping("/followers-count")
+    public Long countByFollowing(Principal principal){
+        return subscriptionService.countByFollowing(userService.principalToUser(principal));
+    }
 }
