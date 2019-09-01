@@ -79,8 +79,11 @@ public class SubscriptionController {
             this.notificationService.save(n.toBuilder().received(false).build());
         });
         SseEmitter emitter = new SseEmitter(60000L);
-        emitter.onTimeout(sseMvcExecutor::shutdownNow);
-        emitter.onError(t -> sseMvcExecutor.shutdownNow());
+        emitter.onTimeout(sseMvcExecutor::shutdown);
+        emitter.onError(err -> {
+            log.error("an exception occurred",err);
+            sseMvcExecutor.shutdownNow();
+        });
         sseMvcExecutor.execute(() -> {
                 for (;;) {
                     if (checkAuthenticationUtil.getAuthentication(request) == null){
