@@ -101,9 +101,10 @@ public class BookFixture implements CommandLineRunner {
                 .username("contributor")
                 .roles(Arrays.asList(contributor.build(),userRole.build())).build());
 
-        subscriptionService.save(Subscription.builder().following(contr).subscriber(admin).build());
-        subscriptionService.save(Subscription.builder().following(user).subscriber(admin).build());
-        subscriptionService.save(Subscription.builder().following(admin).subscriber(contr).build());
+        subscriptionService.saveAndNotify(Subscription.builder().following(contr).subscriber(admin).build());
+        subscriptionService.saveAndNotify(Subscription.builder().following(contr).subscriber(user).build());
+        subscriptionService.saveAndNotify(Subscription.builder().following(user).subscriber(admin).build());
+        subscriptionService.saveAndNotify(Subscription.builder().following(admin).subscriber(contr).build());
 
         Long bookSize = env.getProperty("fixture.books.size", Long.class);
         byte[] defaultCoverStream = toByteArray(defaultCover);

@@ -1,10 +1,9 @@
 package tech.artcoded.boost.subscription.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.*;
 import tech.artcoded.boost.common.entity.Auditable;
+import tech.artcoded.boost.user.entity.User;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -12,6 +11,7 @@ import java.util.Set;
 
 @Entity
 @Data
+@EqualsAndHashCode(of = "id")
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder(toBuilder = true)
@@ -32,10 +32,11 @@ public class Notification extends Auditable<String> {
 
     @ManyToMany
     @JoinTable(
-            name = "notification_subscription",
-            joinColumns = @JoinColumn(name = "subscription_id"),
+            name = "notification_users",
+            joinColumns = @JoinColumn(name = "usr_id"),
             inverseJoinColumns = @JoinColumn(name = "notification_id"))
-    private Set<Subscription> subscriptions = new HashSet<>();
+    @JsonIgnore
+    private Set<User> users = new HashSet<>();
 
 
     @Column(name = "notification_title")
@@ -44,5 +45,7 @@ public class Notification extends Auditable<String> {
     private String description;
     @Column(name = "notification_entity_id")
     private Long targetEntityId;
+
+    private boolean read;
 
 }

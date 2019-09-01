@@ -11,7 +11,7 @@ public interface NotificationService extends CrudService<Long, Notification> {
 
     NotificationRepository getRepository();
 
-    default List<Notification> findAllBySubscriber(User subscriber){
-        return getRepository().findAllBySubscriptions_Subscriber(subscriber);
+    default List<Notification> findAllByUser(User subscriber){
+        return getRepository().findAllByReadFalseAndUsers_Username(subscriber.getUsername());
     }
 }
