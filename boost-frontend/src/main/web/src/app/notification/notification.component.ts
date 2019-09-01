@@ -1,6 +1,7 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {AuthenticationService} from "../service/authenticationservice";
 
+import {Popover} from 'bootstrap';
 
 @Component({
   selector: 'app-notification',
@@ -9,8 +10,15 @@ import {AuthenticationService} from "../service/authenticationservice";
 })
 export class NotificationComponent implements OnInit {
   private notifications:any= [];
+  @ViewChild('notifButton', {static: false}) notifButton: ElementRef;
+  private popover: any;
+
 
   constructor(private authenticationService:AuthenticationService) { }
+
+  ngAfterViewInit(){
+    this.popover=new Popover(this.notifButton.nativeElement);
+  }
 
   ngOnInit() {
     this.authenticationService.notificationConnect(message => {
@@ -21,4 +29,7 @@ export class NotificationComponent implements OnInit {
     });
   }
 
+  togglePopover() {
+    this.popover.toggle();
+  }
 }

@@ -38,6 +38,7 @@ public class SubscriptionController {
     private final NotificationService notificationService;
     private final CheckAuthenticationUtil checkAuthenticationUtil;
     private final ObjectMapper objectMapper;
+    private final ExecutorService executorService = Executors.newWorkStealingPool();
     @Getter
     private final Environment env;
 
@@ -74,24 +75,24 @@ public class SubscriptionController {
     @GetMapping("/notify")
     public SseEmitter streamSseMvc(Principal principal, HttpServletRequest request) {
         User subscriber = userService.principalToUser(principal);
-        ExecutorService sseMvcExecutor = Executors.newSingleThreadExecutor();
-        notificationService.findAllByUser(subscriber).forEach(n->{
+        notificationService.findAllUnreadByUser(subscriber).forEach(n->{
             this.notificationService.save(n.toBuilder().received(false).build());
         });
-        SseEmitter emitter = new SseEmitter(60000L);
-        emitter.onTimeout(sseMvcExecutor::shutdown);
+        SseEmitter emitter = new SseEmitter();
+        emitter.onTimeout(emitter::complete);
+        emitter.onCompletion(emitter::complete);
         emitter.onError(err -> {
             log.error("an exception occurred",err);
-            sseMvcExecutor.shutdownNow();
+            emitter.completeWithError(err);
         });
-        sseMvcExecutor.execute(() -> {
+        executorService.execute(() -> {
                 for (;;) {
                     if (checkAuthenticationUtil.getAuthentication(request) == null){
                         emitter.completeWithError(new AccessDeniedException("not logged in"));
-                        sseMvcExecutor.shutdown();
+                        executorService.shutdown();
                         break;
                     }else{
-                        final List<Notification> notifications = notificationService.findAllByUser(subscriber);
+                        final List<Notification> notifications = notificationService.findAllUnreadAndUnreicevedByUser(subscriber);
                         if (!notifications.isEmpty()){
                             notifications.stream().filter(n-> !n.isReceived()).forEach(n->{
                                 this.notify(emitter, this.notificationService.save(n.toBuilder().received(true).build()));

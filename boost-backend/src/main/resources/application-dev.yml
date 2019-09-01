@@ -10,7 +10,7 @@ spring:
     type: caffeine
     caffeine:
       spec: maximumSize=500, expireAfterAccess=30s
-    cache-names: bookTop3Stars, book, uploads, countryCode
+    cache-names: bookTop3Stars, book, uploads, countryCode,notification
   servlet:
     multipart:
       max-file-size: 1GB
