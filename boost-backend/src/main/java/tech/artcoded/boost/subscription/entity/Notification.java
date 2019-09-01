@@ -10,8 +10,9 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Data
 @EqualsAndHashCode(of = "id")
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder(toBuilder = true)
@@ -47,5 +48,6 @@ public class Notification extends Auditable<String> {
     private Long targetEntityId;
 
     private boolean read;
+    private boolean received;
 
 }

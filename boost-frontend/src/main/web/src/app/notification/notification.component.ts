@@ -15,6 +15,9 @@ export class NotificationComponent implements OnInit {
   ngOnInit() {
     this.authenticationService.notificationConnect(message => {
       this.notifications.push(JSON.parse(message.data));
+    }, err => {
+      console.log(err);
+      this.notifications=[];
     });
   }
 

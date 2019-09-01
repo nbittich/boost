@@ -22,9 +22,7 @@ import tech.artcoded.boost.user.service.UserService;
 import javax.servlet.http.HttpServletRequest;
 import java.nio.file.AccessDeniedException;
 import java.security.Principal;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
@@ -77,21 +75,24 @@ public class SubscriptionController {
     public SseEmitter streamSseMvc(Principal principal, HttpServletRequest request) {
         User subscriber = userService.principalToUser(principal);
         ExecutorService sseMvcExecutor = Executors.newSingleThreadExecutor();
-        SseEmitter emitter = new SseEmitter();
+        notificationService.findAllByUser(subscriber).forEach(n->{
+            this.notificationService.save(n.toBuilder().received(false).build());
+        });
+        SseEmitter emitter = new SseEmitter(60000L);
+        emitter.onTimeout(sseMvcExecutor::shutdownNow);
         emitter.onError(t -> sseMvcExecutor.shutdownNow());
-
         sseMvcExecutor.execute(() -> {
-            final Set<Notification> notificationsReceived = new HashSet<>();
                 for (;;) {
                     if (checkAuthenticationUtil.getAuthentication(request) == null){
                         emitter.completeWithError(new AccessDeniedException("not logged in"));
                         sseMvcExecutor.shutdown();
                         break;
                     }else{
-                        final List<Notification> notifications = notificationService.findAllByUser( subscriber);
+                        final List<Notification> notifications = notificationService.findAllByUser(subscriber);
                         if (!notifications.isEmpty()){
-                            notifications.stream().filter(n-> !notificationsReceived.contains(n)).forEach(n->this.notify(emitter,n));
-                            notificationsReceived.addAll(notifications);
+                            notifications.stream().filter(n-> !n.isReceived()).forEach(n->{
+                                this.notify(emitter, this.notificationService.save(n.toBuilder().received(true).build()));
+                            });
                         }
                     }
                     this.sleep(10);

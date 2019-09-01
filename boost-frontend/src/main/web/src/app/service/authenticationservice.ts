@@ -16,13 +16,14 @@ export class AuthenticationService {
   }
 
 
-  notificationConnect(callback): void {
+  notificationConnect(callback, error=err=> console.log(err)): void {
     let source = new EventSourcePolyfill(environment.backendUrl+'/subscription/notify',{
       headers: this.getTokenHeader()
     });
+    source.addEventListener('error', error);
     source.addEventListener('message', message => {
       if(!this.isLoggedIn()){
-        console.log('logged out')
+        console.log('logged out');
         source.close();
       }
       callback(message);
