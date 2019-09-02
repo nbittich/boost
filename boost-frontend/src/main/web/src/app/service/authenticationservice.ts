@@ -17,7 +17,7 @@ export class AuthenticationService {
 
 
   notificationConnect(callback, error=err=> console.log(err)): void {
-    let source = new EventSourcePolyfill(environment.backendUrl+'/subscription/notify',{
+    let source = new EventSourcePolyfill(environment.backendUrl+'/notification/notify',{
       headers: this.getTokenHeader()
     });
     source.addEventListener('error', error);

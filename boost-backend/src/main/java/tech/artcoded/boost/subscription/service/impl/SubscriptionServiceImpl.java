@@ -4,8 +4,8 @@ import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import tech.artcoded.boost.common.kafka.KafkaEventProducer;
+import tech.artcoded.boost.notification.service.NotificationService;
 import tech.artcoded.boost.subscription.repository.SubscriptionRepository;
-import tech.artcoded.boost.subscription.service.NotificationService;
 import tech.artcoded.boost.subscription.service.SubscriptionService;
 
 @Getter

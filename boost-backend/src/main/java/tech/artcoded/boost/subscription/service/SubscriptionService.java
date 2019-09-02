@@ -1,7 +1,8 @@
 package tech.artcoded.boost.subscription.service;
 
 import tech.artcoded.boost.common.service.CrudService;
-import tech.artcoded.boost.subscription.entity.Notification;
+import tech.artcoded.boost.notification.entity.Notification;
+import tech.artcoded.boost.notification.service.NotificationService;
 import tech.artcoded.boost.subscription.entity.Subscription;
 import tech.artcoded.boost.subscription.repository.SubscriptionRepository;
 import tech.artcoded.boost.user.entity.User;
