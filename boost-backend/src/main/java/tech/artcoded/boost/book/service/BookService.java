@@ -28,7 +28,7 @@ public interface BookService extends CrudService<Long, Book> {
 
     @CacheEvict(cacheNames = "bookTop3Stars")
     default void invalidateCacheBookTop3(){
-        LoggerFactory.getLogger(getClass()).info("invalidate cache");
+        LoggerFactory.getLogger(getClass()).trace("invalidate cache");
     }
 
     @Cacheable(cacheNames = "bookTop3Stars")
