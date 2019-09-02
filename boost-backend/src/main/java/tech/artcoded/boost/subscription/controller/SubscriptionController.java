@@ -22,7 +22,9 @@ import tech.artcoded.boost.user.service.UserService;
 import javax.servlet.http.HttpServletRequest;
 import java.nio.file.AccessDeniedException;
 import java.security.Principal;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
@@ -38,7 +40,7 @@ public class SubscriptionController {
     private final NotificationService notificationService;
     private final CheckAuthenticationUtil checkAuthenticationUtil;
     private final ObjectMapper objectMapper;
-    private final ExecutorService executorService = Executors.newWorkStealingPool();
+
     @Getter
     private final Environment env;
 
@@ -53,67 +55,68 @@ public class SubscriptionController {
     }
 
     @GetMapping("/following")
-    public List<Subscription> findBySubscriber(Principal principal){
+    public List<Subscription> findBySubscriber(Principal principal) {
         return subscriptionService.findAllBySubscriber(userService.principalToUser(principal));
     }
 
     @GetMapping("/followers")
-    public List<Subscription> findByFollowing(Principal principal){
+    public List<Subscription> findByFollowing(Principal principal) {
         return subscriptionService.findAllByFollowing(userService.principalToUser(principal));
     }
 
     @GetMapping("/following-count")
-    public Long countBySubscriber(Principal principal){
+    public Long countBySubscriber(Principal principal) {
         return subscriptionService.countBySubscriber(userService.principalToUser(principal));
     }
 
     @GetMapping("/followers-count")
-    public Long countByFollowing(Principal principal){
+    public Long countByFollowing(Principal principal) {
         return subscriptionService.countByFollowing(userService.principalToUser(principal));
     }
 
     @GetMapping("/notify")
-    public SseEmitter streamSseMvc(Principal principal, HttpServletRequest request) {
+    public SseEmitter notify(Principal principal, HttpServletRequest request) {
         User subscriber = userService.principalToUser(principal);
-        notificationService.findAllUnreadByUser(subscriber).forEach(n->{
-            this.notificationService.save(n.toBuilder().received(false).build());
-        });
+
         SseEmitter emitter = new SseEmitter();
         emitter.onTimeout(emitter::complete);
-        emitter.onCompletion(emitter::complete);
+        ExecutorService executorService = Executors.newSingleThreadExecutor();
+        emitter.onCompletion(executorService::shutdown);
         emitter.onError(err -> {
-            log.error("an exception occurred",err);
+            log.error("an exception occurred", err);
             emitter.completeWithError(err);
+            executorService.shutdown();
         });
+
         executorService.execute(() -> {
-                for (;;) {
-                    if (checkAuthenticationUtil.getAuthentication(request) == null){
-                        emitter.completeWithError(new AccessDeniedException("not logged in"));
-                        executorService.shutdown();
-                        break;
-                    }else{
-                        final List<Notification> notifications = notificationService.findAllUnreadAndUnreicevedByUser(subscriber);
-                        if (!notifications.isEmpty()){
-                            notifications.stream().filter(n-> !n.isReceived()).forEach(n->{
-                                this.notify(emitter, this.notificationService.save(n.toBuilder().received(true).build()));
-                            });
-                        }
-                    }
-                    this.sleep(10);
+            final Set<Notification> notificationsReceived = new HashSet<>();
+            while (checkAuthenticationUtil.getAuthentication(request) != null && !executorService.isTerminated()) {
+                final List<Notification> notifications = notificationService.findAllByUser(subscriber);
+                if (!notifications.isEmpty()) {
+                    notifications.stream().filter(n -> !notificationsReceived.contains(n)).forEach(n -> {
+                        this.notify(emitter, n);
+                    });
+                    notificationsReceived.addAll(notifications);
                 }
+                this.sleep(10);
+            }
+            notificationsReceived.clear();
+            emitter.completeWithError(new AccessDeniedException("not logged in"));
+
         });
         return emitter;
     }
 
-    private void  notify(SseEmitter sseEmitter, Object object){
-        try{
+    private void notify(SseEmitter sseEmitter, Object object) {
+        try {
             sseEmitter.send(object);
-        }catch (Exception ex){
+        } catch (Exception ex) {
             sseEmitter.completeWithError(ex);
         }
     }
+
     @SneakyThrows
-    private void sleep(long seconds){
+    private void sleep(long seconds) {
         TimeUnit.SECONDS.sleep(seconds);
     }
 

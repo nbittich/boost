@@ -48,6 +48,5 @@ public class Notification extends Auditable<String> {
     private Long targetEntityId;
 
     private boolean read;
-    private boolean received;
 
 }

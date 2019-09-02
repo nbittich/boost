@@ -22,9 +22,6 @@ public interface NotificationService extends CrudService<Long, Notification> {
     default List<Notification> findAllUnreadByUser(User subscriber){
         return getRepository().findAllByReadFalseAndUsers_Username(subscriber.getUsername());
     }
-    default List<Notification> findAllUnreadAndUnreicevedByUser(User subscriber){
-        return getRepository().findAllByReadFalseAndReceivedFalseAndUsers_Username(subscriber.getUsername());
-    }
     default List<Notification> findAllByUser(User subscriber){
         return getRepository().findAllByUsers_UsernameOrderByCreatedDateDesc(subscriber.getUsername());
     }
