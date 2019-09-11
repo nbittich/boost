@@ -9,9 +9,9 @@ import {Popover} from 'bootstrap';
   styleUrls: ['./notification.component.css']
 })
 export class NotificationComponent implements OnInit {
-  private notifications:any= [];
+  public notifications:any= [];
   @ViewChild('notifButton', {static: false}) notifButton: ElementRef;
-  private popover: any;
+  public popover: any;
 
 
   constructor(private authenticationService:AuthenticationService) { }
