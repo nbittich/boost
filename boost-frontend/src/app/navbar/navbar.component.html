@@ -3,7 +3,7 @@
     <span class="navbar-toggler-icon"></span>
   </button>
   <div [class]="toggleNavbarShow()" id="navbarTogglerDemo01">
-    <ul class="navbar-nav mr-auto pt-1">
+    <ul class="navbar-nav me-auto pt-1">
       <li [class]="'nav-item ' +( m.selected ? 'active' :'')" *ngFor="let m of menu" (click)="$event.preventDefault();click(m);m.selected=true;">
         <a routerLink="{{m.route}}" *ngIf="hasRole(m.role)" class="nav-link">
           <fa-icon [icon]="m.icon" class=""></fa-icon>

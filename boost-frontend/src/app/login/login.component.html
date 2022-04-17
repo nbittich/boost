@@ -1,8 +1,8 @@
 <div (keydown.enter)="login()" *ngIf="!isLoggedIn()" class="form-inline my-2 my-lg-0">
-  <input autocapitalize="none" autofocus="autofocus" [(ngModel)]="username" name="username" class="border-radius-0 form-control mr-sm-2"
+  <input autocapitalize="none" autofocus="autofocus" [(ngModel)]="username" name="username" class="border-radius-0 form-control me-sm-2"
          type="text"
          placeholder="Username" aria-label="Username">
-  <input (keydown.enter)="login()" [(ngModel)]="password" name="password" class="form-control mr-sm-2 border-radius-0 "
+  <input (keydown.enter)="login()" [(ngModel)]="password" name="password" class="form-control me-sm-2 border-radius-0 "
          type="password" placeholder="Password"
          aria-label="Password">
   <button class="btn  border-0 btn-outline-secondary  text-uppercase" type="button" (click)="login()">
