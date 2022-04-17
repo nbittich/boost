@@ -1,5 +1,5 @@
-import {Auditable} from "../common/auditable";
-import {Star} from "../stars/star";
+import { Auditable } from "./auditable";
+import { Star } from "./star";
 
 export class Book extends Auditable{
   public id:number;

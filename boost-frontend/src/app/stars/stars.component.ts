@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import { Star } from '@core/models/star';
 import {faStar, faStarHalfAlt} from "@fortawesome/free-solid-svg-icons";
-import {Star} from "./star";
 
 @Component({
   selector: 'app-stars',

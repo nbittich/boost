@@ -1,11 +1,10 @@
 import {ChangeDetectorRef, Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
-import {Chapterentity} from "../chapters/chapterentity";
 import {Router} from "@angular/router";
 import {AuthenticationService} from "../service/authenticationservice";
-import {ChapterDto} from "../chapters/chapterdto";
 import {faPlus, faSave, faTimes} from "@fortawesome/free-solid-svg-icons";
 import {ChapterService} from "../service/chapter.service";
 import { AudioPlayerComponent } from '@shared/audio-player/audio-player.component';
+import { ChapterDto, ChapterEntity } from '@core/models/chapter';
 
 @Component({
   selector: 'app-chapter-detail',
@@ -24,7 +23,7 @@ export class ChapterDetailComponent implements OnInit {
   title:ElementRef;
 
   @Input()
-  public chapter:Chapterentity;
+  public chapter:ChapterEntity;
 
 
   @Input()
@@ -61,7 +60,7 @@ export class ChapterDetailComponent implements OnInit {
     this.cd.detectChanges();
   }
 
-  getTimeDuration(chapter: Chapterentity) {
+  getTimeDuration(chapter: ChapterEntity) {
       return Math.round(chapter.timeDuration/1000 / 60 ) + ' minutes';
   }
 

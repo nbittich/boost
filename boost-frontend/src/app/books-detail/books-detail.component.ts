@@ -1,12 +1,12 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
-import {Book} from "../books/book";
 import {AuthenticationService} from "../service/authenticationservice";
 import {Location} from '@angular/common';
 import {faArrowLeft} from "@fortawesome/free-solid-svg-icons";
-import {Star} from "../stars/star";
-import {Slugify} from "../common/slugify";
 import {BookService} from "../service/book.service";
+import { Book } from '@core/models/book';
+import { Star } from '@core/models/star';
+import { Slugify } from '@core/common/slugify';
 
 @Component({
   selector: 'app-books-detail',

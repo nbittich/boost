@@ -1,9 +1,9 @@
 import {Component, OnInit} from '@angular/core';
-import {Book} from "./book";
 import {Router} from "@angular/router";
 import {AuthenticationService} from "../service/authenticationservice";
 import {faEdit, faEye, faSync, faTrash} from "@fortawesome/free-solid-svg-icons";
 import {BookService} from "../service/book.service";
+import { Book } from '@core/models/book';
 
 @Component({
   selector: 'app-books',

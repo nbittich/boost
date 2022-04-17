@@ -2,10 +2,10 @@ import {Injectable} from "@angular/core";
 import {HttpClient, HttpParams} from "@angular/common/http";
 import {AuthenticationService} from "./authenticationservice";
 import {environment} from "../../environments/environment";
-import {Slugify} from "../common/slugify";
 import {Router} from "@angular/router";
-import {Book} from "../books/book";
-import {Star} from "../stars/star";
+import { Book } from "@core/models/book";
+import { Slugify } from "@core/common/slugify";
+import { Star } from "@core/models/star";
 
 @Injectable({providedIn: 'root'})
 export class BookService {

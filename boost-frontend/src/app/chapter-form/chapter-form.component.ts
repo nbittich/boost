@@ -1,9 +1,9 @@
 import {ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
-import {ChapterDto} from "../chapters/chapterdto";
 import {Router} from "@angular/router";
 import {AuthenticationService} from "../service/authenticationservice";
 import {faPlus, faSave, faTimes} from "@fortawesome/free-solid-svg-icons";
 import {ChapterService} from "../service/chapter.service";
+import { ChapterDto } from '@core/models/chapter';
 
 @Component({
   selector: 'app-chapter-form',

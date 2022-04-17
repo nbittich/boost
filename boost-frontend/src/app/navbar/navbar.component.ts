@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
-import MenuLink from './menulink';
 import {AuthenticationService} from '../service/authenticationservice';
 import {ActivatedRoute, NavigationEnd, Router} from '@angular/router';
 import {faBook, faFileAudio, faHome, faUser, faVolumeUp} from "@fortawesome/free-solid-svg-icons";
+import MenuLink from '@core/models/menulink';
 
 @Component({
   selector: 'app-navbar',

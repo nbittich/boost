@@ -3,9 +3,9 @@ import {HttpClient} from "@angular/common/http";
 import {Router} from "@angular/router";
 import {AuthenticationService} from "../service/authenticationservice";
 import {environment} from "../../environments/environment";
-import {Slugify} from "../common/slugify";
-import {BookDto} from "../books/book";
 import { AudioPlayerComponent } from '@shared/audio-player/audio-player.component';
+import { BookDto } from '@core/models/book';
+import { Slugify } from '@core/common/slugify';
 
 @Component({
   selector: 'app-my-books',
