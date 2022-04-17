@@ -24,7 +24,6 @@ import { AutofocusFixModule } from 'ngx-autofocus-fix'; // <--- new code
 import {FaIconLibrary, FontAwesomeModule} from "@fortawesome/angular-fontawesome";
 import {StarsComponent} from './stars/stars.component';
 import {faArrowLeft, faBook, faCheckCircle, faEdit, faExclamation, faExclamationCircle, faEye, faFileAudio, faHome, faPlus, fas, faSave, faSearch, faSignInAlt, faSignOutAlt, faStar, faStarHalfAlt, faSync, faTimes, faTrash, faUser, faVolumeUp} from '@fortawesome/free-solid-svg-icons';
-import {AudioPlayerComponent} from './audio-player/audio-player.component';
 import {LogoComponent} from './logo/logo.component';
 import {MyBooksComponent} from './my-books/my-books.component';
 import {UserProfileComponent} from './user-profile/user-profile.component';
@@ -45,7 +44,6 @@ import { SharedModule } from '@shared/shared.module';
     ChapterDetailComponent,
     ChapterFormComponent,
     StarsComponent,
-    AudioPlayerComponent,
     LogoComponent,
     MyBooksComponent,
     UserProfileComponent,
