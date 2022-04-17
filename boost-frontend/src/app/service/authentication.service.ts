@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {tap} from 'rxjs/operators';
-import {environment} from "../../environments/environment";
+import {environment} from "@env/environment";
 import {Subject} from "rxjs";
 import {EventSourcePolyfill} from 'event-source-polyfill';
 

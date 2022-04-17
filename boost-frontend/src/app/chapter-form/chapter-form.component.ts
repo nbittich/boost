@@ -1,6 +1,6 @@
 import {ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {Router} from "@angular/router";
-import {AuthenticationService} from "../service/authenticationservice";
+import {AuthenticationService} from "@service/authentication.service";
 import {faPlus, faSave, faTimes} from "@fortawesome/free-solid-svg-icons";
 import {ChapterService} from "../service/chapter.service";
 import { ChapterDto } from '@core/models/chapter';

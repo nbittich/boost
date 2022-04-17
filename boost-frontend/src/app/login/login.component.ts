@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {AuthenticationService} from '../service/authenticationservice';
+import {AuthenticationService} from '@service/authentication.service';
 import {faSignInAlt, faSignOutAlt} from "@fortawesome/free-solid-svg-icons";
 import {ChapterService} from "../service/chapter.service";
 import { Slugify } from '@core/common/slugify';

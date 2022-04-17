@@ -2,7 +2,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Location} from "@angular/common";
 import {ActivatedRoute} from "@angular/router";
-import { AuthenticationService } from '@service/authenticationservice';
+import { AuthenticationService } from '@service/authentication.service';
 import { environment } from '@env/environment';
 @Component({
   selector: 'app-image-loader',

@@ -1,7 +1,7 @@
 import {Injectable} from "@angular/core";
 import {HttpClient, HttpParams} from "@angular/common/http";
-import {AuthenticationService} from "./authenticationservice";
-import {environment} from "../../environments/environment";
+import {AuthenticationService} from "@service/authentication.service";
+import {environment} from "@env/environment";
 import {Router} from "@angular/router";
 import { Book } from "@core/models/book";
 import { Slugify } from "@core/common/slugify";

@@ -1,5 +1,5 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
-import {AuthenticationService} from "../service/authenticationservice";
+import {AuthenticationService} from "@service/authentication.service";
 
 import {Popover} from 'bootstrap';
 

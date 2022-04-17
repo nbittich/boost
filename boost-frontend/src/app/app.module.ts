@@ -8,9 +8,7 @@ import {LoginComponent} from './login/login.component';
 import {FormsModule} from '@angular/forms';
 import {ErrorComponent} from './error/error.component';
 import {HomeComponent} from './home/home.component';
-import {AuthGuardService} from './service/authguardservice';
-import {AuthInterceptor} from './login/authinterceptor';
-import {ErrorInterceptor} from './login/errorinterceptor';
+import {AuthGuardService} from '@service/auth-guard.service';
 import {NgxPaginationModule} from "ngx-pagination";
 import {NgxJsonViewerModule} from "ngx-json-viewer";
 import {BooksComponent} from './books/books.component';
@@ -29,6 +27,8 @@ import {MyBooksComponent} from './my-books/my-books.component';
 import {UserProfileComponent} from './user-profile/user-profile.component';
 import {NotificationComponent} from './notification/notification.component';
 import { SharedModule } from '@shared/shared.module';
+import { AuthInterceptor } from '@core/interceptor/auth-interceptor';
+import { ErrorInterceptor } from '@core/interceptor/error-interceptor';
 
 @NgModule({
   declarations: [

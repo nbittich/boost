@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Router} from "@angular/router";
-import {AuthenticationService} from "../service/authenticationservice";
+import {AuthenticationService} from "@service/authentication.service";
 import {faPlus, faSave, faTimes} from "@fortawesome/free-solid-svg-icons";
 import {BookService} from "../service/book.service";
 import { ImagePreview } from '@core/models/image.preview';
@@ -86,7 +86,7 @@ export class BookFormComponent implements OnInit {
       let bookToSave = {
         id: this.bookCopy.id,
         lang: this.bookCopy.lang,
-        published: this.bookCopy.published,
+        published: this.bookCopy.published, 
         title: this.bookCopy.title,
         description: this.bookCopy.description,
         author: this.bookCopy.author,

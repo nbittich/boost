@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Router} from "@angular/router";
-import {AuthenticationService} from "../service/authenticationservice";
-import {environment} from "../../environments/environment";
+import {AuthenticationService} from "@service/authentication.service";
+import {environment} from "@env/environment";
 import { AudioPlayerComponent } from '@shared/audio-player/audio-player.component';
 import { BookDto } from '@core/models/book';
 import { Slugify } from '@core/common/slugify';
