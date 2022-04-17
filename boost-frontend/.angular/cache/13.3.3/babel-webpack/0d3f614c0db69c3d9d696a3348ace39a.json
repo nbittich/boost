@@ -1,1 +1,0 @@
-{"ast":null,"code":"import { Auditable } from \"../common/auditable\";\nexport class Book extends Auditable {}\nexport class BookDto {}","map":null,"metadata":{},"sourceType":"module"}

@@ -1,1 +1,0 @@
-{"ast":null,"code":"export class ImagePreview {\n  imgURL;\n  imagePath;\n  fileName;\n  contentType;\n}","map":null,"metadata":{},"sourceType":"module"}

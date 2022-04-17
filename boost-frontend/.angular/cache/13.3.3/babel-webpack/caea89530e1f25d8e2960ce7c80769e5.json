@@ -1,1 +1,0 @@
-{"ast":null,"code":"export class Auditable {\n  createdBy;\n  createdDate;\n  lastModifiedBy;\n  lastModifiedDate;\n}","map":null,"metadata":{},"sourceType":"module"}
