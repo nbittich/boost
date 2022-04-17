@@ -7,10 +7,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.RandomUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.core.env.Environment;
+import org.springframework.core.io.Resource;
 import org.springframework.http.MediaType;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import tech.artcoded.boost.book.entity.Book;
@@ -51,10 +53,14 @@ public class BookFixture implements CommandLineRunner {
     private final Environment env;
     private final StarService starsService;
     private final SubscriptionService subscriptionService;
-    private final ObjectMapper objectMapper;
+
+    @Value("classpath:cover.jpg")
+    private Resource cover;
+    @Value("${fixture.books.size}")
+    private long bookSize;
 
     @Autowired
-    public BookFixture(UserService userService, UploadService uploadService, BookService bookService, ChapterService chapterService, BCryptPasswordEncoder passwordEncoder, Environment env, StarService starsService, SubscriptionService subscriptionService, ObjectMapper objectMapper) {
+    public BookFixture(UserService userService, UploadService uploadService, BookService bookService, ChapterService chapterService, BCryptPasswordEncoder passwordEncoder, Environment env, StarService starsService, SubscriptionService subscriptionService) {
         this.userService = userService;
         this.uploadService = uploadService;
         this.bookService = bookService;
@@ -63,14 +69,12 @@ public class BookFixture implements CommandLineRunner {
         this.env = env;
         this.starsService = starsService;
         this.subscriptionService = subscriptionService;
-        this.objectMapper = objectMapper;
     }
 
 
     @Override
     public void run(String... args) throws Exception {
         Faker faker = Faker.instance(Locale.getDefault());
-        InputStream defaultCover = getClass().getClassLoader().getResourceAsStream("cover.jpg");
 
         if (Boolean.TRUE.equals(env.getProperty("fixture.books.delete-at-start", Boolean.class))) {
             log.info("deleting books");
@@ -84,7 +88,6 @@ public class BookFixture implements CommandLineRunner {
         log.info("save default users");
         Role.RoleBuilder adminRole = Role.builder().role(ADMIN);
         Role.RoleBuilder userRole = Role.builder().role(USER);
-        Role.RoleBuilder anonRole = Role.builder().role(ANONYMOUS);
         User admin = userService.save(User.builder()
                 .username("admin")
                 .password(passwordEncoder.encode("1234"))
@@ -106,13 +109,12 @@ public class BookFixture implements CommandLineRunner {
         subscriptionService.saveAndNotify(Subscription.builder().following(user).subscriber(admin).build());
         subscriptionService.saveAndNotify(Subscription.builder().following(admin).subscriber(contr).build());
 
-        Long bookSize = env.getProperty("fixture.books.size", Long.class);
-        byte[] defaultCoverStream = toByteArray(defaultCover);
+        byte[] defaultCoverStream = toByteArray(cover.getInputStream());
         Upload upload = bookService.getUploadService().upload(Base64.getEncoder().encode(defaultCoverStream), MediaType.IMAGE_JPEG_VALUE, "cover.jpg");
         List<String> lang = Arrays.asList(Locale.getISOCountries());
 
         List<Book> books = LongStream.range(0L, bookSize)
-                .peek(i -> log.info("saving book #" + i + 1))
+                .peek(i -> log.info("saving book #{}", i + 1))
                 .mapToObj(i -> Book.builder())
                 .map(builder -> builder
                         .user(contr)
@@ -124,8 +126,7 @@ public class BookFixture implements CommandLineRunner {
                         .author(faker.book().author())
                         .description(faker.lorem().paragraph(20))
                         .build())
-                .map(bookService::save)
-                .collect(Collectors.toList());
+                .map(bookService::save).toList();
 
         books.forEach(book -> {
             Star star = Star.builder().star(Math.round(RandomUtils.nextDouble(0, 5) * 2) / 2.0).user(user.toBuilder().build()).book(book).build();
@@ -143,9 +144,5 @@ public class BookFixture implements CommandLineRunner {
         ArrayList<A> as = new ArrayList<>(a);
         Collections.shuffle(as);
         return as;
-    }
-    @SneakyThrows
-    private byte[] readFileToByteArray(File file) {
-        return FileUtils.readFileToByteArray(file);
     }
 }

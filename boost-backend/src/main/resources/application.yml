@@ -1,4 +1,3 @@
 spring:
   profiles:
     active: dev # profile to use.
-    #include: kafka

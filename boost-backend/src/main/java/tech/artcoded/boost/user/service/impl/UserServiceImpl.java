@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import tech.artcoded.boost.common.kafka.KafkaEventProducer;
 import tech.artcoded.boost.user.entity.User;
 import tech.artcoded.boost.user.repository.UserRepository;
 import tech.artcoded.boost.user.service.UserService;
@@ -19,14 +18,9 @@ public class UserServiceImpl implements UserService {
     @Getter
     private final UserRepository repository;
 
-    @Getter
-    private final KafkaEventProducer eventProducer;
-
-
     @Autowired
-    public UserServiceImpl(UserRepository repository, KafkaEventProducer eventProducer) {
+    public UserServiceImpl(UserRepository repository) {
         this.repository = repository;
-        this.eventProducer = eventProducer;
     }
 
     @Override

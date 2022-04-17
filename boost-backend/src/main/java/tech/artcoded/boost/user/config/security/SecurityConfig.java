@@ -10,7 +10,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import tech.artcoded.boost.common.kafka.KafkaEventProducer;
 import tech.artcoded.boost.user.service.UserService;
 
 import javax.servlet.http.HttpServletResponse;
@@ -73,7 +72,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .formLogin().disable()
 
                 // jwt filter
-                .addFilter(new JwtAuthenticationFilter(authenticationManager(), eventProducer, env))
+                .addFilter(new JwtAuthenticationFilter(authenticationManager(),env))
                 .addFilter(new JwtAuthorizationFilter(authenticationManager(), env))
 
                 // stateless
@@ -98,7 +97,5 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private UserService userService;
 
-    @Autowired
-    private KafkaEventProducer eventProducer;
 }
 

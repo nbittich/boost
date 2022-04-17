@@ -5,15 +5,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
-import tech.artcoded.boost.common.kafka.KafkaEventProducer;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface CrudService<K, V> {
     JpaRepository<V, K> getRepository();
-
-    KafkaEventProducer getEventProducer();
 
     default Optional<V> findOneById(K id) {
         return getRepository().findById(id);
@@ -119,9 +116,4 @@ public interface CrudService<K, V> {
         return true;
     }
 
-    default void produceEvent(String key, String value) {
-        if (isProduceEvent()) {
-            getEventProducer().sendEvent(getClass().getSimpleName().toUpperCase() + key, value);
-        }
-    }
 }

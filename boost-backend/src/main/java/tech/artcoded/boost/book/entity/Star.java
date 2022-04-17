@@ -16,7 +16,6 @@ import javax.persistence.*;
 @Table(name = "star")
 public class Star extends Auditable<String> {
 
-
     @Id
     @GeneratedValue
     @Column(name = "stars_id")
@@ -27,7 +26,6 @@ public class Star extends Auditable<String> {
 
     @Version
     private Long version;
-
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(referencedColumnName = "usr_id")

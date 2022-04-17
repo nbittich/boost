@@ -82,7 +82,7 @@ public class BookController {
          CompletableFuture.runAsync(()->{
             chapterService.publish(chapter,user);
         });
-        return Maps.immutableEntry("message", String.format("Chapter will be added"));
+        return Maps.immutableEntry("message", "Chapter will be added");
 
 
     }
@@ -94,7 +94,7 @@ public class BookController {
         User user = userService.principalToUser(principal);
         if(bookDto.getId()!= null){
             Optional<Book> optionalBook = Optional.ofNullable(bookDto.getId()).flatMap(id-> this.bookService.findByIdAndUser(id,user));
-            if (!optionalBook.isPresent()){
+            if (optionalBook.isEmpty()){
                 throw new AccessDeniedException("Forbidden");
             }
         }
@@ -108,7 +108,7 @@ public class BookController {
         User user = userService.principalToUser(principal);
         Optional<Book> bookFromDb = bookService.findByIdAndUser(book.getId(), user);
 
-        if (!bookFromDb.isPresent()){
+        if (bookFromDb.isEmpty()){
             throw new AccessDeniedException("Forbidden");
         }
 
@@ -137,7 +137,7 @@ public class BookController {
         Chapter chapter = chapterService.findById(chapterId).orElseThrow(EntityNotFoundException::new);
         Optional<Book> book = bookService.findByIdAndUser(chapter.getBookId(), user);
 
-        if (!book.isPresent()){
+        if (book.isEmpty()){
             throw new AccessDeniedException("Forbidden");
         }
 
@@ -160,7 +160,7 @@ public class BookController {
 
         Optional<Book> book = bookService.findByIdAndUser(chap.getBookId(), user);
 
-        if (!book.isPresent()){
+        if (book.isEmpty()){
             throw new AccessDeniedException("Forbidden");
         }
 
@@ -189,12 +189,11 @@ public class BookController {
     @GetMapping("/country-code")
     @Cacheable("countryCode")
     public List<CountryCode> countryCode( ) {
-        List<CountryCode> locales = Arrays.stream(Locale.getAvailableLocales())
+        return Arrays.stream(Locale.getAvailableLocales())
                 .map(locale -> new CountryCode(locale.getLanguage().toLowerCase(), locale.getDisplayLanguage()))
                 .distinct()
                 .filter(cc -> StringUtils.isNotEmpty(cc.key) && StringUtils.isNotEmpty(cc.value))
-                .collect(Collectors.toList());
-        return locales;
+                .toList();
 
     }
 
@@ -215,18 +214,15 @@ public class BookController {
     @GetMapping("/{title}/{bookId}")
     public Book getOne(@PathVariable("bookId") Long bookId,@PathVariable("title") String title, Principal principal){
 
-        Book book = bookService.findById(bookId)
+        return bookService.findById(bookId)
                     .filter(b -> b.isPublished() || userService.principalToUser(principal).getUsername().equalsIgnoreCase(b.getUsername()))
                 .orElseThrow(()-> new AccessDeniedException("either the book is not published, in that case only the created user can interact with it"));
-        return book;
     }
 
     @GetMapping("/{bookId}/chapters")
     public Page<Chapter> getChaptersForBook(@PathVariable("bookId") Long bookId, Pageable pageable) {
         return chapterService.findByBookId(bookId,pageable);
     }
-
-
 
 
 }
