@@ -1,8 +1,8 @@
 import {Component, isDevMode} from '@angular/core';
 import {NavigationStart, Router} from "@angular/router";
 import {Subscription} from "rxjs";
-import {AuthenticationService} from "./service/authenticationservice";
-import {environment} from "../environments/environment";
+import {AuthenticationService} from "@service/authentication.service";
+import {environment} from "@env/environment";
 
 @Component({
   selector: 'app-root',

@@ -1,0 +1,63 @@
+<div>
+  <button class="border-radius-0 no-focus  btn btn-outline-primary mb-2" (click)="toggleFormVisible()"
+          *ngIf="!formVisible"><fa-icon [icon]="faPlus"></fa-icon> </button>
+  <div class="row" *ngIf="formVisible" >
+    <div class="card border-0 w-100 ">
+      <div class="card-header bg-white text-secondary">
+        <span class="text-uppercase"># {{bookCopy.id ? bookCopy.id : 'New'}}</span>
+        <div class="float-right" *ngIf="showCross">
+          <a class="clickable btn-link text-secondary" (click)="toggleFormVisible()"><fa-icon [icon]="faTimes" ></fa-icon> </a>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-4">
+              <app-image-preview [defaultImage]="bookCopy.cover ? bookCopy.cover.id: null" (emitter)="setCover($event)"></app-image-preview>
+            </div>
+            <div class="col-lg-8 text-uppercase">
+              <div class="form-group">
+                <label for="bookTitle">Title</label>
+                <input [disabled]="saving" type="text" class="form-control" id="bookTitle" [(ngModel)]="bookCopy.title">
+              </div>
+              <div class="form-group">
+                <label for="bookAuthor">Author</label>
+                <input [disabled]="saving" type="text" class="form-control" id="bookAuthor" [(ngModel)]="bookCopy.author">
+              </div>
+              <div class="form-group">
+                <label for="bookCategory">Category</label>
+                <input [disabled]="saving" type="text" class="form-control" id="bookCategory" [(ngModel)]="bookCopy.category">
+              </div>
+              <div class="form-group">
+                <label for="bookDescription">Description</label>
+                <textarea [disabled]="saving" autosize class="form-control " id="bookDescription" [(ngModel)]="bookCopy.description"></textarea>
+              </div>
+              <div class="form-group">
+                <datalist id="listCc"  *ngIf="countryCode">
+                  <select class="form-control" >
+                    <option *ngFor="let cc of countryCode" [value]="cc.key">{{cc.value}}</option>
+                  </select>
+                </datalist>
+                <label for="bookLang">lang</label>
+                <div class="ingput-group">
+                  <input list="listCc" id="bookLang" [disabled]="saving" type="text" class="form-control form-inline" [(ngModel)]="bookCopy.lang">
+                  <span  [class]="'col-1 flag-icon flag-icon-'+bookCopy.lang"></span>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="bookPublished">Published</label>
+                <input type="checkbox"  class="form-check" id="bookPublished" [disabled]="saving" [(ngModel)]="bookCopy.published">
+              </div>
+
+              <button [disabled]="!bookCopy.title || !bookCopy.author || !bookCopy.category || saving" (click)="saveBookToDB($event)" class="btn btn-outline-primary btn-sm float-right text-uppercase"><fa-icon [icon]="faSave"></fa-icon>&nbsp;{{savingButton}}</button>
+            </div>
+            <div class="container">
+              <hr>
+              <app-chapters [editMode]="editMode" *ngIf="bookCopy && bookCopy.id" [bookId]="bookCopy.id"></app-chapters>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

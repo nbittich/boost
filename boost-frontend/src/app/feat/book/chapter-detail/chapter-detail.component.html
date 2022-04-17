@@ -1,0 +1,31 @@
+<div class="d-flex flex-column " *ngIf="chapter">
+  <div  (click)="toggleTitle()" *ngIf="!editTitle " [ngClass]="'dotted mb-2 badge p-2 text-left ' + (isChecked() ? 'badge-primary':'badge-secondary')">
+    <span>{{chapter.order}}. {{chapter.title}}</span>
+    <span class="dots"></span>
+    <span>{{getTimeDuration(chapter)}}</span>
+  </div>
+  <div *ngIf="editTitle" class="input-group input-group-sm mb-2">
+    <input #title [autofocus]="true" (focusout)="toggleTitle()" type="text" [(ngModel)]="chapter.title" (keydown.enter)="updateChapter($event,'editTitle')" class="form-control">
+    <div class="input-group-append">
+      <button type="button" class="btn btn-sm btn-danger" (click)="toggleTitle()"><fa-icon [icon]="faTimes"></fa-icon></button>
+    </div>
+  </div>
+  <div *ngIf="editDescription" class="input-group input-group-sm mb-2">
+    <textarea #description [autofocus]="true"  autosize class="form-control" [(ngModel)]="chapter.description"></textarea>
+    <div class="input-group-append">
+      <button type="button" class="btn btn-sm btn-success" (click)="updateChapter($event, 'editDescription')"><fa-icon [icon]="faSave"></fa-icon></button>
+    </div>
+  <div class="input-group-append">
+      <button type="button" class="btn btn-sm btn-danger" (click)="toggleDescription()"><fa-icon [icon]="faTimes"></fa-icon></button>
+    </div>
+  </div>
+  <blockquote *ngIf="!editDescription" (click)="toggleDescription()" class="bg-light blockquote"><cite>{{chapter.description ? chapter.description : 'No description for this chapter'}}</cite></blockquote>
+</div>
+
+<div class="form-group text-center">
+  <app-audio-player width="100" [title]="chapter.title"  [showTitle]="false" [upload]="chapter.upload"></app-audio-player>
+  <div class="float-right " *ngIf="isLoggedIn()">
+    <label class="form-check-label text-uppercase text-success me-2" [htmlFor]="'currentChap'+ chapter.id">set as Current track</label>
+    <input  [id]="'currentChap'+chapter.id" type="checkbox" class="form-check-inline"  [disabled]="isChecked()" [checked]="isChecked()" (change)="updateCurrentChapter($event)">
+  </div>
+</div>

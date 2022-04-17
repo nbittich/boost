@@ -1,6 +1,3 @@
-* {
-  /*border-radius: 0 !important;*/
-}
 .form-control:focus {
   box-shadow: none!important;
   outline: 0;
@@ -34,11 +31,11 @@
   object-fit: cover;
 }
 
-.my-pagination /deep/ .ngx-pagination {
+.my-pagination .ngx-pagination {
   margin: 0;
   padding: 0;
 }
 
-.my-pagination /deep/ .ngx-pagination .current {
+.my-pagination .ngx-pagination .current {
   margin: 0;
 }
