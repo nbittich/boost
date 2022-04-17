@@ -4,8 +4,8 @@ import {Router} from "@angular/router";
 import {AuthenticationService} from "../service/authenticationservice";
 import {ChapterDto} from "../chapters/chapterdto";
 import {faPlus, faSave, faTimes} from "@fortawesome/free-solid-svg-icons";
-import {AudioPlayerComponent} from "../audio-player/audio-player.component";
 import {ChapterService} from "../service/chapter.service";
+import { AudioPlayerComponent } from '@shared/audio-player/audio-player.component';
 
 @Component({
   selector: 'app-chapter-detail',

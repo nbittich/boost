@@ -1,8 +1,8 @@
 import {ChangeDetectorRef, Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
 import {Router} from "@angular/router";
-import {AuthenticationService} from "../service/authenticationservice";
-import {environment} from "../../environments/environment";
-import {UpdateCurrentTimeService} from "../service/updatecurrenttimeservice";
+import { environment } from '@env/environment';
+import { AuthenticationService } from '@service/authenticationservice';
+import { UpdateCurrentTimeService } from '@service/updatecurrenttimeservice';
 
 @Component({
   selector: 'app-audio-player',
