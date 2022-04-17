@@ -16,8 +16,8 @@ import {BookService} from "../service/book.service";
 export class BooksDetailComponent implements OnInit {
   static ENDPOINT='/book';
 
-  public book: Book;
-  public editMode;
+  book: Book;
+  editMode;
   faArrowLeft=faArrowLeft;
 
   constructor(private bookService: BookService,

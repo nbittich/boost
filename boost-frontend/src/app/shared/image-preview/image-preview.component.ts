@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {ImagePreview} from "./image.preview";
-import {environment} from "../../environments/environment";
+import { ImagePreview } from '@core/models/image.preview';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-image-preview',

@@ -1,11 +1,11 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {BookDto} from "../books/book";
-import {ImagePreview} from "../image-preview/image.preview";
 import {Router} from "@angular/router";
 import {AuthenticationService} from "../service/authenticationservice";
 import {faPlus, faSave, faTimes} from "@fortawesome/free-solid-svg-icons";
 import {Slugify} from "../common/slugify";
 import {BookService} from "../service/book.service";
+import { ImagePreview } from '@core/models/image.preview';
 
 @Component({
   selector: 'app-book-form',

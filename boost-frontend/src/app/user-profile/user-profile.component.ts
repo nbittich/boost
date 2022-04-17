@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {ImagePreview} from "../image-preview/image.preview";
+import { ImagePreview } from '@core/models/image.preview';
 import {AuthenticationService} from "../service/authenticationservice";
 import {ProfileService} from "../service/profile.service";
 

@@ -1,6 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {faStar, faStarHalfAlt} from "@fortawesome/free-solid-svg-icons";
-import {far} from '@fortawesome/free-regular-svg-icons';
 import {Star} from "./star";
 
 @Component({
@@ -32,7 +31,7 @@ export class StarsComponent implements OnInit {
 
   getIcon(i: number) {
     if (!this.star || !this.star.length) {
-      return ['far','star'];
+      return ['fas','star'];
     }
 
     let temp:number = this.star.map(s=> s.star).reduce((previousValue, currentValue) => {return previousValue + currentValue}) / this.star.length;
@@ -41,14 +40,14 @@ export class StarsComponent implements OnInit {
 
   getIconFromCurr(i:number, curr:number){
     if (!curr){
-      return ['far','star'];
+      return ['fas','star'];
     }
     let st = Math.round(curr*2)/2;
     if(st < i){
       if (st +0.5 === i){
         return ['fas','star-half-alt'];
       }else {
-        return ['far','star'];
+        return ['fas','star'];
       }
     }else {
       return ['fas','star'];
