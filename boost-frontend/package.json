@@ -28,7 +28,6 @@
     "bootstrap": "^4.3.1",
     "event-source-polyfill": "^1.0.8",
     "flag-icon-css": "^3.3.0",
-    "jquery": "^3.4.1",
     "ngx-autosize": "^1.6.3",
     "ngx-json-viewer": "^2.4.0",
     "ngx-pagination": "^4.1.0",
