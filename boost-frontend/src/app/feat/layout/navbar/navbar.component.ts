@@ -32,7 +32,7 @@ export class NavbarComponent implements OnInit {
       {role: ['ANONYMOUS', 'USER', 'ADMIN','CONTRIBUTOR'], route: '/', label: 'Home', selected: false, icon:this.faHome},
       {role: ['ADMIN', 'USER', 'ANONYMOUS','CONTRIBUTOR'], route: '/books', label: 'Discover', selected: false,icon:faVolumeUp},
       {role: ['ADMIN', 'USER','CONTRIBUTOR'], route: '/books/my-books', label: 'My Content', selected: false,icon:faBook},
-      {role: ['ADMIN', 'USER','CONTRIBUTOR'], route: '/user-profile', label: 'Profile', selected: false,icon:faUser}
+      {role: ['ADMIN', 'USER','CONTRIBUTOR'], route: '/user/profile', label: 'Profile', selected: false,icon:faUser}
     ];
   }
 

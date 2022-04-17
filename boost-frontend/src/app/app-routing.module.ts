@@ -1,24 +1,34 @@
-import {NgModule} from '@angular/core';
-import {Route, RouterModule} from '@angular/router';
-import {ErrorComponent} from './error/error.component';
-import {AuthGuardService} from '@service/auth-guard.service';
-import {HomeComponent} from './home/home.component';
-import {UserProfileComponent} from "./user-profile/user-profile.component";
+import { NgModule } from "@angular/core";
+import { Route, RouterModule } from "@angular/router";
+import { AuthGuardService } from "@service/auth-guard.service";
 
 const routes: Route[] = [
-  {path: '', component: HomeComponent},
-  {path: 'error', component: ErrorComponent},
   {
-    path: 'books',
-    loadChildren: () => import('./feat/book/book.module').then((m) => m.BookModule),
+    path: "",
+    loadChildren: () =>
+      import("./feat/public-area/public-area.module").then(
+        (m) => m.PublicAreaModule
+      ),
   },
-  {path: 'user-profile', component: UserProfileComponent, canActivate: [AuthGuardService], data: {expectedRole: ['USER', 'ADMIN','CONTRIBUTOR']}},
-  {path: '**', component: ErrorComponent}
+  {
+    path: "books",
+    loadChildren: () =>
+      import("./feat/book/book.module").then((m) => m.BookModule),
+  },
+  {
+    path: "user",
+    
+    loadChildren: () =>
+      import("./feat/user-area/user-area.module").then((m) => m.UserAreaModule),
+  },
+  {
+    path: "**",
+    redirectTo:"error",
+  },
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, {useHash: true})],
-  exports: [RouterModule]
+  imports: [RouterModule.forRoot(routes, { useHash: true })],
+  exports: [RouterModule],
 })
-export class AppRoutingModule {
-}
+export class AppRoutingModule {}

@@ -12,6 +12,7 @@ import { FormsModule } from '@angular/forms';
 import { SharedModule } from '@shared/shared.module';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { ChaptersComponent } from './chapters/chapters.component';
+import { AutosizeModule } from 'ngx-autosize';
 
 
 
@@ -30,6 +31,7 @@ import { ChaptersComponent } from './chapters/chapters.component';
     CommonModule,
     BookRoutingModule,
     FormsModule,
+    AutosizeModule, 
     SharedModule,
     NgxPaginationModule,
     RouterModule,
