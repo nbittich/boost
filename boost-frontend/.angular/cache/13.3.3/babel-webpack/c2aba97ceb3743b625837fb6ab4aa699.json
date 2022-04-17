@@ -1,0 +1,1 @@
+{"ast":null,"code":"export class ChapterDto {\n  id;\n  bookId;\n  title;\n  order;\n  description;\n  file;\n  fileName;\n  contentType;\n}","map":null,"metadata":{},"sourceType":"module"}

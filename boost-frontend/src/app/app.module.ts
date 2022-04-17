@@ -22,7 +22,7 @@ import {ChaptersComponent} from './chapters/chapters.component';
 import {ChapterDetailComponent} from './chapter-detail/chapter-detail.component';
 import {AutosizeModule} from "ngx-autosize";
 import {ChapterFormComponent} from './chapter-form/chapter-form.component';
-import {AutofocusModule} from "angular-autofocus-fix";
+import { AutofocusFixModule } from 'ngx-autofocus-fix'; // <--- new code
 import {FaIconLibrary, FontAwesomeModule} from "@fortawesome/angular-fontawesome";
 import {StarsComponent} from './stars/stars.component';
 import {fas} from '@fortawesome/free-solid-svg-icons';
@@ -63,7 +63,7 @@ import {NotificationComponent} from './notification/notification.component';
     NgxPaginationModule,
     FormsModule,
     HttpClientModule,
-    AutofocusModule,
+    AutofocusFixModule.forRoot(),
     FontAwesomeModule
   ],
 

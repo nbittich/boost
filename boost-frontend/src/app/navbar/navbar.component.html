@@ -2,9 +2,9 @@
   <button class="navbar-toggler pb-2" type="button" (click)="toggleNavbar()">
     <span class="navbar-toggler-icon"></span>
   </button>
-  <div [ngClass]="toggleNavbarShow()" id="navbarTogglerDemo01">
+  <div [class]="toggleNavbarShow()" id="navbarTogglerDemo01">
     <ul class="navbar-nav mr-auto pt-1">
-      <li [ngClass]="'nav-item ' +( m.selected ? 'active' :'')" *ngFor="let m of menu" (click)="$event.preventDefault();click(m);m.selected=true;">
+      <li [class]="'nav-item ' +( m.selected ? 'active' :'')" *ngFor="let m of menu" (click)="$event.preventDefault();click(m);m.selected=true;">
         <a routerLink="{{m.route}}" *ngIf="hasRole(m.role)" class="nav-link">
           <fa-icon [icon]="m.icon" class=""></fa-icon>
         <span class="text-uppercase">&nbsp;{{m.label}}</span>

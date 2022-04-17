@@ -1,6 +1,6 @@
 <app-logo [headerClass]="'text-center  mt-5  pt-5 '"></app-logo>
 <div class="container mt-5">
-  <div [ngClass]="!bookFormVisible? 'text-center':'col-12'">
+  <div [class]="!bookFormVisible? 'text-center':'col-12'">
     <app-book-form  (emitter)="bookFormVisible = $event" [editMode]="false" [book]="newBook()"></app-book-form>
   </div>
 </div>
