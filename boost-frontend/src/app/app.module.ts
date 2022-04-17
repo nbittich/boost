@@ -9,21 +9,11 @@ import {FormsModule} from '@angular/forms';
 import {ErrorComponent} from './error/error.component';
 import {HomeComponent} from './home/home.component';
 import {AuthGuardService} from '@service/auth-guard.service';
-import {NgxPaginationModule} from "ngx-pagination";
 import {NgxJsonViewerModule} from "ngx-json-viewer";
-import {BooksComponent} from './books/books.component';
-import {BooksDetailComponent} from './books-detail/books-detail.component';
-import {BookFormComponent} from './book-form/book-form.component';
-import {ChaptersComponent} from './chapters/chapters.component';
-import {ChapterDetailComponent} from './chapter-detail/chapter-detail.component';
 import {AutosizeModule} from "ngx-autosize";
-import {ChapterFormComponent} from './chapter-form/chapter-form.component';
 import { AutofocusFixModule } from 'ngx-autofocus-fix'; // <--- new code
 import {FaIconLibrary, FontAwesomeModule} from "@fortawesome/angular-fontawesome";
-import {StarsComponent} from './stars/stars.component';
 import {faArrowLeft, faBook, faCheckCircle, faEdit, faExclamation, faExclamationCircle, faEye, faFileAudio, faHome, faPlus, fas, faSave, faSearch, faSignInAlt, faSignOutAlt, faStar, faStarHalfAlt, faSync, faTimes, faTrash, faUser, faVolumeUp} from '@fortawesome/free-solid-svg-icons';
-import {LogoComponent} from './logo/logo.component';
-import {MyBooksComponent} from './my-books/my-books.component';
 import {UserProfileComponent} from './user-profile/user-profile.component';
 import {NotificationComponent} from './notification/notification.component';
 import { SharedModule } from '@shared/shared.module';
@@ -37,27 +27,17 @@ import { ErrorInterceptor } from '@core/interceptor/error-interceptor';
     LoginComponent,
     ErrorComponent,
     HomeComponent,
-    BooksComponent,
-    BooksDetailComponent,
-    BookFormComponent,
-    ChaptersComponent,
-    ChapterDetailComponent,
-    ChapterFormComponent,
-    StarsComponent,
-    LogoComponent,
-    MyBooksComponent,
     UserProfileComponent,
     NotificationComponent,
   ], 
   imports: [
     BrowserModule,
-    NgxJsonViewerModule,
+    NgxJsonViewerModule,  // todo remove
     AppRoutingModule,
-    AutosizeModule,
-    SharedModule,
-    NgxPaginationModule,
-    FormsModule,
-    HttpClientModule,
+    AutosizeModule,  // todo remove
+    SharedModule,  // todo remove
+    FormsModule, // todo remove
+      // todo remove
     AutofocusFixModule.forRoot(),
     FontAwesomeModule
   ],

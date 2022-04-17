@@ -2,8 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import {Router} from "@angular/router";
 import {AuthenticationService} from "@service/authentication.service";
 import {faEdit, faEye, faSync, faTrash} from "@fortawesome/free-solid-svg-icons";
-import {BookService} from "../service/book.service";
 import { Book } from '@core/models/book';
+import { BookService } from '@service/book.service';
 
 @Component({
   selector: 'app-books',

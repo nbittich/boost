@@ -2,9 +2,9 @@ import {Component, Input, OnInit} from '@angular/core';
 import {Router} from "@angular/router";
 import {AuthenticationService} from "@service/authentication.service";
 import {faPlus, faSave, faTimes, faTrash} from "@fortawesome/free-solid-svg-icons";
-import {ChapterService} from "../service/chapter.service";
 import { AudioPlayerComponent } from '@shared/audio-player/audio-player.component';
 import { ChapterEntity } from '@core/models/chapter';
+import { ChapterService } from '@service/chapter.service';
 
 
 @Component({

@@ -2,7 +2,7 @@ import {ChangeDetectorRef, Component, ElementRef, Input, OnInit, ViewChild} from
 import {Router} from "@angular/router";
 import {AuthenticationService} from "@service/authentication.service";
 import {faPlus, faSave, faTimes} from "@fortawesome/free-solid-svg-icons";
-import {ChapterService} from "../service/chapter.service";
+import {ChapterService} from "@service/chapter.service";
 import { AudioPlayerComponent } from '@shared/audio-player/audio-player.component';
 import { ChapterDto, ChapterEntity } from '@core/models/chapter';
 

@@ -2,7 +2,7 @@ import {ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, OnInit, O
 import {Router} from "@angular/router";
 import {AuthenticationService} from "@service/authentication.service";
 import {faPlus, faSave, faTimes} from "@fortawesome/free-solid-svg-icons";
-import {ChapterService} from "../service/chapter.service";
+import {ChapterService} from "@service/chapter.service";
 import { ChapterDto } from '@core/models/chapter';
 
 @Component({
