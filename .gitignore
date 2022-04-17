@@ -5,6 +5,8 @@ target/
 !**/src/test/**
 node/
 node_modules/
+.angular/
+dist/
 *.exe
 mvn*
 .mvn*
