@@ -23,7 +23,7 @@
 </div>
 
 <div class="form-group text-center">
-  <app-audio-player width="100" [title]="chapter.title"  [showTitle]="false" [upload]="chapter.upload"></app-audio-player>
+  <app-audio-player className="w-100" [title]="chapter.title"  [showTitle]="false" [upload]="chapter.upload"></app-audio-player>
   <div class="float-right " *ngIf="isLoggedIn()">
     <label class="form-check-label text-uppercase text-success me-2" [htmlFor]="'currentChap'+ chapter.id">set as Current track</label>
     <input  [id]="'currentChap'+chapter.id" type="checkbox" class="form-check-inline"  [disabled]="isChecked()" [checked]="isChecked()" (change)="updateCurrentChapter($event)">

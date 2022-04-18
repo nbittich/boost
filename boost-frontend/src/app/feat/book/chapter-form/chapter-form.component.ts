@@ -24,7 +24,7 @@ export class ChapterFormComponent implements OnInit {
   public bookId:number;
   @ViewChild('fileRef', {static: false}) fileRef: ElementRef;
 
-  public newChapter:ChapterDto=new ChapterDto();
+  public newChapter:ChapterDto={}as ChapterDto;
   public loadingNewFile: boolean=false;
   public newChapterFile:FileList;
   public formVisible: boolean;
@@ -59,7 +59,7 @@ export class ChapterFormComponent implements OnInit {
       this.newChapter.file = btoa(this.newChapter.file);
 
       this.chapterService.publish(this.newChapter, (datas) => {
-        this.newChapter=new ChapterDto();
+        this.newChapter={} as ChapterDto;
         this.formVisible=false;
         this.loadingNewFile =false;
         this.fileRef.nativeElement.value='';

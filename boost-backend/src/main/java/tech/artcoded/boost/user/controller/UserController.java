@@ -70,7 +70,7 @@ public class UserController {
         Chapter chapter = chapterService.findById(chapterId).orElseThrow(() -> new RuntimeException("chapter not found"));
         Optional<ChapterHistory> history = chapterHistoryService.findByChapterAndUser(chapter, user);
 
-        if (!history.isPresent()){
+        if (history.isEmpty()){
             chapterHistoryService.save(ChapterHistory.builder().chapter(chapter).user(user).build());
         }
 
@@ -135,10 +135,7 @@ public class UserController {
     @GetMapping("/chapter/history")
     @Transactional
     public List<ChapterHistory> getChapterHistoriesForUser(Principal principal) {
-
-        List<ChapterHistory> histories = chapterHistoryService.findTop3ByUserOrderbyIdDesc(userService.principalToUser(principal));
-        //return histories.stream().map(h -> h.toBuilder().book(chapterService.findById(h.getChapterId()).orElseThrow(EntityNotFoundException::new).getBook()).build()).collect(Collectors.toList());
-        return histories;
+        return chapterHistoryService.findTop3ByUserOrderbyIdDesc(userService.principalToUser(principal));
     }
 
     @PostMapping("/chapter/{id}/current-time")

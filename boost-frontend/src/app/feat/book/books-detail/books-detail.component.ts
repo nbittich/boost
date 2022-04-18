@@ -33,7 +33,7 @@ export class BooksDetailComponent implements OnInit {
   }
 
   fetchBook(id,title){
-    this.bookService.fetchBook(id, title,(datas) => {
+    this.bookService.fetchBook(id, title).subscribe((datas) => {
       this.book = datas;
       this.checkRights();
     });

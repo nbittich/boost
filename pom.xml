@@ -26,16 +26,6 @@
     <dependencyManagement>
         <dependencies><!-- avro dependencies -->
             <dependency>
-                <groupId>org.apache.avro</groupId>
-                <artifactId>avro</artifactId>
-                <version>1.9.0</version>
-            </dependency>
-            <dependency>
-                <groupId>io.confluent</groupId>
-                <artifactId>kafka-avro-serializer</artifactId>
-                <version>2.0.1</version>
-            </dependency>
-            <dependency>
                 <groupId>com.googlecode.soundlibs</groupId>
                 <artifactId>mp3spi</artifactId>
                 <version>1.9.5.4</version>

@@ -3,6 +3,7 @@ import {HttpClient, HttpParams} from "@angular/common/http";
 import {AuthenticationService} from "@service/authentication.service";
 import {environment} from "@env/environment";
 import {Router} from "@angular/router";
+import { ChapterHistory } from "@core/models/chapter";
 
 @Injectable({providedIn: 'root'})
 export class ChapterService {
@@ -72,14 +73,7 @@ export class ChapterService {
     );
   }
 
-  userHistory(next: (datas) => void) {
-    this.http.get<any[]>(environment.backendUrl + '/user/chapter/history', {}).subscribe(
-      next,
-      (err) => {
-        console.log(err);
-      },
-      () => {
-      },
-    );
+  userHistory() {
+   return this.http.get<ChapterHistory[]>(environment.backendUrl + '/user/chapter/history', {});
   }
 }

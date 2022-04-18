@@ -4,6 +4,8 @@ import { Router } from '@angular/router';
 import { Slugify } from '@core/common/slugify';
 import { BookService } from '@service/book.service';
 import { ChapterService } from '@service/chapter.service';
+import { ChapterHistory } from '@core/models/chapter';
+import { firstValueFrom, map } from 'rxjs';
 
 @Component({
   selector: 'app-home',
@@ -11,9 +13,9 @@ import { ChapterService } from '@service/chapter.service';
   styleUrls: ['./home.component.css'],
 })
 export class HomeComponent implements OnInit {
-  public loading: boolean;
-  public books: any;
-  public histories: any;
+   loading: boolean;
+   books: any;
+   histories: ChapterHistory[];
   topBooks: any;
 
   constructor(
@@ -63,16 +65,22 @@ export class HomeComponent implements OnInit {
     return `/user/chapter/${currentChapter.chapter.id}/current-time?time=`;
   }
 
-  fetchHistories() {
+  async fetchHistories() {
     if (this.isLoggedIn()) {
-      this.chapterService.userHistory((datas) => {
-        this.histories = datas;
-      });
+      let histories = await firstValueFrom(this.chapterService.userHistory());
+      for (const history of histories) {
+        history.book = await firstValueFrom(this.bookService.fetchBookById(history.bookId));
+      }
+      this.histories = histories;
     }
   }
 
   getChapterDetailLink(chapter: any) {
     let link = '/books/' + Slugify.slugify(chapter.title) + '/' + chapter.bookId + '/' + 'view';
     return link;
+  }
+
+  get audioPlayerStyle(){
+    return { width: '200px' };
   }
 }

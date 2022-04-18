@@ -1,5 +1,5 @@
-audio
+::ng-deep audio
 {
-  height: 32px;
+  height: 32px !important;
   outline: none;
 }

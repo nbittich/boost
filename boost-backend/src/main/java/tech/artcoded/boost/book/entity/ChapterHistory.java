@@ -35,11 +35,12 @@ public class ChapterHistory extends Auditable<String> {
     @JsonIgnore
     private User user;
 
+    @Transient
     public Long getChapterId(){
         return chapter.getId();
     }
 
-
+    @Transient
     public Long getBookId(){
         return chapter.getBookId();
     }

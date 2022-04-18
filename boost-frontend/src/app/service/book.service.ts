@@ -69,12 +69,11 @@ export class BookService {
     );
   }
 
-  fetchBook(id, title, next: any, err = e => console.log(e)) {
-    this.http.request<any>('get', `${environment.backendUrl}/book/${title}/${id}`, {}).subscribe(
-      next, err,
-      () => {
-      },
-    );
+  fetchBook(id, title) {
+    return this.http.get<Book>(`${environment.backendUrl}/book/${title}/${id}`);
+  }
+  fetchBookById(id) {
+    return this.http.get<Book>(`${environment.backendUrl}/book/by-id/${id}`);
   }
 
   rateBook($event: Star, book: Book, next, err = e => console.log(e)) {

@@ -13,6 +13,9 @@ import tech.artcoded.boost.user.service.UserService;
 import javax.transaction.Transactional;
 import java.security.Principal;
 
+import static java.lang.String.format;
+import static java.util.Optional.ofNullable;
+
 @Service
 public class UserServiceImpl implements UserService {
     @Getter
@@ -32,8 +35,9 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public User principalToUser(Principal p) {
-        return repository.findOneByUsername(p.getName()).orElseThrow(() ->
-                new RuntimeException(String.format("Principal %s not found", StringUtils.defaultIfEmpty(p.getName(), "USERNAME_NULL")))
+        var username = ofNullable(p).map(Principal::getName);
+        return username.flatMap(repository::findOneByUsername).orElseThrow(() ->
+                new RuntimeException(format("Principal %s not found", StringUtils.defaultIfEmpty(username.orElse(null), "USERNAME_NULL")))
         );
     }
 }

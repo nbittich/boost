@@ -29,7 +29,9 @@ export class AudioPlayerComponent implements OnInit {
   public currentTime: number = 0;
 
   @Input()
-  public width: number;
+  public className: string ="";
+  @Input()
+  public style: any = {};
 
   @Input()
   public currentPlayer: boolean;

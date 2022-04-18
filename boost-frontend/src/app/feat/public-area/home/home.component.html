@@ -17,19 +17,12 @@
   <div *ngIf="isLoggedIn() && histories && histories.length" class="container text-center">
     <h2 class="text-muted bg-light mt-2 text-uppercase">Your History</h2>
     <div class="mb-2 p-2 row">
-      <div *ngFor="let history of histories" class="col-lg-4">
-        <div class="card bg-light">
-          <div class="card-body border-0 bg-transparent">
-            <app-audio-player
-              [linkDetail]="getChapterDetailLink(history.chapter)"
-              [updateCurrentTimeUrl]="getUpdateCurrentTimeUrl(history)"
-              [currentTime]="history.currentTime"
-              [title]="history.chapter.title"
-              [upload]="history.chapter.upload"
-            ></app-audio-player>
-          </div>
-        </div>
-      </div>
+      <ng-container *ngFor="let history of histories">
+        <ng-container *ngTemplateOutlet="bookPreview; context: { book: this.history.book, history: this.history }">
+        </ng-container>
+
+      </ng-container>
+
     </div>
   </div>
 
@@ -54,25 +47,23 @@
   </div>
 </div>
 
-<ng-template #bookPreview let-book="book">
+<ng-template #bookPreview let-book="book" let-history="history">
   <div class="col-lg-4">
-    <app-image-loader
-      [routerLink]="getBookDetailLink(book)"
-      [customClass]="'clickable img-fluid '"
-      *ngIf="book.cover"
-      [width]="'200px'"
-      [height]="'200px'"
-      [imageId]="book.cover.id"
-    ></app-image-loader>
-    <h6 class="card-title font-italic">{{ book.title }}</h6>
-    <span class="card-text">
+    <app-image-loader [routerLink]="getBookDetailLink(book)" [customClass]="'clickable img-fluid '" *ngIf="book.cover"
+      [width]="'200px'" [height]="'200px'" [imageId]="book.cover.id"></app-image-loader>
+    <strong class="d-block">{{ book.title }}</strong>
+    <i class="text-center text-wrap" *ngIf="!history">
       {{
-        book.description && book.description.length > 100
-          ? (book.description | slice: 0:100) + '...'
-          : book.description
-          ? book.description
-          : 'No description available'
-      }}</span
-    >
+      book.description && book.description.length > 100
+      ? (book.description | slice: 0:100) + '...'
+      : book.description
+      ? book.description
+      : 'No description available'
+      }}</i>
+    <ng-container *ngIf="history">
+      <app-audio-player [linkDetail]="getChapterDetailLink(history.chapter)"
+        [updateCurrentTimeUrl]="getUpdateCurrentTimeUrl(history)" [currentTime]="history.currentTime"
+        [title]="history.chapter.title" [upload]="history.chapter.upload" [style]="audioPlayerStyle"></app-audio-player>
+    </ng-container>
   </div>
 </ng-template>

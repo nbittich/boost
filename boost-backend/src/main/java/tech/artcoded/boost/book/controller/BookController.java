@@ -73,7 +73,7 @@ public class BookController {
             Chapter chap = this.chapterService.findById(chapter.getId()).orElseThrow(() -> new RuntimeException("chapter not found"));
             Optional<Book> book = this.bookService.findByIdAndUser(chap.getBookId(), user);
 
-            if (!book.isPresent()){
+            if (book.isEmpty()){
                 throw new AccessDeniedException("Forbidden");
             }
 
@@ -213,6 +213,10 @@ public class BookController {
 
     @GetMapping("/{title}/{bookId}")
     public Book getOne(@PathVariable("bookId") Long bookId,@PathVariable("title") String title, Principal principal){
+        return getOneById(bookId, principal);
+    }
+    @GetMapping("/by-id/{bookId}")
+    public Book getOneById(@PathVariable("bookId") Long bookId,Principal principal){
 
         return bookService.findById(bookId)
                     .filter(b -> b.isPublished() || userService.principalToUser(principal).getUsername().equalsIgnoreCase(b.getUsername()))

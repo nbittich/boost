@@ -38,7 +38,7 @@ export class ChapterDetailComponent implements OnInit {
 
   updateChapter($event, updateType:string) {
     $event.preventDefault();
-    let chap = new ChapterDto();
+    let chap = {} as ChapterDto;
     chap.id = this.chapter.id;
     chap.title = this.chapter.title;
     chap.description = this.chapter.description;
