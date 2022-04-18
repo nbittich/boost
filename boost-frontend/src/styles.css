@@ -1,17 +1,19 @@
+html,
+body {
+  height: 100%;
+  width: 100%;
+}
 .form-control:focus {
-  box-shadow: none!important;
+  box-shadow: none !important;
   outline: 0;
 }
-
 .no-focus:focus {
-  box-shadow: none!important;
+  box-shadow: none !important;
   outline: 0;
-
 }
-.btn:focus{
-  box-shadow: none!important;
+.btn:focus {
+  box-shadow: none !important;
   outline: 0;
-
 }
 .clickable {
   cursor: pointer;
@@ -22,9 +24,8 @@
   -moz-user-select: none; /* Firefox */
   -ms-user-select: none; /* Internet Explorer/Edge */
 }
-.border-radius-0{
+.border-radius-0 {
   border-radius: 0 !important;
-
 }
 .card-img-top {
   height: 18vw;

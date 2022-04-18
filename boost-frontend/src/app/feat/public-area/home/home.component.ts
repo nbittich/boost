@@ -1,24 +1,27 @@
-import {Component, OnInit} from '@angular/core';
-import {AuthenticationService} from '@service/authentication.service';
-import {Router} from "@angular/router";
-import {Slugify} from "@core/common/slugify";
+import { Component, OnInit } from '@angular/core';
+import { AuthenticationService } from '@service/authentication.service';
+import { Router } from '@angular/router';
+import { Slugify } from '@core/common/slugify';
 import { BookService } from '@service/book.service';
 import { ChapterService } from '@service/chapter.service';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css']
+  styleUrls: ['./home.component.css'],
 })
 export class HomeComponent implements OnInit {
-
   public loading: boolean;
   public books: any;
   public histories: any;
   topBooks: any;
 
-  constructor(private bookService: BookService, private chapterService:ChapterService,private router: Router, private authenticationService: AuthenticationService) {
-  }
+  constructor(
+    private bookService: BookService,
+    private chapterService: ChapterService,
+    private router: Router,
+    private authenticationService: AuthenticationService
+  ) {}
 
   isLoggedIn() {
     return this.getUser() !== null;
@@ -46,18 +49,18 @@ export class HomeComponent implements OnInit {
     });
 
     this.fetchHistories();
-      this.authenticationService.userEvent.subscribe(event => {
-        console.log(event);
-        if (event === 'logout') {
-          this.histories = [];
-        } else {
-          this.fetchHistories();
-        }
-      });
+    this.authenticationService.userEvent.subscribe((event) => {
+      console.log('ok', event);
+      if (event === 'logout') {
+        this.histories = [];
+      } else {
+        this.fetchHistories();
+      }
+    });
   }
 
-  getUpdateCurrentTimeUrl(currentChapter){
-      return`/user/chapter/${currentChapter.chapter.id}/current-time?time=`;
+  getUpdateCurrentTimeUrl(currentChapter) {
+    return `/user/chapter/${currentChapter.chapter.id}/current-time?time=`;
   }
 
   fetchHistories() {
@@ -69,7 +72,7 @@ export class HomeComponent implements OnInit {
   }
 
   getChapterDetailLink(chapter: any) {
-      let link = '/books/' + Slugify.slugify(chapter.title) + '/' + chapter.bookId + '/' + 'view';
-      return link;
+    let link = '/books/' + Slugify.slugify(chapter.title) + '/' + chapter.bookId + '/' + 'view';
+    return link;
   }
 }
