@@ -127,7 +127,7 @@ public class UserController {
 
 
 
-    @GetMapping("/books")
+    @GetMapping("/my-content")
     public Page<Book> myBooks(Principal principal, Pageable pageable){
         return bookService.findAllByUser(userService.principalToUser(principal), pageable);
     }
